@@ -17,7 +17,30 @@ However, the AdEx protocol is not designed to be a drop-in solution in the exist
 
 ## Terminology
 
-Validators - in the context of AdEx, this could mean two things: (1) entities running the adex-node, responsible for tracking ad impressions/clicks and submitting the proof on-chain or (2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
+### Goals
+
+When we refer to "Goals", we mean impressions, clicks or any other thing you want achieved with your digital ad, for example a registration to your service.
+
+### Bids
+
+Advertising Bids are bids of certain amount of token for a certain number of ad goals: for example, "10 ADX for 1000 clicks", or "100 DAI for 10 registrations".
+
+### Delivery period
+
+The delivery period refers to the on-chain commitment between a publisher and an advertiser that the condition of the bid will be delivered.
+
+### Off-chain event aggregation
+
+Off-chain event aggregation (OCEA) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery period is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
+
+### Validators
+
+In the context of AdEx, this could mean two things:
+
+1) entities running the adex-node, responsible for tracking ad impressions/clicks and submitting the proof on-chain
+2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
+
+Throughout the protocol docs, "validators" or "AdEx validators" would mean (1). To refer to (2), we would use the term "PoS validators".
 
 ## Components
 
