@@ -31,7 +31,7 @@ The delivery period refers to the on-chain commitment between a publisher and an
 
 ### Off-chain event aggregation
 
-Off-chain event aggregation (OCEA) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery period is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
+Off-Chain Event AggregatioN (OCEAN) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery period is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
 
 ### Validators
 
