@@ -17,6 +17,10 @@ However, the AdEx protocol is not designed to be a drop-in solution in the exist
 
 ## Terminology
 
+### Events
+
+Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the webpage, etc. Events are usually broadcasted as signed messages.
+
 ### Goals
 
 When we refer to "Goals", we mean impressions, clicks or any other thing you want achieved with your digital ad, for example a registration to your service.
@@ -50,6 +54,6 @@ Other than that, the AdEx protocol consists of a few open-source modules.
 
 This is the full list of components:
 
-* adex-core - responsible for the on-chain part: payments, validator voting
-* adex-node - responsible for tracking events for the purposes of validating bids and providing reports
-* adex-sdk - responsible for displaying ads @TODO
+* adex-core - responsible for the on-chain part: payments, validator voting on the success of delivery periods
+* adex-node - responsible for tracking events for the purposes of validating delivery periods and providing reports
+* adex-sdk - responsible for displaying ads, sending events, collecting and storing the user profile
