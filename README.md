@@ -37,6 +37,14 @@ The delivery period refers to the on-chain commitment between a publisher and an
 
 **O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery period is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
 
+### OCEAN channel
+
+An OCEAN channel is an on-chain committment that off-chain events that meet certain conditions will transpire during a certain time period.
+
+The delivery period (`DeliveryPeriod`) is a specific use of an OCEAN channel.
+
+The result of an OCEAN channel can be used in on-chain logic. In the case of the delivery period, the reward will be sent to the publisher on success, or back to the advertiser on failure.
+
 ### Validators
 
 In the context of AdEx, this could mean two things:
