@@ -52,7 +52,7 @@ In the context of AdEx, this could mean two things:
 1) entities running the adex-node, responsible for tracking ad impressions/clicks and submitting the proof on-chain
 2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
 
-Throughout the protocol docs, "validators" or "AdEx validators" would mean (1). To refer to (2), we would use the term "PoS validators".
+Throughout the protocol docs, "validators" or "AdEx validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
 ## Components
 
