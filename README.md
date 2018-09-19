@@ -77,7 +77,7 @@ A bid is a composite of the following properties:
 * tokenAmount
 * oceanDescriptor - validators, goal, etc.
 
-Bids are not meant to be interacted with directly, rather they will be handled programatically
+Bids are not meant to be interacted with directly by publishers/advertisers, rather they will be handled programatically. For example, if you're an advertiser, you'd set a campaign with a budget and targets, and the dApp would automatically portion this out to individual bids.
 
 ### Core
 
@@ -91,11 +91,15 @@ The AdEx protocol builds on top of blockchain technology to facilitate the parts
 
 * adex-node - responsible for tracking events for the purposes of validating delivery periods and providing reports
 
+OCEAN validators and event producers need to communicate between themselves in a transport-agnostic way, so using libp2p is recommended.
+
 The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-chain part in `adex-node`.
 
 ### SDK
 
 * adex-sdk - responsible for displaying ads, sending events, collecting and storing the user profile
+
+The primary implementation is `adex-sdk`, which is designed for the web.
 
 #### The AdEx Profile
 
@@ -140,6 +144,10 @@ While it is technically possible to bid for a small number of impressions/clicks
 
 ### Targeting
 
+### Privacy of publishers/advertisers
+
+
+
 ### Privacy of the end-user
 
 Privacy of end users is protected by having all of the information that the system learns about them stored only their own browser by our SDK. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the users' browser. 
@@ -151,7 +159,7 @@ While it is possible to derive a rough approximation of what the user preference
 1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifyable data like name/email/IP
 2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to bids they validate)
 
-### Rewarding end users
+### Rewarding end-users
 
 Rewarding end users for their attention is a concept that we've intentionally left out, mostly because it highly incentivizes fake traffic/Sybil attacks.
 
