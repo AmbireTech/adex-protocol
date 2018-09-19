@@ -20,6 +20,10 @@ However, the AdEx protocol is not designed to be a drop-in solution in the exist
 
 Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the webpage, etc. Events are usually broadcasted as signed messages.
 
+### Custom events
+
+Custom events usually refer to events that are publisher-defined. For example, if you're a publisher with an e-commerce website, you might choose to send an event for product purchases.
+
 ### Goals
 
 When we refer to "Goals", we mean impressions, clicks or any other thing you want achieved with your digital ad, for example a registration to your service.
@@ -97,6 +101,10 @@ The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-
 
 The AdEx Profile is a user-facing part of the SDK that allows the user to see what data the SDK has collected about them and possibly modify it to their liking. Since this data is not uploaded anywhere, it's significant is limited to the ad selection process. So, an end user might want to modify this if they don't want to see ads of a certain type.
 
+
+### Analytics
+
+
 ### Identity system
 
 
@@ -142,5 +150,15 @@ While it is possible to derive a rough approximation of what the user preference
 
 1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifyable data like name/email/IP
 2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to bids they validate)
+
+### Rewarding end users
+
+Rewarding end users for their attention is a concept that we've intentionally left out, mostly because it highly incentivizes fake traffic/Sybil attacks.
+
+However, we are planning on providing easy ways for publishers to reward users with various crypto assets for actions that they consider appropriate and difficult to fake. For example, if you, as an end user, actually engage with the website, register, prove your real identity and buy one of their products, you'd get a bonus that the publisher has set aside from their bid reward.
+
+One of the ways to achieve that is by having a payment channel directly between the end user and the publisher. The publisher, having access to all the events (including the custom events) in the OCEAN channels they're involved in, can determine how much they reward every given end user.
+
+
 
 ### Adoption
