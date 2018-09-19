@@ -56,12 +56,6 @@ Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validat
 
 ## Components
 
-### Core
-
-The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
-
-* adex-core - responsible for the on-chain part: payments, validator voting on the success of delivery periods
-
 ### Marketplace
 
 Bid discovery
@@ -69,6 +63,25 @@ Bid discovery
 bid discovery can be anonymous...
 
 The marketplace is currently implemented in the `adex-node` repository.
+
+#### Bid
+
+A bid is a composite of the following properties:
+
+* adexCore
+* token
+* tokenAmount
+* oceanDescriptor - validators, goal, etc.
+
+Bids are not meant to be interacted with directly, rather they will be handled programatically
+
+### Core
+
+The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
+
+* adex-core - responsible for the on-chain part: payments, validator voting on the success of delivery periods
+
+#### DeliveryPeriod
 
 ### OCEAN
 
@@ -100,10 +113,34 @@ The AdEx Profile is a user-facing part of the SDK that allows the user to see wh
 
 ### Preventing fraud/Sybil attacks
 
+One of the main challenges of the AdEx protocol is preventing faking impressions/clicks.
+
+This is mitigated in a few ways:
+
+1) Traditional adtech methods, such as IP whitelists/blacklists
+2) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
+3) the SDK allows publishers to "vouch" for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their Bids that their goal is to only target users above a certain threshold
+4) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear localStorage or change their browser
+
 ### Scalability
+
+Because impressions and clicks are tracked off-chain (see OCEAN), the real bottleneck in the AdEx protocol is the opening and settling of bids, since it is the only part that has to be done on-chain.
+
+This architecture allows AdEx to scale sufficiently even on chains with lower throughput, as long as actors are willing to trade off granularity in their ad spacetime trading.
+
+While it is technically possible to bid for a small number of impressions/clicks (e.g. 1 impression), it is not economically viable as the transaction fees to settle the bid would probably outweigh the reward.
 
 ### Targeting
 
 ### Privacy of the end-user
+
+Privacy of end users is protected by having all of the information that the system learns about them stored only their own browser by our SDK. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the users' browser. 
+
+A further advantage to this approach is that the user may easily control what kinds of ads they see, without this being revealed to third parties.
+
+While it is possible to derive a rough approximation of what the user preferences are using historical data (events) on which ads were selected for a particular user, this approach still reveals very little, because:
+
+1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifyable data like name/email/IP
+2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to bids they validate)
 
 ### Adoption
