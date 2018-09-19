@@ -54,14 +54,38 @@ In the context of AdEx, this could mean two things:
 
 Throughout the protocol docs, "validators" or "AdEx validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
+
 ## Components
 
-The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "on-chain part" or "adex-core".
+### Core
 
-Other than that, the AdEx protocol consists of a few open-source modules.
-
-This is the full list of components:
+The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
 
 * adex-core - responsible for the on-chain part: payments, validator voting on the success of delivery periods
+
+### Marketplace
+
+Bid discovery
+
+bid discovery can be anonymous...
+
+The marketplace is currently implemented in the `adex-node` repository.
+
+### OCEAN
+
 * adex-node - responsible for tracking events for the purposes of validating delivery periods and providing reports
+
+The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-chain part in `adex-node`.
+
+### SDK
+
 * adex-sdk - responsible for displaying ads, sending events, collecting and storing the user profile
+
+
+## Implementations
+
+### Ethereum
+
+### Cosmos/Polkadot
+
+### Bitcoin
