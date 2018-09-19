@@ -1,6 +1,5 @@
 # AdEx Protocol
 
-
 ## Intro
 
 AdEx originated in 2017 as a decentralized ad exchange for digital advertising, and subsequently evolved into a full protocol for decentralized digital advertising.
@@ -49,10 +48,10 @@ The result of an OCEAN channel can be used in on-chain logic. In the case of the
 
 In the context of AdEx, this could mean two things:
 
-1) entities running the adex-node, responsible for tracking ad impressions/clicks and submitting the proof on-chain
+1) OCEAN validators, responsible for tracking ad impressions/clicks and submitting the proof on-chain
 2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
 
-Throughout the protocol docs, "validators" or "AdEx validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
+Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
 
 ## Components
@@ -81,6 +80,12 @@ The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-
 
 * adex-sdk - responsible for displaying ads, sending events, collecting and storing the user profile
 
+#### The AdEx Profile
+
+The AdEx Profile is a user-facing part of the SDK that allows the user to see what data the SDK has collected about them and possibly modify it to their liking. Since this data is not uploaded anywhere, it's significant is limited to the ad selection process. So, an end user might want to modify this if they don't want to see ads of a certain type.
+
+### Identity system
+
 
 ## Implementations
 
@@ -89,3 +94,16 @@ The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-
 ### Cosmos/Polkadot
 
 ### Bitcoin
+
+
+## Appendix
+
+### Preventing fraud/Sybil attacks
+
+### Scalability
+
+### Targeting
+
+### Privacy of the end-user
+
+### Adoption
