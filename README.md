@@ -164,7 +164,9 @@ While it is technically possible to bid for a small number of impressions/clicks
 
 ### Privacy of publishers/advertisers
 
+There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity, so one entity may use as many identities as they want to help preserve their privacy.
 
+Furthermore, since the marketplace is responsible for bid discovery, it's possible to implement private groups in the marketplace, so that some bids are visible only within those groups.
 
 ### Privacy of the end-user
 
