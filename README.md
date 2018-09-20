@@ -30,7 +30,11 @@ When we refer to "Goals", we mean impressions, clicks or any other thing you wan
 
 ### Bids
 
-Advertising Bids are bids of certain amount of token for a certain number of ad goals: for example, "10 ADX for 1000 clicks", or "100 DAI for 10 registrations".
+Advertising Bids are bids of certain monetary reward for a certain number of ad goals: for example, "10 ADX for 1000 clicks", or "100 DAI for 10 registrations".
+
+### Bid reward
+
+A monetary reward given by the advertiser to the publisher upon a successful delivery of a bid. The reward has to be in a cryptocurrency supported by the underlying blockchain network - for example, for the Ethereum implementation this will be any fungible token or ether.
 
 ### Delivery period
 
@@ -74,15 +78,16 @@ The marketplace is currently implemented in the `adex-node` repository.
 
 A bid is a composite of the following properties:
 
-* adexCore - reference to the core implementation (for example, on Ethereum this is an address to the smart contract)
-* reward - a tuple of `(rewardAmount, rewardCurrency)` (on Ethereum, this would be `tokenContractAddress` and `tokenAmount`)
-* goal - describes the goal to be achieved (e.g. 1000 clicks)
+* **adexCore** - reference to the core implementation (for example, on Ethereum this is an address to the smart contract)
+* **reward** - a tuple of `(rewardAmount, rewardCurrency)` (on Ethereum, this would be `tokenContractAddress` and `tokenAmount`)
+* **goal** - describes the goal to be achieved (e.g. 1000 clicks)
 
 Every bid should be signed by the advertiser, and it will be recorded in the marketplace.
 
 In traditional adtech, this is similar to static auctions, where you'd bid for groups of thousands of impressions at a time.
 
 Bids are not meant to be interacted with directly by publishers/advertisers, rather they will be handled programatically. For example, if you're an advertiser, you'd set a campaign with a budget and targets, and the dApp would automatically portion this out to individual bids.
+
 
 ### Core
 
@@ -94,7 +99,7 @@ The Ethereum implementation of this component is called `adex-core`.
 
 #### DeliveryPeriod
 
-A delivery period is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery period starts, the token amount from the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery period ends successfully (determined by the OCEAN validators), the token amount will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
+A delivery period is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery period starts, the reward for the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery period ends successfully (determined by the OCEAN validators), the reward will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
 
 Furthermore, OCEAN validators would be rewarded by the advertiser.
 
