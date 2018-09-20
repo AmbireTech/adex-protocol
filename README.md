@@ -74,10 +74,11 @@ The marketplace is currently implemented in the `adex-node` repository.
 
 A bid is a composite of the following properties:
 
-* adexCore
-* token
-* tokenAmount
-* oceanDescriptor - validators, goal, etc.
+* adexCore - reference to the core implementation (for example, on Ethereum this is an address to the smart contract)
+* reward - a tuple of `(rewardAmount, rewardCurrency)` (on Ethereum, this would be `tokenContractAddress` and `tokenAmount`)
+* goal - describes the goal to be achieved (e.g. 1000 clicks)
+
+In traditional adtech, this is similar to static auctions, where you'd bid for groups of thousands of impressions/clicks at a time.
 
 Bids are not meant to be interacted with directly by publishers/advertisers, rather they will be handled programatically. For example, if you're an advertiser, you'd set a campaign with a budget and targets, and the dApp would automatically portion this out to individual bids.
 
