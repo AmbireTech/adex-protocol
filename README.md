@@ -4,11 +4,11 @@
 
 AdEx originated in 2017 as a decentralized ad exchange for digital advertising, and subsequently evolved into a full protocol for decentralized digital advertising.
 
-The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occured. Essentially, it covers all interactions between publishers, advertisers and end users.
+The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occured. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
 The rationale for creating the AdEx protocol was to create an open-source, transparent and fraud proof replacement to the entire existing adtech stack, therefore providing a better alternative to the existing situation in adtech. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
 
-The AdEx team also develops an open source dApp built on top of the Ethereum implementation of our protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
+The AdEx team also develops an open source dApp built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet experience (generally encouraging quality ads).
 
@@ -62,9 +62,11 @@ Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validat
 
 ### Marketplace
 
-Bid discovery
+The primary role of the marketplace is to facilitate bid discovery and trading. The marketplace keeps a database of all bids that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
 
-bid discovery can be anonymous...
+The marketplace can aid the bid discovery process by implementing better ways to match bids with publishers.
+
+Furthermore, it can help provide privacy if needed by allowing bids to be exchanged only within private grups of publishers/advertisers.
 
 The marketplace is currently implemented in the `adex-node` repository.
 
@@ -87,11 +89,15 @@ The AdEx protocol builds on top of blockchain technology to facilitate the parts
 
 #### DeliveryPeriod
 
+A delivery period is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery period starts, the token amount from the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery period ends successfully (determined by the OCEAN validators), the token amount will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
+
+Furthermore, OCEAN validators would be rewarded by the advertiser.
+
 ### OCEAN
 
 * adex-node - responsible for tracking events for the purposes of validating delivery periods and providing reports
 
-OCEAN validators and event producers need to communicate between themselves in a transport-agnostic way, so using libp2p is recommended.
+OCEAN validators and event producers (end users) need to communicate between themselves in a transport-agnostic way, so using libp2p is recommended.
 
 The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-chain part in `adex-node`.
 
