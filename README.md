@@ -78,7 +78,7 @@ A bid is a composite of the following properties:
 * reward - a tuple of `(rewardAmount, rewardCurrency)` (on Ethereum, this would be `tokenContractAddress` and `tokenAmount`)
 * goal - describes the goal to be achieved (e.g. 1000 clicks)
 
-In traditional adtech, this is similar to static auctions, where you'd bid for groups of thousands of impressions/clicks at a time.
+In traditional adtech, this is similar to static auctions, where you'd bid for groups of thousands of impressions at a time.
 
 Bids are not meant to be interacted with directly by publishers/advertisers, rather they will be handled programatically. For example, if you're an advertiser, you'd set a campaign with a budget and targets, and the dApp would automatically portion this out to individual bids.
 
@@ -86,13 +86,17 @@ Bids are not meant to be interacted with directly by publishers/advertisers, rat
 
 The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
 
-* adex-core - responsible for the on-chain part: payments, validator voting on the success of delivery periods
+The Core has to implement the `DeliveryPeriod`, and everything related to moving funds between advertisers and publishers.
+
+The Ethereum implementation of this component is called `adex-core`.
 
 #### DeliveryPeriod
 
 A delivery period is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery period starts, the token amount from the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery period ends successfully (determined by the OCEAN validators), the token amount will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
 
 Furthermore, OCEAN validators would be rewarded by the advertiser.
+
+The `DeliveryPeriod` is basically a composite of the underlying Bid and an OCEAN channel: where the channel is used to track all the events related to this bid and determine the outcome.
 
 ### OCEAN
 
@@ -177,3 +181,6 @@ One of the ways to achieve that is by having a payment channel directly between 
 
 
 ### Adoption
+
+
+### Real-time bidding
