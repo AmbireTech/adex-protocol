@@ -78,6 +78,8 @@ A bid is a composite of the following properties:
 * reward - a tuple of `(rewardAmount, rewardCurrency)` (on Ethereum, this would be `tokenContractAddress` and `tokenAmount`)
 * goal - describes the goal to be achieved (e.g. 1000 clicks)
 
+Every bid should be signed by the advertiser, and it will be recorded in the marketplace.
+
 In traditional adtech, this is similar to static auctions, where you'd bid for groups of thousands of impressions at a time.
 
 Bids are not meant to be interacted with directly by publishers/advertisers, rather they will be handled programatically. For example, if you're an advertiser, you'd set a campaign with a budget and targets, and the dApp would automatically portion this out to individual bids.
