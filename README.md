@@ -14,37 +14,37 @@ The AdEx protocol is designed to be completely invisible to end users, while imp
 
 However, the AdEx protocol is not designed to be a drop-in solution in the existing adtech stack: it's rather designed to replace it completely. In the future, we may develop shims and various ways of integrating some of our components into an existing stack.
 
-## Terminology
+### Terminology
 
-### Events
+#### Events
 
 Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the webpage, etc. Events are usually broadcasted as signed messages.
 
-### Custom events
+#### Custom events
 
 Custom events usually refer to events that are publisher-defined. For example, if you're a publisher with an e-commerce website, you might choose to send an event for product purchases.
 
-### Goals
+#### Goals
 
 When we refer to "Goals", we mean impressions, clicks or any other thing you want achieved with your digital ad, for example a registration to your service.
 
-### Bids
+#### Bids
 
 Advertising Bids are bids of certain monetary reward for a certain number of ad goals: for example, "10 ADX for 1000 clicks", or "100 DAI for 10 registrations".
 
-### Bid reward
+#### Bid reward
 
 A monetary reward given by the advertiser to the publisher upon a successful delivery of a bid. The reward has to be in a cryptocurrency supported by the underlying blockchain network - for example, for the Ethereum implementation this will be any fungible token or ether.
 
-### Delivery period
+#### Delivery period
 
 The delivery period refers to the on-chain commitment between a publisher and an advertiser that the condition of the bid will be delivered.
 
-### Off-chain event aggregation (OCEAN)
+#### Off-chain event aggregation (OCEAN)
 
 **O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery period is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
 
-### OCEAN channel
+#### OCEAN channel
 
 An OCEAN channel is an on-chain committment that off-chain events that meet certain conditions will transpire during a certain time period.
 
@@ -52,7 +52,7 @@ The delivery period (`DeliveryPeriod`) is a specific use of an OCEAN channel.
 
 The result of an OCEAN channel can be used in on-chain logic. In the case of the delivery period, the reward will be sent to the publisher on success, or back to the advertiser on failure.
 
-### Validators
+#### Validators
 
 In the context of AdEx, this could mean two things:
 
