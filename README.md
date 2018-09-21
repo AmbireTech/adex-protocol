@@ -189,7 +189,9 @@ One of the ways to achieve that is by having a payment channel directly between 
 
 
 
-### Adoption
-
 
 ### Real-time bidding
+
+
+
+### Adoption
