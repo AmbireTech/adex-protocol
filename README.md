@@ -36,21 +36,21 @@ Advertising Bids are bids of certain monetary reward for a certain number of ad 
 
 A monetary reward given by the advertiser to the publisher upon a successful delivery of a bid. The reward has to be in a cryptocurrency supported by the underlying blockchain network - for example, for the Ethereum implementation this will be any fungible token or ether.
 
-#### Delivery period
+#### Delivery commitment
 
-The delivery period refers to the on-chain commitment between a publisher and an advertiser that the condition of the bid will be delivered.
+The delivery commitment refers to the on-chain commitment between a publisher and an advertiser that the condition of the bid will be delivered.
 
 #### Off-chain event aggregation (OCEAN)
 
-**O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery period is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
+**O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery commitment is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
 
 #### OCEAN channel
 
 An OCEAN channel is an on-chain committment that off-chain events that meet certain conditions will transpire during a certain time period.
 
-The delivery period (`DeliveryPeriod`) is a specific use of an OCEAN channel.
+The delivery commitment (`DeliveryCommitment`) is a specific use of an OCEAN channel.
 
-The result of an OCEAN channel can be used in on-chain logic. In the case of the delivery period, the reward will be sent to the publisher on success, or back to the advertiser on failure.
+The result of an OCEAN channel can be used in on-chain logic. In the case of the delivery commitment, the reward will be sent to the publisher on success, or back to the advertiser on failure.
 
 #### Validators
 
@@ -93,21 +93,21 @@ Bids are not meant to be interacted with directly by publishers/advertisers, rat
 
 The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
 
-The Core has to implement the `DeliveryPeriod`, and everything related to moving funds between advertisers and publishers.
+The Core has to implement the `DeliveryCommitment`, and everything related to moving funds between advertisers and publishers.
 
 The Ethereum implementation of this component is called `adex-core`.
 
-#### DeliveryPeriod
+#### DeliveryCommitment
 
-A delivery period is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery period starts, the reward for the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery period ends successfully (determined by the OCEAN validators), the reward will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
+A delivery commitment is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery commitment starts, the reward for the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery commitment resolves successfully (determined by the OCEAN validators), the reward will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
 
 Furthermore, OCEAN validators would be rewarded by the advertiser.
 
-The `DeliveryPeriod` is basically a composite of the underlying Bid and an OCEAN channel: where the channel is used to track all the events related to this bid and determine the outcome.
+The `DeliveryCommitment` is basically a composite of the underlying Bid and an OCEAN channel: where the channel is used to track all the events related to this bid and determine the outcome.
 
 ### OCEAN
 
-* adex-node - responsible for tracking events for the purposes of validating delivery periods and providing reports
+* adex-node - responsible for tracking events for the purposes of validating delivery commitments and providing reports
 
 OCEAN validators and event producers (end users) need to communicate between themselves in a transport-agnostic way, so using libp2p is recommended.
 
@@ -200,7 +200,7 @@ However, multiple bids may be delivered at the same time in the same ad slot, wi
 
 While RTB is intentionally left out, a form of programatic buying exists in AdEx: we call that "bid provisioning".
 
-A bid signals an intention to purchase certain advertising space/time for a certain reward, but once it's picked up by a publisher (turned into a DeliveryPeriod), the publisher will only get rewarded if they deliver the full bid goal.
+A bid signals an intention to purchase certain advertising space/time for a certain reward, but once it's picked up by a publisher (turned into a DeliveryCommitment), the publisher will only get rewarded if they deliver the full bid goal.
 
 So it's recommended that bids are generally small - in other words, even low-traffic publishers should be able to deliver them within hours. Furthermore, smaller bids allow different publishers to pick them up, and the overall revenue can be maximized by tweaking the reward on a bid-per-bid basis.
 
