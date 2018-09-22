@@ -170,7 +170,7 @@ Furthermore, since the marketplace is responsible for bid discovery, it's possib
 
 ### Privacy of the end-user
 
-Privacy of end users is protected by having all of the information that the system learns about them stored only their own browser by our SDK. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the users' browser. 
+Privacy of end users is protected by having all of the information that the system learns about them stored only their own browser by our SDK. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the user's browser. 
 
 A further advantage to this approach is that the user may easily control what kinds of ads they see, without this being revealed to third parties.
 
@@ -188,10 +188,17 @@ However, we are planning on providing easy ways for publishers to reward users w
 One of the ways to achieve that is by having a payment channel directly between the end user and the publisher. The publisher, having access to all the events (including the custom events) in the OCEAN channels they're involved in, can determine how much they reward every given end user.
 
 
-
-
 ### Real-time bidding
 
+Real-time bidding is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
+
+While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as OCEAN and state channels, the privacy tradeoff is too big.
+
+However, multiple bids may be delivered at the same time in the same ad slot, with the targeting decision happening in the user's browser (see ["Privacy of the end-user"](#privacy-of-the-end-user)), so the benefits of targeting are still there.
+
+### Bid provisioning
+
+While RTB is intentionally left out, a form of programatic buying exists in AdEx: we call that "bid provisioning".
 
 
 ### Adoption
