@@ -200,5 +200,14 @@ However, multiple bids may be delivered at the same time in the same ad slot, wi
 
 While RTB is intentionally left out, a form of programatic buying exists in AdEx: we call that "bid provisioning".
 
+A bid signals an intention to purchase certain advertising space/time for a certain reward, but once it's picked up by a publisher (turned into a DeliveryPeriod), the publisher will only get rewarded if they deliver the full bid goal.
+
+So it's recommended that bids are generally small - in other words, even low-traffic publishers should be able to deliver them within hours. Furthermore, smaller bids allow different publishers to pick them up, and the overall revenue can be maximized by tweaking the reward on a bid-per-bid basis.
+
+Because of this, bids are not meant to be interacted with directly. It would be tedious to expect advertisers to do all of this manually. Our solution is to create a system that would automatically provision bids.
+
+This would work by allowing the advertiser to create a campaign with a total budget. Then, the system would create a few small bids at first, and once those are picked up, it will create new ones. If the bids are getting picked up and delivered quickly, it would start creating larger bids.
+
+Meanwhile, on the publisher side, the system will automatically accept the most appropriate and profitable bids on the network that we can deliver for.
 
 ### Adoption
