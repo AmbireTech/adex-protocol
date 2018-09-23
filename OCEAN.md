@@ -11,7 +11,7 @@ The most known ways for off-chain scaling are sidechains and state channels, but
 **O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is a very simple way to scale dApps.
 
 @TODO
-Within AdEx, anything between the beginning and the end of a delivery period is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
+Within AdEx, anything between the beginning and the end of a delivery commitment is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
 
 
 ## Usecases
