@@ -97,13 +97,15 @@ The Core has to implement the `DeliveryCommitment`, and everything related to mo
 
 The Ethereum implementation of this component is called `adex-core`.
 
-#### DeliveryCommitment
+#### Commitment
 
 A delivery commitment is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery commitment starts, the reward for the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery commitment resolves successfully (determined by the OCEAN validators), the reward will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
 
 Furthermore, OCEAN validators would be rewarded by the advertiser.
 
-The `DeliveryCommitment` is basically a composite of the underlying Bid and an OCEAN channel: where the channel is used to track all the events related to this bid and determine the outcome.
+The `Commitment` is an implementation of OCEAN channel that also contains information about the original Bid. The channel is used to track all the events related to this bid and determine the outcome.
+
+A commitment has a `validUntil` date, determined by the `bid` timeout and the time it was created (`now + bid.timeout`). Before this date, validators can submit their signed votes - if there is a supermajority, that vote will be acted upon (reward transferred to the publisher or back to the advertiser). Once we are past the `validUntil` date, we revert the commitment, returning the funds back to the advertiser.
 
 ### OCEAN
 
