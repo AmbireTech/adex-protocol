@@ -95,4 +95,4 @@ The basic building blocks are:
 * `finalizeCommitment(commitment, vote, signatures)`: finalizes a commitment with a `vote`; `signatures` is an array of signatures, each index corresponding to the given index of `validators`; a validator must sign `keccak256(commitmentId, vote)`; whether the validators will be rewarded and what will happen on specific votes is up to the application
 * `timeoutCommitment(commitment)`: called to clean-up after a timed out commitment and perform the revert; this is not needed on systems where you can define your own block start/end behavior, such as Cosmos/Polkadot
 
-For a deep dive into the protocol, we have a working implementation at https://github.com/AdExNetwork/adex-protocol-eth and a protocol description at https://github.com/AdExNetwork/adex-protocol.
+For a deep dive into the protocol, we have a working implementation at https://github.com/AdExNetwork/adex-protocol-eth and a protocol description at https://github.com/AdExNetwork/adex-protocol
