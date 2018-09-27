@@ -132,15 +132,6 @@ The AdEx Profile is a user-facing part of the SDK that allows the user to see wh
 ### Identity system
 
 
-## Implementations
-
-### Ethereum
-
-### Cosmos/Polkadot
-
-### Bitcoin
-
-
 ## Appendix
 
 ### Preventing fraud/Sybil attacks
@@ -212,4 +203,3 @@ This would work by allowing the advertiser to create a campaign with a total bud
 
 Meanwhile, on the publisher side, the system will automatically accept the most appropriate and profitable bids on the network that we can deliver for.
 
-### Adoption
