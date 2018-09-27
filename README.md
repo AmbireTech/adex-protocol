@@ -128,8 +128,11 @@ The AdEx Profile is a user-facing part of the SDK that allows the user to see wh
 
 ### Analytics
 
+Analytics are provided by the validators, programatically. The validators are usually the publisher, advertiser and an impartial validator on the network. The user data is anonymous anyway, but having this design where the data only propagates to the validators further improves privacy.
 
-### Identity system
+The validators are currently not rewarded financially for aggregating the entire dataset and providing analytics reports, but since they're often the advertiser/publisher themselves, they have an obvious incentive to do so.
+
+Furthermore, this ensures that both parties get their analytics reports from aggregating the data directly from the users, which ensures reporting transparency.
 
 
 ## Appendix
