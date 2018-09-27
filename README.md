@@ -103,23 +103,21 @@ A delivery commitment is an on-chain committment between an advertiser and a pub
 
 Furthermore, OCEAN validators would be rewarded by the advertiser.
 
-The `Commitment` is an implementation of OCEAN channel that also contains information about the original Bid. The channel is used to track all the events related to this bid and determine the outcome.
+The `Commitment` is an implementation of OCEAN channel that also contains information about the original `Bid`. The channel is used to track all the events related to this bid and determine the outcome.
 
 A commitment has a `validUntil` date, determined by the `bid` timeout and the time it was created (`now + bid.timeout`). Before this date, validators can submit their signed votes - if there is a supermajority, that vote will be acted upon (reward transferred to the publisher or back to the advertiser). Once we are past the `validUntil` date, we revert the commitment, returning the funds back to the advertiser.
 
 ### OCEAN
 
-* adex-node - responsible for tracking events for the purposes of validating delivery commitments and providing reports
-
 OCEAN validators and event producers (end users) need to communicate between themselves in a transport-agnostic way, so using libp2p is recommended.
 
-The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-chain part in `adex-node`.
+The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-chain part in `adex-node`. The `adex-node` is responsible for tracking all the events, providing analytics reports, and voting as an OCEAN validator. The `adex-core` is responsible for enforcing the rules on-chain.
 
 ### SDK
 
-* adex-sdk - responsible for displaying ads, sending events, collecting and storing the user profile
-
 The primary implementation is `adex-sdk`, which is designed for the web.
+
+The SDK is responsible for displaying ads, sending events to the `adex-node` (OCEAN channel), and collecting and storing the user profile.
 
 #### The AdEx Profile
 
