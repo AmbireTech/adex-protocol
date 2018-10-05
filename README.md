@@ -48,7 +48,7 @@ The delivery commitment refers to the on-chain commitment between a publisher an
 
 An OCEAN channel is an on-chain committment that off-chain events that meet certain conditions will transpire during a certain time period.
 
-The delivery commitment (`DeliveryCommitment`) is a specific use of an OCEAN channel.
+The delivery commitment (`Commitment`) is a specific use of an OCEAN channel.
 
 The result of an OCEAN channel can be used in on-chain logic. In the case of the delivery commitment, the reward will be sent to the publisher on success, or back to the advertiser on failure.
 
@@ -93,7 +93,7 @@ Bids are not meant to be interacted with directly by publishers/advertisers, rat
 
 The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
 
-The Core has to implement the `DeliveryCommitment`, and everything related to moving funds between advertisers and publishers.
+The Core has to implement the `Commitment`, and everything related to moving funds between advertisers and publishers.
 
 The Ethereum implementation of this component is called `adex-core`.
 
@@ -194,7 +194,7 @@ However, multiple bids may be delivered at the same time in the same ad slot, wi
 
 While RTB is intentionally left out, a form of programatic buying exists in AdEx: we call that "bid provisioning".
 
-A bid signals an intention to purchase certain advertising space/time for a certain reward, but once it's picked up by a publisher (turned into a DeliveryCommitment), the publisher will only get rewarded if they deliver the full bid goal.
+A bid signals an intention to purchase certain advertising space/time for a certain reward, but once it's picked up by a publisher (turned into a Commitment), the publisher will only get rewarded if they deliver the full bid goal.
 
 So it's recommended that bids are generally small - in other words, even low-traffic publishers should be able to deliver them within hours. Furthermore, smaller bids allow different publishers to pick them up, and the overall revenue can be maximized by tweaking the reward on a bid-per-bid basis.
 
