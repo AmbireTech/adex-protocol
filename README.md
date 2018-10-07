@@ -30,7 +30,7 @@ When we refer to "Goals", we mean impressions, clicks or any other thing you wan
 
 #### Bids
 
-Advertising Bids are bids of certain monetary reward for a certain number of ad goals: for example, "10 ADX for 1000 clicks", or "100 DAI for 10 registrations".
+Advertising Bids are bids of certain monetary reward for a certain number of ad goals: for example, "10 ADX for 1000 clicks", or "100 DAI for 10 registrations". You can think of them as pieces of advertising demand.
 
 #### Bid reward
 
