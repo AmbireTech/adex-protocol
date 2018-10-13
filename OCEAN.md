@@ -1,5 +1,7 @@
 # OCEAN
 
+## Note: OCEAN was introduced in a blog post here: https://medium.com/the-adex-blog/introducing-ocean-alternative-layer-2-scalability-7d24bb22ebe4
+
 ## Introducing OCEAN
 
 When building blockchain applications (dApps), we often face the challenge of how to take as many things as possible off-chain, while retaining the benefits of the underlying decentralized/trustless consensus.
