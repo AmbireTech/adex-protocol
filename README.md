@@ -204,3 +204,10 @@ This would work by allowing the advertiser to create a campaign with a total bud
 
 Meanwhile, on the publisher side, the system will automatically accept the most appropriate and profitable bids on the network that we can deliver for.
 
+### Full campaigns as commitments
+
+Full campaigns as commitments (FCAC) is an alternative to bid provisioning where the demand side (e.g. the advertiser) would create a full campaign with a certain budget and maximum price per click/impression/other goal, and this would get mapped to one OCEAN commitment. Then, using off-chain tracking (either via OCEAN itself or via state channels), the campaign would be executed by various different publishers, all competing for the best price per goal they can offer.
+
+Once the entire campaign budget is exhausted, the OCEAN validators would vote with a merkle root of all the balances of various publishers who all executed part of the campaign.
+
+This would eliminate the need for bid provisioning, but it is more complicated to execute.
