@@ -212,4 +212,4 @@ Once the entire campaign budget is exhausted, the OCEAN validators would vote wi
 
 This would eliminate the need for bid provisioning and make it easier to maximize revenue, but it is more complicated to execute.
 
-This approach, however, has the drawback of publishers having to wait for the campaigns by advertisers to finish in order to be able to take out their funds. This can be mitigated by using checkpointed state channels in addition to OCEAN.
+This approach, however, has the drawback of publishers having to wait for the campaigns by advertisers to finish in order to be able to take out their funds. This can be mitigated by using checkpointed state channels in addition to OCEAN. Another way this can be resolved is by restricting campaigns to have a maximum execution time - for example, 20 days. If the full campaign budget is not exhausted in 20 days, the rest will be returned back to the advertiser. That way, the publishers would be able to withdraw their revenue at worst every 20 days.
