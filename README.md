@@ -193,7 +193,7 @@ Real-time bidding is something we intentionally left out of the protocol, primar
 
 While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as OCEAN and state channels, the privacy tradeoff is too big.
 
-However, multiple bids may be delivered at the same time in the same ad slot, with the targeting decision happening in the user's browser (see ["Privacy of the end-user"](#privacy-of-the-end-user)), so the benefits of targeting are still there.
+However, multiple bids may be delivered at the same time in the same ad slot, with the targeting decision happening in the user's browser (see ["Privacy of the end-user"](#privacy-of-the-end-user)), so the benefits of targeting are still there. This is somewhat similar to the ad tech concept of Header Bidding, which is a technique that shift bid processing/selection to the browser.
 
 ### Bid provisioning
 
