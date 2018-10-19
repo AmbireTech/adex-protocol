@@ -61,6 +61,11 @@ In the context of AdEx, this could mean two things:
 
 Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
+#### Observers
+
+The observers are instances of the `adex-node` delegated to collect events in relation to a certain commitment or ad unit. All validators of a commitment are, by definition, observers of all events related to this commitment.
+
+However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
 ## Components
 
