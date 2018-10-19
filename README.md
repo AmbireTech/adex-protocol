@@ -210,4 +210,6 @@ Full campaigns as commitments (FCAC) is an alternative to bid provisioning where
 
 Once the entire campaign budget is exhausted, the OCEAN validators would vote with a merkle root of all the balances of various publishers who all executed part of the campaign.
 
-This would eliminate the need for bid provisioning, but it is more complicated to execute.
+This would eliminate the need for bid provisioning and make it easier to maximize revenue, but it is more complicated to execute.
+
+This approach, however, has the drawback of publishers having to wait for the campaigns by advertisers to finish in order to be able to take out their funds. This can be mitigated by using checkpointed state channels in addition to OCEAN.
