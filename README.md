@@ -56,7 +56,7 @@ The result of an OCEAN channel can be used in on-chain logic. In the case of the
 
 In the context of AdEx, this could mean two things:
 
-1) OCEAN validators, responsible for tracking ad impressions/clicks and submitting the proof on-chain
+1) OCEAN validators, responsible for tracking ad impressions/clicks and submitting the proof on-chain; the validator set (can also be called a committee) is defined by the OCEAN channel (Commitment)
 2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
 
 Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
