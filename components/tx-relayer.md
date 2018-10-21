@@ -6,3 +6,6 @@ However, in order to update the on-chain balances, we need to commit those messa
 
 To enhance the UX of using the AdEx dApp, some participants in the network may be implicitly delegated as transaction relayers - e.g. validators that receive a higher token reward for validation, who've agreed that they will commit the messages on the blockchain.
 
+@TODO describe implicit delegation as a relayer: e.g. if a validator has the highest fee, it will implicitly relay the tx
+@TODO think of mechanics of the implicit thing on ethereum: on eth, we need a relayer
+@TODO think of the mechanics of TX committing on cosmos/polka; the fee can just come out of the total OCEAN/state channel reward/deposit
