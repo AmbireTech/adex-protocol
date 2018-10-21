@@ -1,4 +1,4 @@
-# OCEAN validator node
+# OCEAN validator
 
 `adex-ocean-validator` is a RESTful service designed to serve as an OCEAN validator.
 

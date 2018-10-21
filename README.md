@@ -207,7 +207,7 @@ This would work by allowing the advertiser to create a campaign with a total bud
 
 Meanwhile, on the publisher side, the system will automatically accept the most appropriate and profitable bids on the network that we can deliver for.
 
-### Full campaigns as commitments
+### Full campaigns as commitments (Smart Platform)
 
 Full campaigns as commitments (FCAC) is an alternative to bid provisioning where the demand side (e.g. the advertiser) would create a full campaign with a certain budget and maximum price per click/impression/other goal, and this would get mapped to one OCEAN commitment. Then, using off-chain tracking (either via OCEAN itself or via state channels), the campaign would be executed by various different publishers, all competing for the best price per goal they can offer.
 
@@ -216,3 +216,5 @@ Once the entire campaign budget is exhausted, the OCEAN validators would vote wi
 This would eliminate the need for bid provisioning and make it easier to maximize revenue, but it is more complicated to execute.
 
 This approach, however, has the drawback of publishers having to wait for the campaigns by advertisers to finish in order to be able to take out their funds. This can be mitigated by using checkpointed state channels in addition to OCEAN. Another way this can be resolved is by restricting campaigns to have a maximum execution time - for example, 20 days. If the full campaign budget is not exhausted in 20 days, the rest will be returned back to the advertiser. That way, the publishers would be able to withdraw their revenue at worst every 20 days.
+
+See [smart-platform.md](/components/smart-platform.md) for details on how this may be realized.

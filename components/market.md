@@ -1,6 +1,6 @@
 # AdEx Market
 
-The `adex-market` (currently named `adex-node`) is the component responsible for the discovery of advertising bids and OCEAN validator nodes.
+The `adex-market` (currently named `adex-node`) is the RESTful service responsible for the discovery of advertising bids and OCEAN validator nodes.
 
 ## Ad Units, slots, bids
 
