@@ -15,4 +15,5 @@ GET `/commitment/{commitmentId}/eventsAggrByType?sig={sign(hash(commitmentId, va
 @TODO separate sub-service for importing commitments into our DB, from eth (or from anything else)
 @TODO handshake endpoint prove we control the addr)
 @TODO ensure this is relatively chain agnostic
-@TODO separate sub-service for relaying; might be a separate repo
+@TODO separate sub-service for relaying (Tx-relayer); might be a separate repo
+@TODO describe auto-generation of a keypair in more detail; it will also be used by the tx-relayer, ocean-validator and even the user
