@@ -10,5 +10,9 @@ GET `/commitment/{commitmentId}/finalize` - if the commitment is finalized, it w
 
 GET `/commitment/{commitmentId}/events?sig={sign(hash(commitmentId, validatorAddr))}` - will return all events where the signer is participating (as a user, advertiser or publisher)
 
+GET `/commitment/{commitmentId}/eventsAggrByType?sig={sign(hash(commitmentId, validatorAddr))}` - same as the previous, but aggregates by type
+
 @TODO separate sub-service for importing commitments into our DB, from eth (or from anything else)
+@TODO handshake endpoint prove we control the addr)
+@TODO ensure this is relatively chain agnostic
 @TODO separate sub-service for relaying; might be a separate repo
