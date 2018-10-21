@@ -98,7 +98,7 @@ The AdEx protocol builds on top of blockchain technology to facilitate the parts
 
 The Core has to implement the `Commitment`, and everything related to moving funds between advertisers and publishers.
 
-The Ethereum implementation of this component is called `adex-core`.
+The Ethereum implementation of this component is called `adex-protocol-eth`.
 
 #### Commitment
 
@@ -114,7 +114,7 @@ A commitment has a `validUntil` date, determined by the `bid` timeout and the ti
 
 OCEAN validators and event producers (end users) need to communicate between themselves in a transport-agnostic way, so using libp2p is recommended.
 
-The on-chain part of OCEAN is currently implemented in `adex-core`, and the off-chain part in `adex-node`. The `adex-node` is responsible for tracking all the events, providing analytics reports, and voting as an OCEAN validator. The `adex-core` is responsible for enforcing the rules on-chain.
+The on-chain part of OCEAN is currently implemented in `adex-protocol-eth`, and the off-chain part in `adex-ocean-validator`. The `adex-ocean-validator` is responsible for tracking all the events, and voting as an OCEAN validator. The `adex-protocol-eth` is responsible for enforcing the rules on-chain.
 
 ### SDK
 
@@ -207,14 +207,18 @@ This would work by allowing the advertiser to create a campaign with a total bud
 
 Meanwhile, on the publisher side, the system will automatically accept the most appropriate and profitable bids on the network that we can deliver for.
 
-### Full campaigns as commitments (Smart Platform)
+### Smart Platform, state channels
 
-Full campaigns as commitments (FCAC) is an alternative to bid provisioning where the demand side (e.g. the advertiser) would create a full campaign with a certain budget and maximum price per click/impression/other goal, and this would get mapped to one OCEAN commitment. Then, using off-chain tracking (either via OCEAN itself or via state channels), the campaign would be executed by various different publishers, all competing for the best price per goal they can offer.
+The AdEx Smart Platform an alternative to OCEAN+bid provisioning where the demand side (e.g. the advertiser) would create a full campaign with a certain budget and maximum price per click/impression/other goal, and this would get mapped a state channel with a delegated node from the network that represents the publishers, called "the smart platform node".
 
-Once the entire campaign budget is exhausted, the OCEAN validators would vote with a merkle root of all the balances of various publishers who all executed part of the campaign.
+Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the state channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is similar to a uni-directional payment channel, as with each next message (sequence), the advertiser balance would decrease and the total earnings by the publishers would increase.
+
+Once the entire campaign budget is exhausted, the channel can be settled or renewed by depositing more.
+
+Despite the interactions being only between two parties, the model is trustless - if the demand would not recognize events and accept the new state, the supply (publishers) can immediately stop serving impressions and exit by settling the channel.
 
 This would eliminate the need for bid provisioning and make it easier to maximize revenue, but it is more complicated to execute.
 
-This approach, however, has the drawback of publishers having to wait for the campaigns by advertisers to finish in order to be able to take out their funds. This can be mitigated by using checkpointed state channels in addition to OCEAN. Another way this can be resolved is by restricting campaigns to have a maximum execution time - for example, 20 days. If the full campaign budget is not exhausted in 20 days, the rest will be returned back to the advertiser. That way, the publishers would be able to withdraw their revenue at worst every 20 days.
+In this case, publishers may withdraw their earnings at any time, by checkpointing all channels (representing advertiser campaigns) they earned from.
 
 See [smart-platform.md](/components/smart-platform.md) for details on how this may be realized.
