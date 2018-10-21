@@ -42,7 +42,8 @@ To make this more clear, here's an explanation of the AdEx usecase:
 While the current implementation is specific to AdEx (validating impressions/clicks of bids), we believe that there are many other possible usecases for OCEAN, for example:
 
 * AdEx: real-time bidding
-* Social network: poll voting
+* E-voting, governance
+* Decentralized oracles, where the validators vote for the outcome of a real-life event that they observe
 * Sidechain: you can implement a PoS sidechain where every block is an OCEAN channel, and the final committed vote is a merkle root of all the chain state; every finalization would save the new validator set on-chain, allowing validators to bond/unbond; since the merkle root is committed on a PoW chain, long range attacks are not feasible
 
 ## Is it trustless?
