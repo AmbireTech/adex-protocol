@@ -12,6 +12,7 @@ GET `/commitment/{commitmentId}/events?sig={sign(hash(commitmentId, validatorAdd
 
 GET `/commitment/{commitmentId}/eventsAggrByType?sig={sign(hash(commitmentId, validatorAddr))}` - same as the previous, but aggregates by type
 
+@TODO describe the implementation: it should be on top of SQL, as this allows easy abstraction and using both embedded dbs (sqlite) and normal dbms (postgresql); or, another similar abstraction that works
 @TODO separate sub-service for importing commitments into our DB, from eth (or from anything else)
 @TODO handshake endpoint prove we control the addr)
 @TODO ensure this is relatively chain agnostic
