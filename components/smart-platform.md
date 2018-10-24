@@ -45,4 +45,4 @@ Individual events can be retrieved by proving you control an address, via a sign
 @TODO should we have some sort of link between msgs in the channel - do we gain anything from it? e.g. hashing the previous state root as well
 @TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel
 @TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the moeny from an advertising campaign is flowing, even if everyone withdrawls
-
+@TODO: consider libp2p for communicating between state channel participants
