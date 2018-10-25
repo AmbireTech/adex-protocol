@@ -43,7 +43,7 @@ Individual events can be retrieved by proving you control an address, via a sign
 @TODO header bidding spec; On each open of a publisher website, it would pull all bids from the operator and select a bid (campaign), and send events
 
 @TODO channel full spec: validator logic same as OCEAN, except no rewards (rewards can be included in the balance tree); only commitmentStart (locks up a deposit), commitmentWithdraw, commitmentTimeout; timeouts are for extreme byzantine cases (validators offline)
-@TODO channel spec: describe commitmentWithdraw(s) (array of `channelHash, (stateRoot,signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawnPerChannel and withdrawn[channel][addr] where `require(addr!=advertiser)` is not allowed to withdraw; also `assert(available > alreadyWithdrawn)`
+@TODO channel spec: describe commitmentWithdraw (array of `channelHash, (stateRoot,signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender] where `require(addr!=advertiser)` is not allowed to withdraw; also `assert(available > alreadyWithdrawn)`
 @TODO channel spec: when you withdrawFromChannels, should state messages be used to checkpoint on-chain or just for the withdraw? we should, to prevent the advertiser timing out the channel; it's a security consideration
 @TODO channel spec: explain why sequence is not needed
 @TODO channel spec: explain why challenge period is not needed
@@ -57,7 +57,7 @@ sum(balances) must never > totalDeposit
 
 with an OCEAN-style validator structure:
 at each state transition, the leading validator (validators[0] ?) proposes a new state, and other validators sign it 
-adapting the current contracts is super easy; new states: Unknown, Active, TimedOut; functions: commitmentStart, commitmentWithdraw (does not change state/checkpoint, only changes withdrawn[commitmentId] and withdrawnByAddr[commitmentId][withdrawer]), commitmentTimeout; the bid is removed, you pass commitment at the beginning 
+adapting the current contracts is super easy; new states: Unknown, Active, TimedOut; functions: commitmentStart, commitmentWithdraw (does not change state/checkpoint, only changes withdrawn[channel] and withdrawnByAddr[channel][spender]), commitmentTimeout; the bid is removed, you pass commitment at the beginning; should the name be commitment<something> or channel<something>?
 
 @TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
 
