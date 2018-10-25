@@ -37,17 +37,46 @@ Individual events can be retrieved by proving you control an address, via a sign
 @TODO introduce the concept of state tree, say a few things about merkle proofs, payment channels channels
 @TODO balancesRoot allows to withdraw but not more than the overall channel deposit
 @TODO benefits
-@TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes
-@TODO all things of the email
-@TODO impl adex-smart-platform: simple API, on top of SQL (sqlite/postgres both supported) and tokio for networking (zap?)
+@TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes; ~18 words need to be passed as args
+@TODO impl adex-smart-platform: rust? simple API, on top of SQL (sqlite/postgres both supported) and tokio for networking (zap?); WASM state transition function
 @TODO describe the `adex-smart-platform` node implementation: performance is critical;  needs to easily scale horizontally and sharding needs to be thought of; needs merkle trees too, but the channel would merely be open with (deposit, timeout) and advanced with (seq, stateRoot, sigA, sigB); the channel can be checkpointed at any time, or settled (remaining funds returned to whoever opened it)
 @TODO header bidding spec; On each open of a publisher website, it would pull all bids from the operator and select a bid (campaign), and send events
-@TODO channel spec: describe withdraw, withdrawFromChannel(s) (array of `channelHash, (stateRoot,signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawnPerChannel and withdrawn[channel][addr] where `require(addr!=advertiser)` is not allowed to withdraw; also `assert(available > alreadyWithdrawn)`
+
+@TODO channel full spec: validator logic same as OCEAN, except no rewards (rewards can be included in the balance tree); only commitmentStart (locks up a deposit), commitmentWithdraw, commitmentTimeout; timeouts are for extreme byzantine cases (validators offline)
+@TODO channel spec: describe commitmentWithdraw(s) (array of `channelHash, (stateRoot,signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawnPerChannel and withdrawn[channel][addr] where `require(addr!=advertiser)` is not allowed to withdraw; also `assert(available > alreadyWithdrawn)`
 @TODO channel spec: when you withdrawFromChannels, should state messages be used to checkpoint on-chain or just for the withdraw? we should, to prevent the advertiser timing out the channel; it's a security consideration
+@TODO channel spec: explain why sequence is not needed
+@TODO channel spec: explain why challenge period is not needed
+@TODO channel spec: the worst byzantine case if the validators do not allow the advertiser to close their campaign (exhaust the channel by paying the remainder to themselves)
+@TODO channel spec: since we only check for supermajority now w/o rewarding, we can check `require(supermajority(validators, sigs))`; we need to be careful if we do validator rewards in the balance tree, since they vote between themselves who gets rewarded based on their own previous signatures..it's a weird trust model; needs to be thought through
+
+events might be bundled into one sequence advancement
+at each next seq, sum(balances) must be >= to sum(previous.balances)
+at each next seq, every balances[x] must be >= to previous.balances[x]
+sum(balances) must never > totalDeposit
+
+with an OCEAN-style validator structure:
+at each state transition, the leading validator (validators[0] ?) proposes a new state, and other validators sign it 
+adapting the current contracts is super easy; new states: Unknown, Active, TimedOut; functions: commitmentStart, commitmentWithdraw (does not change state/checkpoint, only changes withdrawn[commitmentId] and withdrawnByAddr[commitmentId][withdrawer]), commitmentTimeout; the bid is removed, you pass commitment at the beginning 
+
+@TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
+
+@TODO channel spec: decide whether the contract would still have deposit/withdraw entry points or just add those to commitmentStart and commitmentWithdraw
+
 @TODO should we have some sort of link between msgs in the channel - do we gain anything from it? e.g. hashing the previous state root as well
-@TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel
-@TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the moeny from an advertising campaign is flowing, even if everyone withdrawls
+@TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel; or at which point an individual publisher might stop trusting it (e.g. invalid balances tree)
+@TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the money from an advertising campaign is flowing, even if everyone withdrawls
 
 @TODO: consider libp2p for communicating between payment channel participants
-@TODO: explain why sequence is not needed
-@TODO explain why challenge period is not needed
+@TODO Mention the off chain complexity cost, in reaching consensus especially when one party missed an event
+@TODO There should be a special msg in the state channel that should be send to the consensus leader: `need_missed_events` or something like that - where the follower(s) say that they won’t continue signing unless those events are included or at least some part of them; that would be determined by `missed_event_treshold`
+
+@TODO sidenote, the smart contract itself will be suspiciously simple so it has to be well documented
+
+@TODO questions that arise
+"But what if someone goes offline?"
+"but what if someone uses older state?"
+"what if the parties mutually agree to close the channel early?" - explain how, on mutual agreement, the paying party can withdraw their funds out; the timeout only exists for extreme byzantine cases
+"are 2 validators enough" - if the validators have opposing interests, yes; in this case, the model is exactly as in any payment channel - party A will send micropayments to party B, and if party A stops paying, party B can stop delivering their service and withdraw theire earnings without much loss (Use (1))
+
+@TODO blog pos about benefits
