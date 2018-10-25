@@ -25,7 +25,9 @@ The leader in advancing the state is the advertiser - they will sort the events,
 
 Only the advertiser and the smart platform nodes would know the full event history. Sensitive and valuable data is kept private to the parties that have accumulated it, 
 
-However, they may choose to reveal certain info to certain parties and trustlessly prove it's true via the merkle root of the state (`stateRoot`). For example, each publisher would constantly receive a proof that their earnings are contained in the state tree. This guarantees they may withdraw at any time.
+However, they may choose to reveal certain info to certain parties and trustlessly prove it's true via the merkle root of the state (`stateRoot`). For example, each publisher would constantly receive a proof that their earnings are contained in the state (balances) tree. This guarantees they may withdraw at any time.
+
+Please note that the entire balances tree will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
 
 Same goes for aggregated analytics and reporting - any part can be trustlessly revealed to any party.
 
@@ -45,6 +47,7 @@ Individual events can be retrieved by proving you control an address, via a sign
 @TODO should we have some sort of link between msgs in the channel - do we gain anything from it? e.g. hashing the previous state root as well
 @TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel
 @TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the moeny from an advertising campaign is flowing, even if everyone withdrawls
+
 @TODO: consider libp2p for communicating between payment channel participants
 @TODO: explain why sequence is not needed
 @TODO explain why challenge period is not needed
