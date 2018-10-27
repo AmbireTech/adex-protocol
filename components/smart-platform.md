@@ -83,5 +83,7 @@ adapting the current contracts is super easy; new states: Unknown, Active, Timed
 
 @TODO describe canceling a channel with a consensus, cancellation fee that goes to the publisher smart platform
 
-@TODO btc version; this will be pretty easy to do on top of UTXO's and scripts
+@TODO btc version; this will be pretty easy to do on top of UTXO's and scripts; when opening a channel, two tx-es are created with the same inputs (advertiser funds), one being a spendable by multisig of validators, the other being a timelocked tx spendable by the advertiser (returns funds to advertiser); to advance the channel, the validators sign new TX-es which contain the msig TX output as an input, and many outputs (the balances tree); to invalidate old tx, we can use a similar scheme as the LN; since this is so similar to the LN, can it be built on top, and can it be compatible?
 @TODO can the LN play in here? 
+
+@TODO can adex-smart-platform be designed in a blockchain-agnostic way; the blockchain interface should allow to enumerate channels, sign a channel state update
