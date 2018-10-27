@@ -36,7 +36,7 @@ Individual events can be retrieved by proving you control an address, via a sign
 
 @TODO introduce the concept of state tree, say a few things about merkle proofs, payment channels channels
 @TODO balancesRoot allows to withdraw but not more than the overall channel deposit
-@TODO benefits
+@TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
 @TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes; ~18 words need to be passed as args
 @TODO impl adex-smart-platform: rust? simple API, on top of SQL (sqlite/postgres both supported) and tokio for networking (zap?); WASM state transition function
 @TODO describe the `adex-smart-platform` node implementation: performance is critical;  needs to easily scale horizontally and sharding needs to be thought of; needs merkle trees too, but the channel would merely be open with (deposit, timeout) and advanced with (seq, stateRoot, sigA, sigB); the channel can be checkpointed at any time, or settled (remaining funds returned to whoever opened it)
@@ -79,4 +79,9 @@ adapting the current contracts is super easy; new states: Unknown, Active, Timed
 "what if the parties mutually agree to close the channel early?" - explain how, on mutual agreement, the paying party can withdraw their funds out; the timeout only exists for extreme byzantine cases
 "are 2 validators enough" - if the validators have opposing interests, yes; in this case, the model is exactly as in any payment channel - party A will send micropayments to party B, and if party A stops paying, party B can stop delivering their service and withdraw theire earnings without much loss (Use (1))
 
-@TODO blog pos about benefits
+@TODO blog pos about benefits, use cases of the unidirectional payment channel model with multiple validaotrs; perhaps it can even be used in a DEX
+
+@TODO describe canceling a channel with a consensus, cancellation fee that goes to the publisher smart platform
+
+@TODO btc version; this will be pretty easy to do on top of UTXO's and scripts
+@TODO can the LN play in here? 
