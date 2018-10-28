@@ -1,6 +1,8 @@
 # Smart platform
 
-The `adex-smart-platform` is an alternative part of the AdEx protocol where all interactions for a certain campaign (large piece of demand) are recorded on a unidirectional payment channel between the demand side (advertiser) and a delegated (by the demand) `adex-smart-platform` node. Both sides track all events related to the campaign, but the delegated node also performs some duties similar to a DSP, SSP and an exchange - therefore called a "smart platform".
+The `adex-smart-platform` is an alternative part of the AdEx protocol where all interactions for a certain campaign (large piece of demand) are recorded on a unidirectional payment channel between the demand side (advertiser) and a delegated (by the demand) `adex-smart-platform` node.
+
+Both sides track all events related to the campaign, but the delegated node also performs some duties similar to a DSP, SSP and an exchange - therefore called a "smart platform".
 
 Whoever interacts on the smart platform does not need `adex-market` and `adex-ocean-validator` - this is essentially an alternative of that architecture.
 
@@ -23,7 +25,7 @@ What the validators sign is `hash(channelId, balancesRoot, eventsRoot)`.
 
 The leader in advancing the state is the demand (advertiser) - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators (normally the supply) will validate and sign too.
 
-## Privacy
+## Privacy of publishers and advertisers
 
 Only the advertiser and the smart platform nodes would know the full event history. Sensitive and valuable data is kept private to the parties that have accumulated it, 
 
@@ -43,7 +45,7 @@ Individual events can be retrieved by proving you control an address, via a sign
 
 ------------------------------
 
-@TODO the stateRoot is a merkle root of (previousStateRoot, eventsHash, balance...)
+@TODO the stateRoot is a merkle root of (eventsHash, balance...)
 @TODO balancesRoot allows to withdraw but not more than the overall channel deposit
 @TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
 @TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes; ~18 words need to be passed as args
