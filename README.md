@@ -65,6 +65,8 @@ The observers are instances of the `adex-node` delegated to collect events in re
 
 However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
+
+
 ## Components
 
 ### Marketplace
@@ -195,6 +197,7 @@ While from a scalability perspective, real-time bidding can be implemented using
 
 However, multiple bids may be delivered at the same time in the same ad slot, with the targeting decision happening in the user's browser (see ["Privacy of the end-user"](#privacy-of-the-end-user)), so the benefits of targeting are still there. This is somewhat similar to the ad tech concept of Header Bidding, which is a technique that shift bid processing/selection to the browser.
 
+
 ### Bid provisioning
 
 While RTB is intentionally left out, a form of programatic buying exists in AdEx: we call that "bid provisioning".
@@ -208,6 +211,7 @@ Because of this, bids are not meant to be interacted with directly. It would be 
 This would work by allowing the advertiser to create a campaign with a total budget. Then, the system would create a few small bids at first, and once those are picked up, it will create new ones. If the bids are getting picked up and delivered quickly, it would start creating larger bids.
 
 Meanwhile, on the publisher side, the system will automatically accept the most appropriate and profitable bids on the network that we can deliver for.
+
 
 ### Smart Platform, state channels
 
