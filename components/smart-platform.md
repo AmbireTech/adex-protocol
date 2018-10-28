@@ -19,11 +19,19 @@ The way this works is the following:
 
 ## Specification
 
-Each payment channel message is `(balancesRoot, eventsRoot, signatures)` and can be used to withdraw at anytime, as long as `signatures` are valid for a supermajority of the validators. Unlike other payment channels/state channels, `sequence` is not needed. Because of the strict unidirectional property of the payment channel, any message can be used to withdraw at any time safely.
+Each payment channel message is `(stateRoot, signatures)` and can be used to withdraw at anytime, as long as `signatures` are valid for a supermajority of the validators. Unlike other payment channels/state channels, `sequence` is not needed. Because of the strict unidirectional property of the payment channel, any message can be used to withdraw at any time safely.
 
-What the validators sign is `hash(channelId, balancesRoot, eventsRoot)`.
+What the validators sign is `stateRoot`, which is a merkle root of `(latestEventHash, channelHash, balance1, balance2...)`
 
 The leader in advancing the state is the demand (advertiser) - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators (normally the supply) will validate and sign too.
+
+Furthermore:
+
+1. events might be bundled into one state advancement
+2. at each next state, `sum(balances)` must be >= to `sum(previous.balances)`
+3. at each next state, for every address x, `balances[x]` must be >= to `previous.balances[x]`
+4. at each next state `sum(balances)` must always be <= channel.totalDeposit
+
 
 ## Privacy of publishers and advertisers
 
@@ -45,45 +53,37 @@ Individual events can be retrieved by proving you control an address, via a sign
 
 ------------------------------
 
-@TODO the stateRoot is a merkle root of (eventsHash, balance...)
 @TODO balancesRoot allows to withdraw but not more than the overall channel deposit
 @TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
 @TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes; ~18 words need to be passed as args
 
-@TODO channel spec: the stateRoot contains eventsHash; events should always be linked by containing a hash to the previous event, to ensure an immutable data structure; however, we should decide if eventsHash should also be a merkle root, in order to allow people ot check if events are genuine
+@TODO channel spec: the stateRoot contains lastEventHash; events should always be linked by containing a hash to the previous event, to ensure an immutable data structure; however, we should decide merkelize all events, in order to allow people ot check if events are genuine
 
 @TODO impl adex-smart-platform: rust? simple API, on top of SQL (sqlite/postgres both supported) and tokio for networking (zap?); WASM state transition function
 @TODO can adex-smart-platform be designed in a blockchain-agnostic way; the blockchain interface should allow to enumerate channels, sign a channel state update
-@TODO describe the `adex-smart-platform` node implementation: performance is critical;  needs to easily scale horizontally and sharding needs to be thought of; needs merkle trees too, but the channel would merely be open with (deposit, timeout) and advanced with (seq, stateRoot, sigA, sigB); the channel can be checkpointed at any time, or settled (remaining funds returned to whoever opened it)
+@TODO describe the `adex-smart-platform` node implementation: performance is critical;  needs to easily scale horizontally and sharding needs to be thought of; needs merkle trees too, but the channel would merely be open with (deposit, timeout) and advanced with (stateRoot, signatures)
 
 @TODO header bidding spec; On each open of a publisher website, it would pull all bids from the operator and select a bid (campaign), and send events
 
 @TODO channel full spec: validator logic same as OCEAN, except no rewards (rewards can be included in the balance tree); only channelStart (locks up a deposit), channelWithdraw, channelTimeout; timeouts are for extreme byzantine cases (validators offline)
-@TODO channel spec: describe channelWithdraw (array of `channelHash, (stateRoot,signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender] where `require(addr!=advertiser)` is not allowed to withdraw; also `assert(available > alreadyWithdrawn)`
-@TODO channel spec: when you withdrawFromChannels, should state messages be used to checkpoint on-chain or just for the withdraw? we should, to prevent the advertiser timing out the channel; it's a security consideration
+@TODO channel spec: describe channelWithdraw (array of `channelHash, (stateRoot, signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender]; also `assert(available > alreadyWithdrawn)`
+
 @TODO channel spec: explain why sequence is not needed
 @TODO channel spec: explain why challenge period is not needed
 @TODO channel spec: the worst byzantine case if the validators do not allow the advertiser to close their campaign (exhaust the channel by paying the remainder to themselves)
 @TODO channel spec: since we only check for supermajority now w/o rewarding, we can check `require(supermajority(validators, sigs))`; validator rewards can be added to the balances tree - the publisher-side (smart platform) would add themselves a reward and the advertiser might authorize it
 
-events might be bundled into one sequence advancement
-at each next seq, sum(balances) must be >= to sum(previous.balances)
-at each next seq, every balances[x] must be >= to previous.balances[x]
-sum(balances) must never > channel.totalDeposit
-
 with an OCEAN-style validator structure:
-at each state transition, the leading validator (validators[0] ?) proposes a new state, and other validators sign it 
+at each state transition, the leading validator (validators[0]) proposes a new state, and other validators sign it 
 adapting the current contracts is super easy; new states: Unknown, Active, Exhausted, TimedOut; functions: channelStart, channelWithdraw (does not change state/checkpoint, only changes withdrawn[channel] and withdrawnByAddr[channel][spender]), channelTimeout; the bid is removed, you pass channel at the beginning;
 
 @TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
 
-@TODO channel spec: decide whether the contract would still have deposit/withdraw entry points or just add those to channelStart and channelWithdraw
+@TODO channel spec: the way to withdraw/deposit into the channel will be channelStart and withdrawFromChannels
 
+@TODO adex-smart-platform: one more interesting spec thing to think about: pre-paying for impressions: the leader would sign a state update that PAYS first, and the impression will be shown after
 
-@TODO one more interesting spec thing to think about: pre-paying for impressions: the leader would sign a state update that PAYS first, and the impression will be shown after
-
-
-@TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel; or at which point an individual publisher might stop trusting it (e.g. invalid balances tree)
+@TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel; or at which point an individual publisher might stop trusting it (e.g. invalid balances tree); perhaps a % of the min impressions for a campaign
 @TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the money from an advertising campaign is flowing, even if everyone withdrawls
 
 @TODO: consider libp2p for communicating between payment channel participants
@@ -110,6 +110,8 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 @TODO describe the possibility to reward users with tokens (via the balances tree); However the economic incentives work against us as they incentivize users to forge; although if the users masquerade as publishers, it should be the same thing; Anyway, memory-bound PoW and ip limits should be considered; and/or using the ip in the sig
 
 @TODO describe importance of validators staying available
+
+@TODO describe importance of everything measured by impressions
 
 @TODO: OUTPACE: Ocean-based Unidirectional Trustless PAyment ChannEl
 
