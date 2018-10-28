@@ -43,10 +43,12 @@ Individual events can be retrieved by proving you control an address, via a sign
 
 ------------------------------
 
-@TODO the stateRoot is a merkle root of (previousStateRoot, eventsRoot, balance...)
+@TODO the stateRoot is a merkle root of (previousStateRoot, eventsHash, balance...)
 @TODO balancesRoot allows to withdraw but not more than the overall channel deposit
 @TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
 @TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes; ~18 words need to be passed as args
+
+@TODO channel spec: the stateRoot contains eventsHash; events should always be linked by containing a hash to the previous event, to ensure an immutable data structure; however, we should decide if eventsHash should also be a merkle root, in order to allow people ot check if events are genuine
 
 @TODO impl adex-smart-platform: rust? simple API, on top of SQL (sqlite/postgres both supported) and tokio for networking (zap?); WASM state transition function
 @TODO can adex-smart-platform be designed in a blockchain-agnostic way; the blockchain interface should allow to enumerate channels, sign a channel state update
@@ -69,15 +71,15 @@ sum(balances) must never > channel.totalDeposit
 
 with an OCEAN-style validator structure:
 at each state transition, the leading validator (validators[0] ?) proposes a new state, and other validators sign it 
-adapting the current contracts is super easy; new states: Unknown, Active, TimedOut; functions: channelStart, channelWithdraw (does not change state/checkpoint, only changes withdrawn[channel] and withdrawnByAddr[channel][spender]), channelTimeout; the bid is removed, you pass channel at the beginning;
+adapting the current contracts is super easy; new states: Unknown, Active, Exhausted, TimedOut; functions: channelStart, channelWithdraw (does not change state/checkpoint, only changes withdrawn[channel] and withdrawnByAddr[channel][spender]), channelTimeout; the bid is removed, you pass channel at the beginning;
 
 @TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
 
 @TODO channel spec: decide whether the contract would still have deposit/withdraw entry points or just add those to channelStart and channelWithdraw
 
+
 @TODO one more interesting spec thing to think about: pre-paying for impressions: the leader would sign a state update that PAYS first, and the impression will be shown after
 
-@TODO should we have some sort of link between msgs in the channel - do we gain anything from it? e.g. hashing the previous state root as well
 
 @TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel; or at which point an individual publisher might stop trusting it (e.g. invalid balances tree)
 @TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the money from an advertising campaign is flowing, even if everyone withdrawls
@@ -94,16 +96,21 @@ adapting the current contracts is super easy; new states: Unknown, Active, Timed
 "but what if someone uses older state?"
 "what if the parties mutually agree to close the channel early?" - explain how, on mutual agreement, the paying party can withdraw their funds out; the timeout only exists for extreme byzantine cases
 "are 2 validators enough" - if the validators have opposing interests, yes; in this case, the model is exactly as in any payment channel - party A will send micropayments to party B, and if party A stops paying, party B can stop delivering their service and withdraw theire earnings without much loss (Use (1))
-"what does leading validator imply?"
+"what does leading validator imply?" - they only propose new states, but can't authorize spending without a total supermajority
 
 
 @TODO describe canceling a campaign (exhausting a channel) with a consensus, cancellation fee that goes to the publisher smart platform
 
-@TODO btc version; this will be pretty easy to do on top of UTXO's and scripts; when opening a channel, two tx-es are created with the same inputs (advertiser funds), one being a spendable by multisig of validators, the other being a timelocked tx spendable by the advertiser (returns funds to advertiser); to advance the channel, the validators sign new TX-es which contain the msig TX output as an input, and many outputs (the balances tree); to invalidate old tx, we can use a similar scheme as the LN; since this is so similar to the LN, can it be built on top, and can it be compatible?
+@TODO btc version; this will be pretty easy to do on top of UTXO's and scripts; when opening a channel, two tx-es are created with the same inputs (advertiser funds), one being a spendable by multisig of validators, the other being a timelocked tx spendable by the advertiser (returns funds to advertiser); to advance the channel, the validators sign new TX-es which contain the msig TX output as an input, and many outputs (the balances tree); to invalidate old tx, we can use a similar scheme as the LN (RSMC); since this is so similar to the LN, can it be built on top, and can it be compatible?
+@TODO btc: actually, we can do a slightly less trustless model which does not require RSMC; the advertiser signs the tx and gives it to the publisher; the publisher does not sign it; once the channel is exhausted, then they sign it and it can be broadcast; this is suboptimal since publishers don't have a constant revenue guarantee
 @TODO can the LN play in here? 
 
 @TODO describe the possibility to reward users with tokens (via the balances tree); However the economic incentives work against us as they incentivize users to forge; although if the users masquerade as publishers, it should be the same thing; Anyway, memory-bound PoW and ip limits should be considered; and/or using the ip in the sig
 
 @TODO describe importance of validators staying available
 
-@TODO describe the bidding system: between the smart platform and the publisher/user; maybe send bid{matchToCpmRatio, minCpm}; then we calculate match rating (floating point, 0 to 1, depending on targeting) and the bid price is `max(matchToCpmRatio*match, minCpm)`; as for the match ratio, that can actually be defined as; every ad gets a match rating `sum(targetingTags.filter(tag in userTags).map(x => x.weight))`, and then all match ratings will be scaled between 0 and 1, where 1 represents the highest match rating
+@TODO: OUTPACE: Ocean-based Unidirectional Trustless PAyment ChannEl
+
+@TODO describe the bidding system: between the smart platform and the publisher/user; maybe send bid{matchToCpmRatio, minCpm}; then we calculate match rating (floating point, 0 to 1, depending on targeting) and the bid price is `max(matchToCpmRatio*match, minCpm)`; as for the match ratio, that can actually be defined as; every ad gets a match rating `sum(targetingTags.filter(tag in userTags).map(x => x.weight))`, and then all match ratings will be scaled between 0 and 1, where 1 represents the highest match rating;   ALTHOUGH this model is not nice for privacy - you can probe if a user has a certain tag at a cost of outbidding everyone else
+
+@TODO describe `adex-smart-platform` events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; describe messages between validators too: ProposeNewState, SignNewState, RequestEventsBeIncluded; consider a Heartbeat message; also, each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHEr security measure is have the user sign the event for every validator separately
