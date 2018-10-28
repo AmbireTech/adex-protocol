@@ -10,7 +10,7 @@ The rationale for creating the AdEx protocol was to create an open-source, trans
 
 The AdEx team also develops an open source dApp built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
 
-The AdEx protocol is designed to be completely invisible to end users, while improving their internet experience (generally encouraging quality ads).
+The AdEx protocol is designed to be completely invisible to end users, while improving their internet experience (generally encouraging quality ads and unobtrusive experience).
 
 ### Terminology
 
@@ -26,29 +26,23 @@ Custom events usually refer to events that are publisher-defined. For example, i
 
 When we refer to "Goals", we mean impressions, clicks or any other thing you want achieved with your digital ad, for example a registration to your service.
 
-#### Bids
+#### Campaigns
 
-Advertising Bids are bids of certain monetary reward for a certain number of ad goals: for example, "10 ADX for 1000 clicks", or "100 DAI for 10 registrations". You can think of them as pieces of advertising demand.
+Campaigns represent the intention of an advertiser to spend a certain budget on purchasing impressions and/or achieving any other goals. Campaigns have a total budget (e.g. 5000 DAI) and a description of the desired goals which should include boundies, such as maximum price per impression and targeting information.
 
-#### Bid reward
-
-A monetary reward given by the advertiser to the publisher upon a successful delivery of a bid. The reward has to be in a cryptocurrency supported by the underlying blockchain network - for example, for the Ethereum implementation this will be any fungible token or ether.
-
-#### Delivery commitment
-
-The delivery commitment refers to the on-chain commitment between a publisher and an advertiser that the condition of the bid will be delivered.
+In the AdEx protocol, one campaign always maps to one on-chain payment channel called OUTPACE.
 
 #### Off-chain event aggregation (OCEAN)
 
-**O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is our approach to scaling. Within AdEx, anything between the beginning and the end of a delivery commitment is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
+**O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is our own loose layer 2 scaling primitive.
 
-#### OCEAN channel
+@TODO
+@TODO Within AdEx, anything between the beginning and the end of a delivery commitment is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
 
-An OCEAN channel is an on-chain committment that off-chain events that meet certain conditions will transpire during a certain time period.
+#### Ocean-based Unidirectional Trustless Pyyment Channel (OUTPACE)
 
-The delivery commitment (`Commitment`) is a specific use of an OCEAN channel.
-
-The result of an OCEAN channel can be used in on-chain logic. In the case of the delivery commitment, the reward will be sent to the publisher on success, or back to the advertiser on failure.
+@TODO
+@TODO
 
 #### Validators
 
@@ -61,7 +55,7 @@ Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validat
 
 #### Observers
 
-The observers are instances of the `adex-node` delegated to collect events in relation to a certain commitment or ad unit. All validators of a commitment are, by definition, observers of all events related to this commitment.
+The observers are delegated to collect events in relation to a certain campaign. All validators of a campaign (@TODO: of an OUTPACE?) are, by definition, observers of all events related to it.
 
 However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
@@ -71,30 +65,19 @@ However, in practice, it's possible to have additional observers who are not val
 
 ### Marketplace
 
-The primary role of the marketplace is to facilitate bid discovery and trading. The marketplace keeps a database of all bids that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
+The primary role of the marketplace is to facilitate demand/supply discovery and trading. The marketplace keeps a database of all campaigns that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
 
-The marketplace can aid the bid discovery process by implementing better ways to match bids with publishers.
-
-Furthermore, it can help provide privacy if needed by allowing bids to be exchanged only within private grups of publishers/advertisers.
+It also allows privacy if needed by allowing campaigns to be exchanged only within private grups of publishers/advertisers.
 
 The marketplace is currently implemented in the `adex-node` repository.
 
-#### Bid
+### Campaign
 
-A bid is a composite of the following properties:
-
-* **adexCore** - reference to the core implementation (for example, on Ethereum this is an address to the smart contract)
-* **reward** - a tuple of `(rewardAmount, rewardCurrency)` (on Ethereum, this would be `tokenContractAddress` and `tokenAmount`)
-* **goal** - describes the goal to be achieved (e.g. 1000 clicks)
-
-Every bid should be signed by the advertiser, and it will be recorded in the marketplace.
-
-In traditional adtech, this is similar to static auctions, where you'd bid for groups of thousands of impressions at a time.
-
-Bids are not meant to be interacted with directly by publishers/advertisers, rather they will be handled programatically. For example, if you're an advertiser, you'd set a campaign with a budget and targets, and the dApp would automatically portion this out to individual bids.
-
+@TODO OUTPACE channel
 
 ### Core
+
+@TODO update
 
 The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
 
@@ -104,6 +87,8 @@ The Ethereum implementation of this component is called `adex-protocol-eth`.
 
 #### Commitment
 
+@TODO: update; merge stuff from components/
+
 A delivery commitment is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery commitment starts, the reward for the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery commitment resolves successfully (determined by the OCEAN validators), the reward will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
 
 Furthermore, OCEAN validators would be rewarded by the advertiser.
@@ -112,11 +97,6 @@ The `Commitment` is an implementation of OCEAN channel that also contains inform
 
 A commitment has a `validUntil` date, determined by the `bid` timeout and the time it was created (`now + bid.timeout`). Before this date, validators can submit their signed votes - if there is a supermajority, that vote will be acted upon (reward transferred to the publisher or back to the advertiser). Once we are past the `validUntil` date, we revert the commitment, returning the funds back to the advertiser.
 
-### OCEAN
-
-OCEAN validators and event producers (end users) need to communicate between themselves in a transport-agnostic way, so using libp2p is recommended.
-
-The on-chain part of OCEAN is currently implemented in `adex-protocol-eth`, and the off-chain part in `adex-ocean-validator`. The `adex-ocean-validator` is responsible for tracking all the events, and voting as an OCEAN validator. The `adex-protocol-eth` is responsible for enforcing the rules on-chain.
 
 ### SDK
 
@@ -124,9 +104,11 @@ The primary implementation is `adex-sdk`, which is designed for the web.
 
 The SDK is responsible for displaying ads, sending events to the `adex-node` (OCEAN channel), and collecting and storing the user profile.
 
-#### The AdEx Profile
+@TODO
 
-The AdEx Profile is a user-facing part of the SDK that allows the user to see what data the SDK has collected about them and possibly modify it to their liking. Since this data is not uploaded anywhere, it's significant is limited to the ad selection process. So, an end user might want to modify this if they don't want to see ads of a certain type.
+#### The AdEx Lounge
+
+The AdEx Lounge (previously called Profile) is a user-facing part of the SDK that allows the user to see what data the SDK has collected about them and possibly modify it to their liking. Since this data is not uploaded anywhere, it's significant is limited to the ad selection process. So, an end user might want to modify this if they don't want to see ads of a certain type.
 
 
 ### Analytics
@@ -153,6 +135,8 @@ This is mitigated in a few ways:
 
 ### Scalability
 
+@TODO; not a bottleneck anymore
+
 Because impressions and clicks are tracked off-chain (see OCEAN), the real bottleneck in the AdEx protocol is the opening and settling of bids, since it is the only part that has to be done on-chain.
 
 This architecture allows AdEx to scale sufficiently even on chains with lower throughput, as long as actors are willing to trade off granularity in their ad spacetime trading.
@@ -167,7 +151,6 @@ While it is technically possible to bid for a small number of impressions/clicks
 
 There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity, so one entity may use as many identities as they want to help preserve their privacy.
 
-Furthermore, since the marketplace is responsible for bid discovery, it's possible to implement private groups in the marketplace, so that some bids are visible only within those groups.
 
 ### Privacy of the end-user
 
@@ -178,9 +161,11 @@ A further advantage to this approach is that the user may easily control what ki
 While it is possible to derive a rough approximation of what the user preferences are using historical data (events) on which ads were selected for a particular user, this approach still reveals very little, because:
 
 1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifyable data like name/email/IP
-2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to bids they validate)
+2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to campaigns they validate)
 
 ### Rewarding end-users
+
+@TODO
 
 Rewarding end users for their attention is a concept that we've intentionally left out, mostly because it highly incentivizes fake traffic/Sybil attacks.
 
@@ -191,29 +176,21 @@ One of the ways to achieve that is by having a payment channel directly between 
 
 ### Real-time bidding
 
+@TODO
+
 Real-time bidding is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
 
 While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as OCEAN and state channels, the privacy tradeoff is too big.
 
 However, multiple bids may be delivered at the same time in the same ad slot, with the targeting decision happening in the user's browser (see ["Privacy of the end-user"](#privacy-of-the-end-user)), so the benefits of targeting are still there. This is somewhat similar to the ad tech concept of Header Bidding, which is a technique that shift bid processing/selection to the browser.
 
+### Header bidding
 
-### Bid provisioning
-
-While RTB is intentionally left out, a form of programatic buying exists in AdEx: we call that "bid provisioning".
-
-A bid signals an intention to purchase certain advertising space/time for a certain reward, but once it's picked up by a publisher (turned into a Commitment), the publisher will only get rewarded if they deliver the full bid goal.
-
-So it's recommended that bids are generally small - in other words, even low-traffic publishers should be able to deliver them within hours. Furthermore, smaller bids allow different publishers to pick them up, and the overall revenue can be maximized by tweaking the reward on a bid-per-bid basis.
-
-Because of this, bids are not meant to be interacted with directly. It would be tedious to expect advertisers to do all of this manually. Our solution is to create a system that would automatically provision bids.
-
-This would work by allowing the advertiser to create a campaign with a total budget. Then, the system would create a few small bids at first, and once those are picked up, it will create new ones. If the bids are getting picked up and delivered quickly, it would start creating larger bids.
-
-Meanwhile, on the publisher side, the system will automatically accept the most appropriate and profitable bids on the network that we can deliver for.
-
+@TOOD header bidding. is real time
 
 ### Smart Platform, state channels
+
+@TODO
 
 The AdEx Smart Platform an alternative to OCEAN+bid provisioning where the demand side (e.g. the advertiser) would create a full campaign with a certain budget and maximum price per click/impression/other goal, and this would get mapped a state channel with a delegated node from the network that represents the publishers, called "the smart platform node".
 
