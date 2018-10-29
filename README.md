@@ -30,19 +30,31 @@ Campaigns are created with a total budget (e.g. 5000 DAI) and a specification of
 
 In the AdEx protocol, one campaign always maps to one payment channel called OUTPACE.
 
+#### Layer 2
+
+Layer 2 refers to blockchain scaling solutions which allow financial transactions or other state transitions to happen very fast, off the blockchain, while still being enforcable or eventually being committed to the underlying blockchain.
+
+Ideally, layer 2 solutions allow throughput levels seen in centralized system, while still being as trustless and censorship resistant as blockchains.
+
+In AdEx, we use two in-house scaling primitives: OCEAN and OUTPACE.
+
 #### Off-chain event aggregation (OCEAN)
 
-**OCEAN** stands for **O**ff-**c**hain **e**vent **a**ggregatio**n** and @TODO
+**OCEAN** stands for **O**ff-**c**hain **e**vent **a**ggregatio**n**. 
 
-@TODO
-@TODO ocean primitives: define validators, timeout, and they sign new state(s); there's a leading validator
+An OCEAN channel is defined on-chain with a valiator set, timeout and a definition of what we're looking to get achieved off-chain. Then, the validators observe off-chain events, and the leading validator (`validators[0]`) would propose new states, and the rest of the validators may check and sign those new states.
+
+If a state is signed by a supermajority (>=2/3) of validators, it can be used to enforce a result on-chain.
 
 #### Ocean-based unidirectional trustless payment channel (OUTPACE)
 
 **OUTPACE** stands for **O**cean-based **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
 
-@TODO ocean, but every state contains a balances tree which is maintained in a strictly unidirectional way
-@TODO
+This is a concept that builds on **OCEAN**, where each channel also has a deposit and each state represents a tree of balances.
+
+The state transition function enforces a few simple rules for each next state: (1) the sum of all balances in the state can only increase, (2) each individual balance can only increase and (3) the total sum of the balances can never exceed the channel deposit.
+
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and an SSP. That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
 
 #### Validators
 
@@ -55,7 +67,7 @@ Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validat
 
 #### Observers
 
-The observers are delegated to collect events in relation to a certain campaign. All validators of a campaign (@TODO: of an OCEAN/OUTPACE channel?) are, by definition, observers of all events related to it.
+The observers are delegated to collect events in relation to a certain campaign. All validators of a campaign (OUTPACE channel) are, by definition, observers of all events related to it.
 
 However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
