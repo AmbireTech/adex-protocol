@@ -100,6 +100,12 @@ The Ethereum implementation of this component is called `adex-protocol-eth`.
 @TODO better word for `campaignSpec` ?
 @TODO describe on chain methods
 
+The on-chain interactions are:
+
+* `channelOpen(deposit, timeout, campaignSpec)`: open an OUTPACE channel
+* `channelWithdraw(state, signatures, merkleProof)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
+` `channelWithdrawTimeout()`: allows the channel creator to withdraw the remaining deposit in a channel after a timeout; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
+
 ### Smart Platform
 
 @TODO describe off chain interactions, OUTPACE channels, including campaign specs, cancelling campaigns, what the campaign duration means, what the channel timeout means
