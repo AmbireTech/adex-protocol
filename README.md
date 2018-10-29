@@ -54,7 +54,13 @@ This is a concept that builds on **OCEAN**, where each channel also has a deposi
 
 The state transition function enforces a few simple rules for each next state: (1) the sum of all balances in the state can only increase, (2) each individual balance can only increase and (3) the total sum of the balances can never exceed the channel deposit.
 
+Because of these constraints, an OUTPACE channel does not need sequences or challenge periods.
+
+The initially delegated validators sign every new state, and a state signed by a supermajority (>2/3) of validators is considered valid.
+
 One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and an SSP. That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
+
+@TODO explain why the constraints work and etc., link to a full explanation; OUTPACE.md
 
 #### Validators
 
@@ -104,7 +110,7 @@ The on-chain interactions are:
 
 * `channelOpen(deposit, timeout, campaignSpec)`: open an OUTPACE channel
 * `channelWithdraw(state, signatures, merkleProof)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
-` `channelWithdrawTimeout()`: allows the channel creator to withdraw the remaining deposit in a channel after a timeout; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
+* `channelWithdrawTimeout()`: allows the channel creator to withdraw the remaining deposit in a channel after a timeout; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
 
 ### Smart Platform
 
