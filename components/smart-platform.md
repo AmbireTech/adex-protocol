@@ -94,14 +94,14 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 
 @TODO sidenote, the smart contract itself will be suspiciously simple so it has to be well documented
 
-@TODO blog post about benefits, use cases of the unidirectional payment channel model with multiple validaotrs; perhaps it can even be used in a DEX
+@TODO blog post about benefits, use cases of the unidirectional payment channel model with multiple validators; perhaps it can even be used in a DEX if we can atomically interleave a value transfer between two unidirectional payment channels; can be done with something similar to HTLC
 @TODO questions that arise
 "But what if someone goes offline?"
 "but what if someone uses older state?"
 "what if the parties mutually agree to close the channel early?" - explain how, on mutual agreement, the paying party can withdraw their funds out; the timeout only exists for extreme byzantine cases
 "are 2 validators enough" - if the validators have opposing interests, yes; in this case, the model is exactly as in any payment channel - party A will send micropayments to party B, and if party A stops paying, party B can stop delivering their service and withdraw theire earnings without much loss (Use (1))
 "what does leading validator imply?" - they only propose new states, but can't authorize spending without a total supermajority
-
+"are there other usecases besides AdEx" - "a dex", pun intended, lol
 
 @TODO describe canceling a campaign (exhausting a channel) with a consensus, cancellation fee that goes to the publisher smart platform
 
@@ -124,3 +124,5 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 @TODO adex-smart-platform DB structure, including a table `channels_onchain` which is populated by the blockchain-specific adapter (which consists of a continuous process that populates the table, AND an interface to sign and provide merkle proofs)
 
 @TODO describe internal ledgers in adex-smart-platform: there's one on which events were provably observed by other users; and one for how many fees are claimed (ClaimValidationFee, can be created by a validator to make them claim a fee)
+
+@TODO describe the bidding model; bidding is currenly not trustless, so describe the implications of this; we can make a mini state channel like thing where each next bid links a previous one by hash, but that's not censorship resistant; it's also very similar to a blind auction
