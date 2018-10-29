@@ -198,16 +198,10 @@ In other words, in AdEx, advertisers can bid for an impression in real-time, but
 
 @TODO
 
-The AdEx Smart Platform an alternative to OCEAN+bid provisioning where the demand side (e.g. the advertiser) would create a full campaign with a certain budget and maximum price per click/impression/other goal, and this would get mapped a state channel with a delegated node from the network that represents the publishers, called "the smart platform node".
-
-Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the state channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is similar to a uni-directional payment channel, as with each next message (sequence), the advertiser balance would decrease and the total earnings by the publishers would increase.
-
-Once the entire campaign budget is exhausted, the channel can be settled or renewed by depositing more.
+Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the state channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is a uni-directional payment channel, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
 
 Despite the interactions being only between two parties, the model is trustless - if the demand would not recognize events and accept the new state, the supply (publishers) can immediately stop serving impressions and exit by settling the channel.
 
-This would eliminate the need for bid provisioning and make it easier to maximize revenue, but it is more complicated to execute.
+In this case, publishers may withdraw their earnings at any time, by submitting a state signed by a supermajority of the channel validators, and proving (via a merkle proof) that their balance is in the state.
 
-In this case, publishers may withdraw their earnings at any time, by checkpointing all channels (representing advertiser campaigns) they earned from.
-
-See [smart-platform.md](/components/smart-platform.md) for details on how this may be realized.
+See [smart-platform.md](/components/smart-platform.md) for details on how this is realized.
