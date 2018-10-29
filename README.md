@@ -97,7 +97,7 @@ The channel is created with the following information:
 
 The Ethereum implementation of this component is called `adex-protocol-eth`.
 
-@TODO better word for `campaignSpec` ?
+@TODO better word for `campaignSpec`? criteria?
 @TODO describe on chain methods
 
 The on-chain interactions are:
@@ -108,6 +108,7 @@ The on-chain interactions are:
 
 ### Smart Platform
 
+@TODO describe what it is; clarify terms that refer to the software vs reference to the software ran to represent publishers
 @TODO describe off chain interactions, OUTPACE channels, including campaign specs, cancelling campaigns, what the campaign duration means, what the channel timeout means
 
 ### SDK
@@ -126,13 +127,17 @@ The SDK is responsible for displaying ads, sending events to the `adex-node` (OC
 The AdEx Lounge (previously called Profile) is a user-facing part of the SDK that allows the user to see what data the SDK has collected about them and possibly modify it to their liking. Since this data is not uploaded anywhere, it's significant is limited to the ad selection process. So, an end user might want to modify this if they don't want to see ads of a certain type.
 
 
-### Analytics
+### Analytics system
+
+@TODO should this be a part of "Components"?
 
 Analytics are provided by the validators, programatically. The validators are usually the advertiser and a platform represending the publishers (SSP). The user data is anonymous anyway, but having this design where the data only propagates to the validators further improves privacy, even between publishers/advertisers themselves.
 
 The validators are currently not incentivized financially for aggregating the entire dataset and providing analytics reports, but since they're often the advertiser/publisher themselves, they have an obvious incentive to do so.
 
 Furthermore, this ensures that both parties get their analytics reports from aggregating the data directly from the users, which ensures reporting transparency.
+
+
 
 
 ## Appendix

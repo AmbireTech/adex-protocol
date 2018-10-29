@@ -102,6 +102,7 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 "are 2 validators enough" - if the validators have opposing interests, yes; in this case, the model is exactly as in any payment channel - party A will send micropayments to party B, and if party A stops paying, party B can stop delivering their service and withdraw theire earnings without much loss (Use (1))
 "what does leading validator imply?" - they only propose new states, but can't authorize spending without a total supermajority
 "are there other usecases besides AdEx" - "a dex", pun intended, lol
+"is this for ethereum?" technically it can be done on any programmable blockchain platform; it can even be done on BTC using the UTXO model, similarly to how lightning works
 
 @TODO describe canceling a campaign (exhausting a channel) with a consensus, cancellation fee that goes to the publisher smart platform
 
