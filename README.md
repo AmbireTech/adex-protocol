@@ -10,7 +10,7 @@ The rationale for creating the AdEx protocol was to create an open-source, trans
 
 The AdEx team also develops an open source dApp built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
 
-The AdEx protocol is designed to be completely invisible to end users, while improving their internet experience (generally encouraging quality ads and unobtrusive experience).
+The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
 ### Terminology
 
@@ -22,26 +22,26 @@ Events, in the context of the SDK or the off-chain event aggregation, mean anyth
 
 Custom events usually refer to events that are publisher-defined. For example, if you're a publisher with an e-commerce website, you might choose to send an event for product purchases.
 
-#### Goals
-
-When we refer to "Goals", we mean impressions, clicks or any other thing you want achieved with your digital ad, for example a registration to your service.
-
 #### Campaigns
 
-Campaigns represent the intention of an advertiser to spend a certain budget on purchasing impressions and/or achieving any other goals. Campaigns have a total budget (e.g. 5000 DAI) and a description of the desired goals which should include boundies, such as maximum price per impression and targeting information.
+Ad campaigns are traditionally defined as "coordinated series of linked advertisements with a single idea or theme". In AdEx, they further represent a intent to spend a certain budget towards spreading those advertisements.
 
-In the AdEx protocol, one campaign always maps to one on-chain payment channel called OUTPACE.
+Campaigns are created with a total budget (e.g. 5000 DAI) and a specification of the desired result: e.g. purchase as many impressions as possible for this ad, with a maximum allowed price per impression and targeting information.
+
+In the AdEx protocol, one campaign always maps to one payment channel called OUTPACE.
 
 #### Off-chain event aggregation (OCEAN)
 
-**O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is our own loose layer 2 scaling primitive.
+**OCEAN** stands for **O**ff-**c**hain **e**vent **a**ggregatio**n** and @TODO
 
 @TODO
-@TODO Within AdEx, anything between the beginning and the end of a delivery commitment is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators at the end.
+@TODO ocean primitives: define validators, timeout, and they sign new state(s); there's a leading validator
 
-#### Ocean-based Unidirectional Trustless Pyyment Channel (OUTPACE)
+#### Ocean-based unidirectional trustless payment channel (OUTPACE)
 
-@TODO
+**OUTPACE** stands for **O**cean-based **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
+
+@TODO ocean, but every state contains a balances tree which is maintained in a strictly unidirectional way
 @TODO
 
 #### Validators
@@ -55,7 +55,7 @@ Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validat
 
 #### Observers
 
-The observers are delegated to collect events in relation to a certain campaign. All validators of a campaign (@TODO: of an OUTPACE?) are, by definition, observers of all events related to it.
+The observers are delegated to collect events in relation to a certain campaign. All validators of a campaign (@TODO: of an OCEAN/OUTPACE channel?) are, by definition, observers of all events related to it.
 
 However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
@@ -74,6 +74,7 @@ The marketplace is currently implemented in the `adex-node` repository.
 ### Campaign
 
 @TODO OUTPACE channel
+@TODO describe what is a campaign, what does it's data descriptor look like, and how does it map to the OCEAN/OUTPACE channel
 
 ### Core
 
