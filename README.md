@@ -60,10 +60,10 @@ One advertising campaign is mapped to a single OUTPACE channel, where the deposi
 
 In the context of AdEx, this could mean two things:
 
-1) OCEAN validators, responsible for tracking ad impressions/clicks and submitting the proof on-chain; the validator set (can also be called a committee) is defined by the OCEAN channel (Commitment)
+1) OCEAN/OUTPACE validators, responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel
 2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
 
-Throughout the protocol docs, "validators", "AdEx validators" and "OCEAN validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
+Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
 #### Observers
 
@@ -83,52 +83,48 @@ It also allows privacy if needed by allowing campaigns to be exchanged only with
 
 The marketplace is currently implemented in the `adex-node` repository.
 
-### Campaign
-
-@TODO OUTPACE channel
-@TODO describe what is a campaign, what does it's data descriptor look like, and how does it map to the OCEAN/OUTPACE channel
-
 ### Core
-
-@TODO update
 
 The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
 
-The Core has to implement the `Commitment`, and everything related to moving funds between advertisers and publishers.
+The Core has to implement everything related to moving funds between advertisers and publishers. To be more precise, it provides an implementation of OUTPACE channels (unidirectional payment channel), and every advertiser's campaign maps to one OUTPACE channel with a certain deposit.
+
+The channel is created with the following information:
+
+* `deposit`: total monetary deposit; on Ethereum, this is denoted in `tokenAddr` and `tokenAmount`
+* `campaignSpec`: describes what the advertiser wants to achieve from the campaign: e.g. buy as many impressions as possible, with a maximum price they're willing to pay for impressions, and how long they want to achieve it for (campaign length)
+* `validUntil`: the date until this channel is valid; this is also the period within the publishers can withdraw, so it should be longer than the actual specified campaign length (e.g. 3x longer)
 
 The Ethereum implementation of this component is called `adex-protocol-eth`.
 
-#### Commitment
+@TODO better word for `campaignSpec` ?
+@TODO describe on chain methods
 
-@TODO: update; merge stuff from components/
+### Smart Platform
 
-A delivery commitment is an on-chain committment between an advertiser and a publisher that a certain `Bid` would be executed (delivered). Once a delivery commitment starts, the reward for the bid is locked (escrowed) so that the advertiser can't spend it during the time. If the delivery commitment resolves successfully (determined by the OCEAN validators), the reward will be transferred to the publisher. Otherwise, it will be returned back to the advertiser.
-
-Furthermore, OCEAN validators would be rewarded by the advertiser.
-
-The `Commitment` is an implementation of OCEAN channel that also contains information about the original `Bid`. The channel is used to track all the events related to this bid and determine the outcome.
-
-A commitment has a `validUntil` date, determined by the `bid` timeout and the time it was created (`now + bid.timeout`). Before this date, validators can submit their signed votes - if there is a supermajority, that vote will be acted upon (reward transferred to the publisher or back to the advertiser). Once we are past the `validUntil` date, we revert the commitment, returning the funds back to the advertiser.
-
+@TODO describe off chain interactions, OUTPACE channels, including campaign specs, cancelling campaigns, what the campaign duration means, what the channel timeout means
 
 ### SDK
+
+@TODO
 
 The primary implementation is `adex-sdk`, which is designed for the web.
 
 The SDK is responsible for displaying ads, sending events to the `adex-node` (OCEAN channel), and collecting and storing the user profile.
 
-@TODO
 
 #### The AdEx Lounge
+
+@TODO
 
 The AdEx Lounge (previously called Profile) is a user-facing part of the SDK that allows the user to see what data the SDK has collected about them and possibly modify it to their liking. Since this data is not uploaded anywhere, it's significant is limited to the ad selection process. So, an end user might want to modify this if they don't want to see ads of a certain type.
 
 
 ### Analytics
 
-Analytics are provided by the validators, programatically. The validators are usually the publisher, advertiser and an impartial validator on the network. The user data is anonymous anyway, but having this design where the data only propagates to the validators further improves privacy.
+Analytics are provided by the validators, programatically. The validators are usually the advertiser and a platform represending the publishers (SSP). The user data is anonymous anyway, but having this design where the data only propagates to the validators further improves privacy, even between publishers/advertisers themselves.
 
-The validators are currently not rewarded financially for aggregating the entire dataset and providing analytics reports, but since they're often the advertiser/publisher themselves, they have an obvious incentive to do so.
+The validators are currently not incentivized financially for aggregating the entire dataset and providing analytics reports, but since they're often the advertiser/publisher themselves, they have an obvious incentive to do so.
 
 Furthermore, this ensures that both parties get their analytics reports from aggregating the data directly from the users, which ensures reporting transparency.
 
@@ -137,7 +133,7 @@ Furthermore, this ensures that both parties get their analytics reports from agg
 
 ### Preventing fraud/Sybil attacks
 
-One of the main challenges of the AdEx protocol is preventing faking impressions/clicks.
+One of the main challenges of the AdEx protocol is preventing fake impressions/clicks.
 
 This is mitigated in a few ways:
 
@@ -148,13 +144,9 @@ This is mitigated in a few ways:
 
 ### Scalability
 
-@TODO; not a bottleneck anymore
+Because impressions and clicks are tracked and rewarded off-chain (see OCEAN/OUTPACE), the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
-Because impressions and clicks are tracked off-chain (see OCEAN), the real bottleneck in the AdEx protocol is the opening and settling of bids, since it is the only part that has to be done on-chain.
-
-This architecture allows AdEx to scale sufficiently even on chains with lower throughput, as long as actors are willing to trade off granularity in their ad spacetime trading.
-
-While it is technically possible to bid for a small number of impressions/clicks (e.g. 1 impression), it is not economically viable as the transaction fees to settle the bid would probably outweigh the reward.
+We are also experimenting with implementations on top of Cosmos (https://github.com/AdExNetwork/adex-protocol-cosmos) and Polkadot (https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited. 
 
 ### Targeting
 
@@ -162,12 +154,14 @@ While it is technically possible to bid for a small number of impressions/clicks
 
 ### Privacy of publishers/advertisers
 
+@TODO take this from components/smart-platform
+
 There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity, so one entity may use as many identities as they want to help preserve their privacy.
 
 
 ### Privacy of the end-user
 
-Privacy of end users is protected by having all of the information that the system learns about them stored only their own browser by our SDK. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the user's browser. 
+Privacy of end users is protected by having all of the information that the system learns about them stored only their own browser by our SDK's `localStorage`. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the user's browser, somewhat similar to header bidding. 
 
 A further advantage to this approach is that the user may easily control what kinds of ads they see, without this being revealed to third parties.
 
@@ -176,26 +170,25 @@ While it is possible to derive a rough approximation of what the user preference
 1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifyable data like name/email/IP
 2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to campaigns they validate)
 
-### Rewarding end-users
+### Rewarding end-users for attention
 
-@TODO
+Through OUTPACE channels, it's possible that users are rewarded for certain events, with mutual agreement between the validators.
 
-Rewarding end users for their attention is a concept that we've intentionally left out, mostly because it highly incentivizes fake traffic/Sybil attacks.
+However, this is currently left out (not implemented), mostly because it makes it might make it easier to perform Sybil attacks and earn from fake traffic.
 
-However, we are planning on providing easy ways for publishers to reward users with various crypto assets for actions that they consider appropriate and difficult to fake. For example, if you, as an end user, actually engage with the website, register, prove your real identity and buy one of their products, you'd get a bonus that the publisher has set aside from their bid reward.
+We do intend to implement this in the Smart Platform once we analyze the implications and risks. It must be noted that this feature can be implemented very easily with OUTPACE and the Smart Platform.
 
-One of the ways to achieve that is by having a payment channel directly between the end user and the publisher. The publisher, having access to all the events (including the custom events) in the OCEAN channels they're involved in, can determine how much they reward every given end user.
-
+Users would be able to see their earned rewards and withdraw them through the AdEx Lounge UI.
 
 ### Real-time bidding
 
-@TODO
+Real-time bidding (RTB) is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
 
-Real-time bidding is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
+While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as OCEAN, the privacy tradeoff is too big.
 
-While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as OCEAN and state channels, the privacy tradeoff is too big.
+However, header bidding is very rapidly replacing RTB in the adtech industry. Header bidding is when all the bids are pulled in the browser, evaluated and then the preferred bids are sent to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
 
-However, multiple bids may be delivered at the same time in the same ad slot, with the targeting decision happening in the user's browser (see ["Privacy of the end-user"](#privacy-of-the-end-user)), so the benefits of targeting are still there. This is somewhat similar to the ad tech concept of Header Bidding, which is a technique that shift bid processing/selection to the browser.
+In other words, in AdEx, advertisers can bid for an impression in real-time, but we do not implement classic real-time bidding.
 
 ### Header bidding
 
