@@ -118,9 +118,9 @@ The Ethereum implementation of this component is called [`adex-protocol-eth`](ht
 
 The on-chain interactions are:
 
-* `channelOpen(deposit, timeout, spec, validators)`: open an OUTPACE channel
-* `channelWithdraw(state, signatures, merkleProof)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
-* `channelWithdrawTimeout()`: allows the channel creator to withdraw the remaining deposit in a channel after a timeout; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
+* `channelOpen(channel)`: open an OUTPACE channel
+* `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
+* `channelExpiredWithdraw()`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
 
 ### Smart Platform
 
