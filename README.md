@@ -14,6 +14,15 @@ The AdEx protocol is designed to be completely invisible to end users, while imp
 
 ### Terminology
 
+
+#### Supply side
+
+Throughout these docs, "supply side", "publisher" or "publishers" all refer to entities who sell ad inventory.
+
+#### Demand side
+
+Throughout these docs "demand side", "advertiser", "advertisers" or "buyers" all refer to entities who buy ad inventory.
+
 #### Events
 
 Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the webpage, etc. Events are usually broadcasted as signed messages.
@@ -58,9 +67,9 @@ Because of these constraints, an OUTPACE channel does not need sequences or chal
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>2/3) of validators is considered valid.
 
-One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and an SSP. That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and a publisher-side smart platform. That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
 
-@TODO explain why the constraints work and etc., link to a full explanation; OUTPACE.md
+For a full explanation, see [OUTPACE.md](/OUTPACE.md).
 
 #### Validators
 
@@ -98,13 +107,10 @@ The Core has to implement everything related to moving funds between advertisers
 The channel is created with the following information:
 
 * `deposit`: total monetary deposit; on Ethereum, this is denoted in `tokenAddr` and `tokenAmount`
-* `campaignSpec`: describes what the advertiser wants to achieve from the campaign: e.g. buy as many impressions as possible, with a maximum price they're willing to pay for impressions, and how long they want to achieve it for (campaign length)
 * `validUntil`: the date until this channel is valid; this is also the period within the publishers can withdraw, so it should be longer than the actual specified campaign length (e.g. 3x longer)
+* `spec`: describes all the campaign criteria: e.g. buy as many impressions as possible, with a maximum price they're willing to pay for impressions, and how long they want to achieve it for (campaign duration); this is stored as arbitrary bytes (32); in the dApp, we encode the criteria directly in there, but it can be used to reference a JSON descriptor stored on IPFS
 
-The Ethereum implementation of this component is called `adex-protocol-eth`.
-
-@TODO better word for `campaignSpec`? criteria?
-@TODO describe on chain methods
+The Ethereum implementation of this component is called [`adex-protocol-eth`](https://github.com/AdExNetwork/adex-protocol-eth).
 
 The on-chain interactions are:
 
@@ -119,25 +125,37 @@ The on-chain interactions are:
 
 ### SDK
 
-@TODO
+The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/adex-adview), which is designed for the web.
 
-The primary implementation is `adex-sdk`, which is designed for the web.
+The SDK is responsible for:
 
-The SDK is responsible for displaying ads, sending events to the `adex-node` (OCEAN channel), and collecting and storing the user profile.
+1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser
+2. Pulling all possible demand (campaigns, bids) from the network (namely, the smart platform)
+3. Picking which ad to show depending on the user
+4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad
+5. Learning more about the user, and storing this in their browser
 
+Notice a common pattern here: all sensitive information never leaves the user's browser, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself.
+
+There's currently no native mobile implementations, but the adview can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
 
 #### The AdEx Lounge
 
-@TODO
+The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to see what data the SDK has collected about them and possibly modify it to their liking.
 
-The AdEx Lounge (previously called Profile) is a user-facing part of the SDK that allows the user to see what data the SDK has collected about them and possibly modify it to their liking. Since this data is not uploaded anywhere, it's significant is limited to the ad selection process. So, an end user might want to modify this if they don't want to see ads of a certain type.
+In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to present to the user what the SDK has learnt about them.
 
+The user may choose to delete some of that data. It should be noted that this data was never uploaded anywhere anyway, and it only affects targeting.
+
+With OUTPACE channels, it's possible for users to earn monetary rewards as well, so the Lounge may be used at some point to allow for users to withdraw their funds.
+
+There's no public implementation of the lounge yet.
 
 ### Analytics system
 
 @TODO should this be a part of "Components"?
 
-Analytics are provided by the validators, programatically. The validators are usually the advertiser and a platform represending the publishers (SSP). The user data is anonymous anyway, but having this design where the data only propagates to the validators further improves privacy, even between publishers/advertisers themselves.
+Analytics are provided by the validators, programatically. The validators are usually the advertiser and a publisher-side smart platform. The user data is anonymous anyway, but having this design where the data only propagates to the validators further improves privacy, even between publishers/advertisers themselves.
 
 The validators are currently not incentivized financially for aggregating the entire dataset and providing analytics reports, but since they're often the advertiser/publisher themselves, they have an obvious incentive to do so.
 
@@ -157,7 +175,7 @@ This is mitigated in a few ways:
 1) Traditional adtech methods, such as IP whitelists/blacklists
 2) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
 3) the SDK allows publishers to "vouch" for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their Bids that their goal is to only target users above a certain threshold
-4) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear localStorage or change their browser
+4) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser
 
 ### Scalability
 
