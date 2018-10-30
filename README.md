@@ -193,7 +193,7 @@ This is mitigated in a few ways:
 1) Traditional adtech methods, such as IP whitelists/blacklists
 2) The SDK has to send each event to each validator, and the smart platform(s) will keep an internal ledger of IPs events came from and impose a limit
 3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
-4) the SDK allows publishers to "vouch for" users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their Bids that their goal is to only target users above a certain threshold
+4) the SDK allows publishers to "vouch for" users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold
 5) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser
 
 It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting/analytics aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives for fraud are significantly reduced.
@@ -203,10 +203,6 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 Because impressions and clicks are tracked and rewarded off-chain (see OCEAN/OUTPACE), the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
 We are also experimenting with implementations on top of Cosmos (https://github.com/AdExNetwork/adex-protocol-cosmos) and Polkadot (https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited. 
-
-### Targeting
-
-@TODO
 
 ### Privacy of publishers/advertisers
 
@@ -226,6 +222,7 @@ While it is possible to derive a rough approximation of what the user preference
 1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifyable data like name/email/IP
 2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to campaigns they validate)
 
+
 ### Rewarding end-users for attention
 
 Through OUTPACE channels, it's possible that users are rewarded for certain events, with mutual agreement between the validators.
@@ -235,6 +232,7 @@ However, this is currently left out (not implemented), mostly because it makes i
 We do intend to implement this in the Smart Platform once we analyze the implications and risks. It must be noted that this feature can be implemented very easily with OUTPACE and the Smart Platform.
 
 Users would be able to see their earned rewards and withdraw them through the AdEx Lounge UI.
+
 
 ### Real-time bidding / Header Bidding
 
