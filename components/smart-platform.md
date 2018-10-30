@@ -30,9 +30,11 @@ The way this works is the following:
 
 ## Specification
 
+Each channel is `(creator, deposit, validUntil, validators, spec)`
+
 Each payment channel message is `(stateRoot, signatures)` and can be used to withdraw at anytime, as long as `signatures` are valid for a supermajority of the validators. Unlike other payment channels/state channels, `sequence` is not needed. Because of the strict unidirectional property of the payment channel, any message can be used to withdraw at any time safely.
 
-What the validators sign is `stateRoot`, which is a merkle root of `(latestEventHash, channelHash, balance1, balance2...)`
+What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(latestEventHash, balance1, balance2...)`
 
 The leader in advancing the state is the demand (advertiser) - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators (normally the supply) will validate and sign too.
 
