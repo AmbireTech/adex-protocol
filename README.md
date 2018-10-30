@@ -152,13 +152,22 @@ The SDK is responsible for:
 
 1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser
 2. Pulling all possible demand (campaigns, bids) from the network (namely, the smart platform)
-3. Picking which ad to show depending on the user
+3. Picking which ad to show depending on the user: this means running a quick blind auction, and picking an ad depending on a combination of price and targeting
 4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad
 5. Learning more about the user, and storing this in their browser
 
-Notice a common pattern here: all sensitive information never leaves the user's browser, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself.
+Notice a common pattern here: **all sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself.
 
 There's currently no native mobile implementations, but the adview can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
+
+#### Learning about the user
+
+The SDK builds a profile of the user and learns about them through the publishers. Each publisher who integrates the SDK has the ability to "tell" the SDK what they know. The incentive for this is built-in: the publisher wants better targeted ads, which should yield higher revenue.
+
+On each next impression, the SDK will aggregate all the data reported by all publishers, in a weighted way, and use that to match to an ad.
+
+In other words, it won't be possible for a single publisher to poison the data.
+
 
 ### The AdEx Lounge
 
@@ -187,7 +196,7 @@ This is mitigated in a few ways:
 4) the SDK allows publishers to "vouch for" users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their Bids that their goal is to only target users above a certain threshold
 5) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser
 
-It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting/analytics aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives and likelyhood of fraud are significantly reduced.
+It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting/analytics aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives for fraud are significantly reduced.
 
 ### Scalability
 
