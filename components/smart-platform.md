@@ -42,7 +42,9 @@ Furthermore:
 2. at each next state, `sum(balances)` must be >= to `sum(previous.balances)`
 3. at each next state, for every address x, `balances[x]` must be >= to `previous.balances[x]`
 4. at each next state `sum(balances)` must always be <= channel.totalDeposit
+5. at any time, only one balance entry per address must exist in the tree
 
+If a validator receives a state where one of the constraints (2-5) is broken, they will not sign the state.
 
 ## Privacy of publishers and advertisers
 
