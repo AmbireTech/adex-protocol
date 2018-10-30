@@ -2,6 +2,15 @@
 
 @TODO rewrite this entire thing; perhaps remove "smart platform" as a term altogether
 
+
+Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the state channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is a uni-directional payment channel, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
+
+Despite the interactions being only between two parties, the model is trustless - if the demand would not recognize events and accept the new state, the supply (publishers) can immediately stop serving impressions and exit by settling the channel.
+
+In this case, publishers may withdraw their earnings at any time, by submitting a state signed by a supermajority of the channel validators, and proving (via a merkle proof) that their balance is in the state.
+
+
+
 The `adex-smart-platform` is an alternative part of the AdEx protocol where all interactions for a certain campaign (large piece of demand) are recorded on a unidirectional payment channel between the demand side (advertiser) and a delegated (by the demand) `adex-smart-platform` node.
 
 Both sides track all events related to the campaign, but the delegated node also performs some duties similar to a DSP, SSP and an exchange - therefore called a "smart platform".

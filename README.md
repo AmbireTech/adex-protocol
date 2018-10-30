@@ -23,6 +23,10 @@ Throughout these docs, "supply side", "publisher" or "publishers" all refer to e
 
 Throughout these docs "demand side", "advertiser", "advertisers" or "buyers" all refer to entities who buy ad inventory.
 
+#### Users
+
+When we refer to "users", we mean end-users: not of AdEx itself, but of the publishers. In other words, the users who see the ads, but might not even be aware of AdEx's existance.
+
 #### Events
 
 Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the webpage, etc. Events are usually broadcasted as signed messages.
@@ -114,14 +118,31 @@ The Ethereum implementation of this component is called [`adex-protocol-eth`](ht
 
 The on-chain interactions are:
 
-* `channelOpen(deposit, timeout, campaignSpec)`: open an OUTPACE channel
+* `channelOpen(deposit, timeout, spec, validators)`: open an OUTPACE channel
 * `channelWithdraw(state, signatures, merkleProof)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
 * `channelWithdrawTimeout()`: allows the channel creator to withdraw the remaining deposit in a channel after a timeout; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
 
 ### Smart Platform
 
-@TODO describe what it is; clarify terms that refer to the software vs reference to the software ran to represent publishers
+The smart platform is a server designed to handle most of the off-chain parts of the AdEx protocol:
+
+1. Collect events coming from the users
+2. Build analytics/reports on them
+3. Serve as a validator of the OUTPACE channels
+4. Participate in a bidding process for each impression
+
+@TODO describe "publisher-side smart platform"
 @TODO describe off chain interactions, OUTPACE channels, including campaign specs, cancelling campaigns, what the campaign duration means, what the channel timeout means
+@TODO full spec in components/ ; and describe why two vlaidators are sufficient
+
+#### Analytics
+
+The validators of an OUTPACE channel are usually two instances of the smart platform software: one represents the advertiser, and the other represents multiple publishers.
+
+This means they receive all the data related to this OUTPACE channel, therefore allowing them to aggregate it into useful reports.
+
+This architecture ensures that both parties get their analytics reports by aggregating the data directly from the users, which ensures reporting transparency.
+
 
 ### SDK
 
@@ -139,7 +160,7 @@ Notice a common pattern here: all sensitive information never leaves the user's 
 
 There's currently no native mobile implementations, but the adview can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
 
-#### The AdEx Lounge
+### The AdEx Lounge
 
 The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to see what data the SDK has collected about them and possibly modify it to their liking.
 
@@ -151,18 +172,6 @@ With OUTPACE channels, it's possible for users to earn monetary rewards as well,
 
 There's no public implementation of the lounge yet.
 
-### Analytics system
-
-@TODO should this be a part of "Components"?
-
-Analytics are provided by the validators, programatically. The validators are usually the advertiser and a publisher-side smart platform. The user data is anonymous anyway, but having this design where the data only propagates to the validators further improves privacy, even between publishers/advertisers themselves.
-
-The validators are currently not incentivized financially for aggregating the entire dataset and providing analytics reports, but since they're often the advertiser/publisher themselves, they have an obvious incentive to do so.
-
-Furthermore, this ensures that both parties get their analytics reports from aggregating the data directly from the users, which ensures reporting transparency.
-
-
-
 
 ## Appendix
 
@@ -173,9 +182,12 @@ One of the main challenges of the AdEx protocol is preventing fake impressions/c
 This is mitigated in a few ways:
 
 1) Traditional adtech methods, such as IP whitelists/blacklists
-2) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
-3) the SDK allows publishers to "vouch" for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their Bids that their goal is to only target users above a certain threshold
-4) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser
+2) The SDK has to send each event to each validator, and the smart platform(s) will keep an internal ledger of IPs events came from and impose a limit
+3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
+4) the SDK allows publishers to "vouch for" users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their Bids that their goal is to only target users above a certain threshold
+5) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser
+
+It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting/analytics aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives and likelyhood of fraud are significantly reduced.
 
 ### Scalability
 
@@ -215,7 +227,7 @@ We do intend to implement this in the Smart Platform once we analyze the implica
 
 Users would be able to see their earned rewards and withdraw them through the AdEx Lounge UI.
 
-### Real-time bidding
+### Real-time bidding / Header Bidding
 
 Real-time bidding (RTB) is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
 
@@ -224,19 +236,3 @@ While from a scalability perspective, real-time bidding can be implemented using
 However, header bidding is very rapidly replacing RTB in the adtech industry. Header bidding is when all the bids are pulled in the browser, evaluated and then the preferred bids are sent to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
 
 In other words, in AdEx, advertisers can bid for an impression in real-time, but we do not implement classic real-time bidding.
-
-### Header bidding
-
-@TOOD header bidding. is real time
-
-### Smart Platform, state channels
-
-@TODO
-
-Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the state channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is a uni-directional payment channel, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
-
-Despite the interactions being only between two parties, the model is trustless - if the demand would not recognize events and accept the new state, the supply (publishers) can immediately stop serving impressions and exit by settling the channel.
-
-In this case, publishers may withdraw their earnings at any time, by submitting a state signed by a supermajority of the channel validators, and proving (via a merkle proof) that their balance is in the state.
-
-See [smart-platform.md](/components/smart-platform.md) for details on how this is realized.
