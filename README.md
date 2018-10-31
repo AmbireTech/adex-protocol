@@ -55,7 +55,7 @@ In AdEx, we use two in-house scaling primitives: OCEAN and OUTPACE.
 
 **OCEAN** stands for **O**ff-**c**hain **e**vent **a**ggregatio**n**. 
 
-An OCEAN channel is defined on-chain with a valiator set, timeout and a definition of what we're looking to get achieved off-chain. Then, the validators observe off-chain events, and the leading validator (`validators[0]`) would propose new states, and the rest of the validators may check and sign those new states.
+An OCEAN channel is defined on-chain with a validator set, timeout and a definition of what we're looking to get achieved off-chain. Then, the validators observe off-chain events, and the leading validator (`validators[0]`) would propose new states, and the rest of the validators may check and sign those new states.
 
 If a state is signed by a supermajority (>=2/3) of validators, it can be used to enforce a result on-chain.
 
