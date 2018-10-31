@@ -73,7 +73,7 @@ The initially delegated validators sign every new state, and a state signed by a
 
 One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and a publisher-side smart platform. That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
 
-For a full explanation, see [OUTPACE.md](/OUTPACE.md).
+For a full explanation, see [OUTPACE](/OUTPACE.md).
 
 #### Validators
 
@@ -168,6 +168,12 @@ On each next impression, the SDK will aggregate all the data reported by all pub
 
 In other words, it won't be possible for a single publisher to poison the data.
 
+#### Security
+
+The keypair is saved in `localStorage`. However it never holds any funds, it merely serves to identify users anonymously
+
+In case `localStorage` is deleted, the user will receive a new keypair and the system will start learning about them again - which is actually intended behavior (e.g. using incognito mode in the browser).
+
 
 ### The AdEx Lounge
 
@@ -180,6 +186,8 @@ The user may choose to delete some of that data. It should be noted that this da
 With OUTPACE channels, it's possible for users to earn monetary rewards as well, so the Lounge may be used at some point to allow for users to withdraw their funds.
 
 There's no public implementation of the lounge yet.
+
+
 
 
 ## Appendix
