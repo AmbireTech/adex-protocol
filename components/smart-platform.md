@@ -1,9 +1,7 @@
 # Smart platform
 
-@TODO rewrite this entire thing; perhaps remove "smart platform" as a term altogether
 
-
-Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the state channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is a uni-directional payment channel, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
+Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the payment channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is a uni-directional payment channel, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
 
 Despite the interactions being only between two parties, the model is trustless - if the demand would not recognize events and accept the new state, the supply (publishers) can immediately stop serving impressions and exit by settling the channel.
 
@@ -32,7 +30,7 @@ The way this works is the following:
 
 Each channel is `(creator, deposit, validUntil, validators[], spec)`, where:
 
-Each payment channel message is `(stateRoot, signatures)` and can be used to withdraw at anytime, as long as `signatures` are valid for a supermajority of the validators. Unlike other payment channels/state channels, `sequence` is not needed. Because of the strict unidirectional property of the payment channel, any message can be used to withdraw at any time safely.
+Each payment channel message is `(stateRoot, signatures)` and can be used to withdraw at anytime, as long as `signatures` are valid for a supermajority of the validators. Unlike other payment channels, `sequence` is not needed. Because of the strict unidirectional property of the payment channel, any message can be used to withdraw at any time safely.
 
 What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(latestEventHash, balance1, balance2...)`
 
@@ -103,7 +101,7 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 
 @TODO: consider libp2p for communicating between payment channel participants
 @TODO Mention the off chain complexity cost, in reaching consensus especially when one party missed an event
-@TODO There should be a special msg in the state channel that should be send to the consensus leader: `need_missed_events` or something like that - where the follower(s) say that they won’t continue signing unless those events are included or at least some part of them; that would be determined by `missed_event_treshold`
+@TODO There should be a special msg in the payment channel that should be send to the consensus leader: `need_missed_events` or something like that - where the follower(s) say that they won’t continue signing unless those events are included or at least some part of them; that would be determined by `missed_event_threshold`
 
 @TODO sidenote, the smart contract itself will be suspiciously simple so it has to be well documented
 
@@ -115,7 +113,7 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 "are 2 validators enough" - if the validators have opposing interests, yes; in this case, the model is exactly as in any payment channel - party A will send micropayments to party B, and if party A stops paying, party B can stop delivering their service and withdraw theire earnings without much loss (Use (1))
 "what does leading validator imply?" - they only propose new states, but can't authorize spending without a total supermajority
 "are there other usecases besides AdEx" - "a dex", pun intended, lol
-"is this for ethereum?" technically it can be done on any programmable blockchain platform; it can even be done on BTC using the UTXO model, similarly to how lightning works
+"is this for ethereum?" technically it can be done on any programmable blockchain platform; it can even be done on BTC using the UTXO model, similarly to how lightning works; unfortunately we need RSMC
 
 @TODO describe canceling a campaign (exhausting a channel) with a consensus, cancellation fee that goes to the publisher smart platform
 
@@ -131,6 +129,8 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 
 @TODO: OUTPACE: Ocean-based Unidirectional Trustless PAyment ChannEl
 
+@TODO OUTPACE/OCEAN usecases: can they be used for interoperability? like LN
+
 @TODO describe the bidding system: between the smart platform and the publisher/user; maybe send bid{matchToCpmRatio, minCpm}; then we calculate match rating (floating point, 0 to 1, depending on targeting) and the bid price is `max(matchToCpmRatio*match, minCpm)`; as for the match ratio, that can actually be defined as; every ad gets a match rating `sum(targetingTags.filter(tag in userTags).map(x => x.weight))`, and then all match ratings will be scaled between 0 and 1, where 1 represents the highest match rating;   ALTHOUGH this model is not nice for privacy - you can probe if a user has a certain tag at a cost of outbidding everyone else
 
 @TODO describe `adex-smart-platform` events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; describe messages between validators too: ProposeNewState, SignNewState, RequestEventsBeIncluded; consider a Heartbeat message; also, each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHEr security measure is have the user sign the event for every validator separately
@@ -140,3 +140,5 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 @TODO describe internal ledgers in adex-smart-platform: there's one on which events were provably observed by other users; and one for how many fees are claimed (ClaimValidationFee, can be created by a validator to make them claim a fee)
 
 @TODO describe the bidding model; bidding is currenly not trustless, so describe the implications of this; we can make a mini state channel like thing where each next bid links a previous one by hash, but that's not censorship resistant; it's also very similar to a blind auction
+
+@TODO adex-smart-platform: might need a restriction on the max publishers, or on min spend per publisher; since otherwise it might not be worth it for a publisher to withdraw
