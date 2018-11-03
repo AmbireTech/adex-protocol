@@ -1,30 +1,21 @@
 # Smart platform
 
+In AdEx, a campaign (large piece of demand with certain parameters) initiated by an advertiser maps directly to one unidirectional payment channel that we call OUTPACE.
 
-Then, using that state channel, the campaign would be executed by various different publishers, all competing for the best price per goal they can offer. Despite the fact the payment channel is only between two parties (advertiser and the smart platform), the state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw as soon as someone checkpoints the channel on-chain. The channel is a uni-directional payment channel, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
+Then, using that payment channel, the demand will be satisfied by various different publishers, all competing for the best price per goal they can offer in real time.
 
-Despite the interactions being only between two parties, the model is trustless - if the demand would not recognize events and accept the new state, the supply (publishers) can immediately stop serving impressions and exit by settling the channel.
+The state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw by proving valid signatures of the state and that their balance is in the state tree. The channel is strictly unidirectional, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
 
-In this case, publishers may withdraw their earnings at any time, by submitting a state signed by a supermajority of the channel validators, and proving (via a merkle proof) that their balance is in the state.
+This design is partially inspired by [AdMarket](https://github.com/adchain/admarket). However, unlike AdMarket, the payment channel is based on our [OUTPACE design](/OUTPACE.md) - which means it can have any number of validators, and 2/3 supermajority of signed messages would advance the state.
+However, in the real world, this design can be used with 2 validators only (demand and supply) while still keeping the system trustless. The events (including impressions) are sent to both. If the event is, for some reason, received by one side only (e.g. network issues), the sides have to come to an agreement whether to record it or not. If the advertiser (demand) decides to underreport, or the publisher (supply) decides to overreport, the other side can always stop advancing the channel and withdraw their funds.
 
+To summarize, the entire flow is:
 
-
-The `adex-smart-platform` is an alternative part of the AdEx protocol where all interactions for a certain campaign (large piece of demand) are recorded on a unidirectional payment channel between the demand side (advertiser) and a delegated (by the demand) `adex-smart-platform` node.
-
-Both sides track all events related to the campaign, but the delegated node also performs some duties similar to a DSP, SSP and an exchange - therefore called a "smart platform".
-
-Whoever interacts on the smart platform does not need `adex-market` and `adex-ocean-validator` - this is essentially an alternative of that architecture.
-
-This design is similar to what [AdMarket](https://github.com/adchain/admarket) implemented. Unlike AdMarket, the payment channel is based on our [OCEAN design](/OCEAN.md) - which means it can have any number of validators, and 2/3 supermajority of signed messages would advance the state. However, in the real world, our design can be used with 2 participants only (demand and supply) while still keeping the system trustless. The events (including impressions) are sent to both. If the event is, for some reason, received by one side only (e.g. network issues), the sides have to come to an agreement whether to record it or not. If the advertiser (demand) decides to underreport, or the publisher (supply) decides to overreport, the other side can always stop advancing the channel and withdraw their funds.
-
-The way this works is the following:
-
-1. The advertiser (demand) starts a campaign with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening a payment channel with a certain smart platform node; at this point the advertiser delegates two nodes: one that represents them, and one that represents publishers (called the "smart platform")
-2. Publishers who've registered on this particular smart platform will query it every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like regular header bidding; the AdEx SDK will select one of those bids and relay that selection to both participants in the payment channel
-3. The user will generate some events (impressions, clicks, page closed, etc.) and send them to the participants in the payment channel
-4. The events will be registered in the payment channel, creating a message that can be checkpointed on-chain after each state transition
-5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once by providing a merkle proof of their earnings
-
+1. The advertiser (demand) starts a campaign with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening a payment channel; at this point the advertiser delegates two validators: one that represents them, and one that represents publishers
+2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like regular header bidding; the AdEx SDK will select one of those bids and relay that selection to the validators of the payment channel
+3. The user will generate some events (impressions, clicks, page closed, etc.) and send them to the validators of the payment channel
+4. The events will be registered in the payment channel, which will create new state; as long as the majority of validators sign, publishers will be able to use that signed state to withdraw their earnings
+5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once by providing signed states and merkle proofs of their earnings
 
 ## Specification
 
@@ -34,7 +25,11 @@ Each payment channel message is `(stateRoot, signatures)` and can be used to wit
 
 What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(latestEventHash, balance1, balance2...)`
 
-The leader in advancing the state is the demand (advertiser) - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators (normally the supply) will validate and sign too.
+The first validator is known as the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
+
+The leader does not have special privileges - they are just assigned to propose the new states. For a state to be valid, a supermajority of validators still needs to sign.
+
+The minimal trustless setup has two validators, where the leading one is protecting the interests of the demand (advertiser), and the second one is protecting the interests of the supply (publishers).
 
 Furthermore:
 
@@ -92,7 +87,7 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 
 @TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
 
-@TODO channel spec: the way to withdraw/deposit into the channel will be channelStart and withdrawFromChannels
+@TODO channel spec: the way to withdraw/deposit into the channel will be channelStart and channelWithdrawMany
 
 @TODO adex-smart-platform: one more interesting spec thing to think about: pre-paying for impressions: the leader would sign a state update that PAYS first, and the impression will be shown after
 
