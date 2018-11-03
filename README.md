@@ -84,13 +84,15 @@ In the context of AdEx, this could mean two things:
 
 Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
+Each validator must have a keypair and a publically accessible HTTPS endpoint for receiving events from the SDK.
+
 #### Observers
 
 The observers are delegated to collect events in relation to a certain campaign. All validators of a campaign (OUTPACE channel) are, by definition, observers of all events related to it.
 
 However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
-
+Each observer must have a publically accessible HTTPS endpoint for receiving events from the SDK.
 
 ## Components
 
