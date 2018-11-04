@@ -9,6 +9,8 @@ The state represented by the channel will contain a tree of the publisher's earn
 This design is partially inspired by [AdMarket](https://github.com/adchain/admarket). However, unlike AdMarket, the payment channel is based on our [OUTPACE design](/OUTPACE.md) - which means it can have any number of validators, and 2/3 supermajority of signed messages would advance the state.
 However, in the real world, this design can be used with 2 validators only (demand and supply) while still keeping the system trustless. The events (including impressions) are sent to both. If the event is, for some reason, received by one side only (e.g. network issues), the sides have to come to an agreement whether to record it or not. If the advertiser (demand) decides to underreport, or the publisher (supply) decides to overreport, the other side can always stop advancing the channel and withdraw their funds.
 
+### @TODO furthermore, admarket uses normal payment channels while OUTPACE is one-to-many
+
 To summarize, the entire flow is:
 
 1. The advertiser (demand) starts a campaign with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening a payment channel; at this point the advertiser delegates two validators: one that represents them, and one that represents publishers
@@ -16,6 +18,16 @@ To summarize, the entire flow is:
 3. The user will generate some events (impressions, clicks, page closed, etc.) and send them to the validators of the payment channel
 4. The events will be registered in the payment channel, which will create new state; as long as the majority of validators sign, publishers will be able to use that signed state to withdraw their earnings
 5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once by providing signed states and merkle proofs of their earnings
+
+## Trustless
+
+Even though the validators are delegated to advance the state, the AdEx SDK sends events independently to all validators and observers.
+
+Therefore, the system has these properties that guarantee it's trustlessness:
+
+1. If any of the sides detects that the state is inconsistent with the events they're receiving, they can stop cooperating (stop signing new states)
+2. @TODO not receiving new states
+3. Supply (publishers) can withdraw their earnings on-chain anytime by using the latest state
 
 ## Specification
 
@@ -41,6 +53,9 @@ Furthermore:
 
 If a validator receives a state where one of the constraints (2-5) is broken, they will not sign the state.
 
+
+## @TODO why validators are generalized, why can you need more than two
+
 ## Privacy of publishers and advertisers
 
 Only the advertiser and the smart platform nodes would know the full event history. Sensitive and valuable data is kept private to the parties that have accumulated it, 
@@ -54,12 +69,12 @@ Same goes for aggregated analytics and reporting - any part can be trustlessly r
 Individual events can be retrieved by proving you control an address, via a signed message, involved in a subset of events - this applies for end users, advertisers and publishers. This means that even users can get all events they've generated, trustlessly. However, a publisher cannot see the events that another publisher generated.
 
 
-## References
 
-@TODO merkle proofs, unidirectional payment channels
 
 
 ------------------------------
+
+@TODO merkle proofs, unidirectional payment channels
 
 @TODO balancesRoot allows to withdraw but not more than the overall channel deposit
 @TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
@@ -112,8 +127,8 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 
 @TODO describe canceling a campaign (exhausting a channel) with a consensus, cancellation fee that goes to the publisher smart platform
 
-@TODO btc version; this will be pretty easy to do on top of UTXO's and scripts; when opening a channel, two tx-es are created with the same inputs (advertiser funds), one being a spendable by multisig of validators, the other being a timelocked tx spendable by the advertiser (returns funds to advertiser); to advance the channel, the validators sign new TX-es which contain the msig TX output as an input, and many outputs (the balances tree); to invalidate old tx, we can use a similar scheme as the LN (RSMC); since this is so similar to the LN, can it be built on top, and can it be compatible?
-@TODO btc: actually, we can do a slightly less trustless model which does not require RSMC; the advertiser signs the tx and gives it to the publisher; the publisher does not sign it; once the channel is exhausted, then they sign it and it can be broadcast; this is suboptimal since publishers don't have a constant revenue guarantee
+@TODO BTC version; this will be pretty easy to do on top of UTXO's and scripts; when opening a channel, two tx-es are created with the same inputs (advertiser funds), one being a spendable by multisig of validators, the other being a timelocked tx spendable by the advertiser (returns funds to advertiser); to advance the channel, the validators sign new TX-es which contain the msig TX output as an input, and many outputs (the balances tree); to invalidate old tx, we can use a similar scheme as the LN (RSMC); since this is so similar to the LN, can it be built on top, and can it be compatible?
+@TODO BTC: actually, we can do a slightly less trustless model which does not require RSMC; the advertiser signs the tx and gives it to the publisher; the publisher validator does not sign it; once the channel is exhausted, then they sign it and it can be broadcast; this is suboptimal since publishers don't have a constant revenue guarantee that they can verify
 @TODO can the LN play in here? 
 
 @TODO describe the possibility to reward users with tokens (via the balances tree); However the economic incentives work against us as they incentivize users to forge; although if the users masquerade as publishers, it should be the same thing; Anyway, memory-bound PoW and ip limits should be considered; and/or using the ip in the sig
@@ -122,7 +137,8 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 
 @TODO describe importance of everything measured by impressions
 
-@TODO: OUTPACE: Ocean-based Unidirectional Trustless PAyment ChannEl
+@TODO when describing OUTPACE, lean on ameen's "a way for two or more entities to privately make updates to some state that only they control"; OCEAN spec should include state transition fn as well; OUTPACE extension should include the balance tree and restrictions; also, when describing OCEAN/OUTPACE emphasize privacy
+@TODO: OUTPACE: Ocean-based Unidirectional Trustless PAyment ChannEl; one-to-many (multiparty, in a way)
 
 @TODO OUTPACE/OCEAN usecases: can they be used for interoperability? like LN
 
