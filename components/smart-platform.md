@@ -31,28 +31,7 @@ Therefore, the system has these properties that guarantee it's trustlessness:
 
 ## Specification
 
-Each channel is `(creator, deposit, validUntil, validators[], spec)`, where:
-
-Each payment channel message is `(stateRoot, signatures)` and can be used to withdraw at anytime, as long as `signatures` are valid for a supermajority of the validators. Unlike other payment channels, `sequence` is not needed. Because of the strict unidirectional property of the payment channel, any message can be used to withdraw at any time safely.
-
-What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(latestEventHash, balance1, balance2...)`
-
-The first validator is known as the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
-
-The leader does not have special privileges - they are just assigned to propose the new states. For a state to be valid, a supermajority of validators still needs to sign.
-
-The minimal trustless setup has two validators, where the leading one is protecting the interests of the demand (advertiser), and the second one is protecting the interests of the supply (publishers).
-
-Furthermore:
-
-1. events might be bundled into one state advancement
-2. at each next state, `sum(balances)` must be >= to `sum(previous.balances)`
-3. at each next state, for every address x, `balances[x]` must be >= to `previous.balances[x]`
-4. at each next state `sum(balances)` must always be <= channel.totalDeposit
-5. at any time, only one balance entry per address must exist in the tree
-
-If a validator receives a state where one of the constraints (2-5) is broken, they will not sign the state.
-
+See [OUTPACE.md](/OUTPACE.md)
 
 ## @TODO why validators are generalized, why can you need more than two
 
@@ -128,7 +107,7 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 @TODO describe canceling a campaign (exhausting a channel) with a consensus, cancellation fee that goes to the publisher smart platform
 
 @TODO BTC version; this will be pretty easy to do on top of UTXO's and scripts; when opening a channel, two tx-es are created with the same inputs (advertiser funds), one being a spendable by multisig of validators, the other being a timelocked tx spendable by the advertiser (returns funds to advertiser); to advance the channel, the validators sign new TX-es which contain the msig TX output as an input, and many outputs (the balances tree); to invalidate old tx, we can use a similar scheme as the LN (RSMC); since this is so similar to the LN, can it be built on top, and can it be compatible?
-@TODO BTC: actually, we can do a slightly less trustless model which does not require RSMC; the advertiser signs the tx and gives it to the publisher; the publisher validator does not sign it; once the channel is exhausted, then they sign it and it can be broadcast; this is suboptimal since publishers don't have a constant revenue guarantee that they can verify
+@TODO BTC: actually, we can do a slightly less trustless model which does not require RSMC; the advertiser signs the tx and gives it to the publisher; the publisher validator does not sign it (or just doesn't reveal); once the channel is exhausted, then they sign it and it can be broadcast; this is suboptimal since publishers don't have a constant revenue guarantee that they can verify; alternatively, the publisher validator could sign and reveal the sig to the publishers, but if one of them leaks it, that will allow the advertiser to broadcast it early
 @TODO can the LN play in here? 
 
 @TODO describe the possibility to reward users with tokens (via the balances tree); However the economic incentives work against us as they incentivize users to forge; although if the users masquerade as publishers, it should be the same thing; Anyway, memory-bound PoW and ip limits should be considered; and/or using the ip in the sig
@@ -153,3 +132,5 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 @TODO describe the bidding model; bidding is currenly not trustless, so describe the implications of this; we can make a mini state channel like thing where each next bid links a previous one by hash, but that's not censorship resistant; it's also very similar to a blind auction
 
 @TODO adex-smart-platform: might need a restriction on the max publishers, or on min spend per publisher; since otherwise it might not be worth it for a publisher to withdraw
+
+@TODO adex-smart-platform parameters: e.g. `{ batching: { maxEvents, maxTime } }`
