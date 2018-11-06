@@ -134,3 +134,11 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 @TODO adex-smart-platform: might need a restriction on the max publishers, or on min spend per publisher; since otherwise it might not be worth it for a publisher to withdraw
 
 @TODO adex-smart-platform parameters: e.g. `{ batching: { maxEvents, maxTime } }`
+
+@TODO you can do an affiliate network, by rewarding the publisher if someone bought something on the site of the advertiser
+
+@TODO encrypt user's data in the SDK? with a key from the nodes?
+
+@TODO homomorphic encryption or some kind of obfuscation of the data in the SDK? how can this be done?
+
+

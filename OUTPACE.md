@@ -4,6 +4,16 @@
 
 OUTPACE is a system for unidirectional one-to-many payment channels based on the primitives laid out in [OCEAN.md](/OCEAN.md).
 
+OCEAN defines that we aggregate off-chain events with a certain aggregation function, and a certain set of validators is delegated to run this aggregation function and sign a new state. If 2/3 or more signatures are collected, the state is considered valid.
+
+OUTPACE builds on this to allow creating a simple one-to-many payment channel: each state represents a balance tree, where the sum of balances and individual balances can only increase (therefore unidirectional). This allows any party to withdraw at any time, as long as their balance is in the tree and `>0`. The withdrawn amounts are accounted for on-chain.
+
+## What makes it a good fit
+
+Each AdEx campaign maps to one OUTPACE channel, where the advertiser locks up a certain budget (the channel deposit) which is paid out to multiple parties (publishers, validators, possibly even users).
+
+In case the advertiser decides to close the campaign, this can happen with the explicit agreement of the validators: they'd add a new balance entry for the advertiser, with the unspent portion of the total deposit, and sign the new state. This would allow the advertiser to withdraw their balance.
+
 ## Specification
 
 Each channel is `(creator, deposit, validUntil, validators[], spec)`, where:
@@ -28,5 +38,8 @@ Furthermore:
 
 If a validator receives a state where one of the constraints (2-5) is broken, they will not sign the state.
 
+### On-chain
 
-
+* `channelOpen(channel)`: open an OUTPACE channel
+* `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
+* `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
