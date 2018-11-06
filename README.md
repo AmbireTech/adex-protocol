@@ -41,7 +41,7 @@ Ad campaigns are traditionally defined as "coordinated series of linked advertis
 
 Campaigns are created with a total budget (e.g. 5000 DAI) and a specification of the desired result: e.g. purchase as many impressions as possible for this ad, with a maximum allowed price per impression and targeting information.
 
-In the AdEx protocol, one campaign always maps to one payment channel called OUTPACE.
+In the AdEx protocol, one campaign always maps to one payment channel called **OUTPACE**.
 
 #### Layer 2
 
@@ -49,7 +49,7 @@ Layer 2 refers to blockchain scaling solutions which allow financial transaction
 
 Ideally, layer 2 solutions allow throughput levels seen in centralized system, while still being as trustless and censorship resistant as blockchains.
 
-In AdEx, we use two in-house scaling primitives: OCEAN and OUTPACE.
+In AdEx, we use two scaling primitives that we defined: **OCEAN** and **OUTPACE**.
 
 #### Off-chain event aggregation (OCEAN)
 
@@ -79,7 +79,7 @@ For a full explanation, see [OUTPACE](/OUTPACE.md).
 
 In the context of AdEx, this could mean two things:
 
-1) OCEAN/OUTPACE validators, responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel
+1) **OCEAN**/**OUTPACE** validators, responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel
 2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
 
 Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
@@ -210,7 +210,7 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 
 ### Scalability
 
-Because impressions and clicks are tracked and rewarded off-chain (see OCEAN/OUTPACE), the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
+Because impressions and clicks are tracked and rewarded off-chain (see **OCEAN**/**OUTPACE**), the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
 We are also experimenting with implementations on top of Cosmos (https://github.com/AdExNetwork/adex-protocol-cosmos) and Polkadot (https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited. 
 
@@ -239,7 +239,7 @@ Through OUTPACE channels, it's possible that users are rewarded for certain even
 
 However, this is currently left out (not implemented), mostly because it makes it might make it easier to perform Sybil attacks and earn from fake traffic.
 
-We do intend to implement this in the Smart Platform once we analyze the implications and risks. It must be noted that this feature can be implemented very easily with OUTPACE and the Smart Platform.
+We do intend to implement this in the Smart Platform once we analyze the implications and risks. It must be noted that this feature can be implemented very easily with **OUTPACE** and the Smart Platform.
 
 Users would be able to see their earned rewards and withdraw them through the AdEx Lounge UI.
 
@@ -248,7 +248,7 @@ Users would be able to see their earned rewards and withdraw them through the Ad
 
 Real-time bidding (RTB) is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
 
-While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as OCEAN, the privacy tradeoff is too big.
+While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as **OCEAN**, the privacy tradeoff is too big.
 
 However, header bidding is very rapidly replacing RTB in the adtech industry. Header bidding is when all the bids are pulled in the browser, evaluated and then the preferred bids are sent to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
 
