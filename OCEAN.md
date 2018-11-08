@@ -10,20 +10,16 @@ The main reason we want to do that, is that, by design, a decentralized consensu
 
 The most known ways for off-chain scaling are sidechains and state channels, but we felt like our case did not fit in any of those scaling solutions. What we came up with felt quite natural for us, so we decided to share it around and we discovered it might be useful for more projects.
 
-**O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is a very simple way to scale dApps: in a nutshell, it means certain events happen off-chain and then finally the overall result of those events gets committed to the chain, therefore providing the underlying security. Sounds a lot like a state channel, right?
-
-In fact, OCEAN is very different. A state channel is usually an interaction between two parties only, where those two parties finalize it themselves. OCEAN defines validators beforehand, who are supposed to observe interactions between any number of parties, and then vote the overall result on-chain.
+**O**ff-**c**hain **e**vent **a**ggregatio**n** (**OCEAN**) is a very simple way to scale dApps: in a nutshell, it means certain events happen off-chain, and they are observed and aggregated by a set of predefined validators, who sign the observed state. This signed state can later be used on-chain.
 
 An OCEAN flow goes like this:
 
-1. A commitment is written to the blockchain, definining the end goal for the OCEAN channel (e.g. 100 click events, signed by different whitelisted pub keys), the validators, the validator rewards and the channel timeout
+1. A commitment is written to the blockchain, definining the end goal for the OCEAN channel (e.g. 1000 impression events), the validators, the validator rewards and the channel timeout
 2. The off-chain events transpire and the validators record them
 3. Within the timeout, the validators sign their vote, and over 2/3 signatures for the same vote value are gathered and committed to the chain; the channel is considered finalized, and you can handle the result however you wish on-chain
 4. Beyond the timeout, the channel is considered expired and is reverted
 
 Within AdEx, anything between the beginning and the end of a delivery commitment is tracked off-chain (e.g. clicks, impressions), and committed on-chain by the validators (usually the publisher, advertiser and an arbiter) at the end. A 'success' vote means the publisher will get paid, and a 'failure' vote means the funds will be returned back to the advertiser.
-
-You can see a working implementation of OCEAN here: https://github.com/adexnetwork/adex-protocol-eth
 
 You can think of an OCEAN channel as a mini one block blockchain with predelegated validators. This is especially useful when:
 
@@ -56,13 +52,15 @@ In most cases, most of your OCEAN validators would be the most important partici
 
 ### State channels
 
-State channels are designed for interactions between two parties. You can use state channels for multi-party interactions, but that's usually a network of multiple two-party state channels.
+State channels are designed for interactions between two parties.
 
-OCEAN channels are designed to handle multi-party interactions in a much easier way, with much easier exits to the chain. For example, in a multi-party state channel network, each of the channels will have to exit before you could actually transfer a token reward out, while in OCEAN, you'd only require finalizing a single OCEAN channel.
+OCEAN is a very loosely defined primitive: as such, you can easily use it for multi-party interactions, as long as you have a way to define your validators in a reasonalby trustless manner.
 
-The trust model is different in that state channels rely on the participants to resolve the channel on-chain, while OCEAN relies on delegated validators. When you scale that to multiple parties, however, it starts to look similar: you can have all the participants in the interactions be the validators on OCEAN. Should some validators decide to group together and act malicious, if they're less than 2/3, they risk stalling the OCEAN channel and letting it timeout, therefore possibly getting slashed (depending on the implementation).
+OCEAN channels are designed to handle multi-party interactions in a much easier way, with much easier exits to the chain. For example, in a multi-party state channel network, each of the channels will have to exit/checkpoint before you could actually transfer a token reward out, while in OCEAN, you'd only require finalizing a single OCEAN channel.
 
-There's much more to be said on the trade offs of both approaches, so expect a follow up post on this later this year.
+However, state channels have a more natural security model which does not require picking validators. The validators (signers) of a state channel are same entities that participate in the off-chain interaction.
+
+Finally, it's worth noting that you can blur the line between state channels and OCEAN channels if the OCEAN channel has two validators, who track their own balances/actions. That, along with adding challenge periods and state nonces, turns an OCEAN channel into a state channel.
 
 ### Plasma
 
@@ -94,8 +92,9 @@ The OCEAN protocol is very loosely defined, allowing each particular design/impl
 
 The basic building blocks are:
 
+### Smart contract
+
 * `startCommitment(*any args*) -> commitment`: starts a commitment with specific goals, `validUntil` and `validators`; logic on how to determine those is up to the application
 * `finalizeCommitment(commitment, vote, signatures)`: finalizes a commitment with a `vote`; `signatures` is an array of signatures, each index corresponding to the given index of `validators`; a validator must sign `keccak256(commitmentId, vote)`; whether the validators will be rewarded and what will happen on specific votes is up to the application
 * `timeoutCommitment(commitment)`: called to clean-up after a timed out commitment and perform the revert; this is not needed on systems where you can define your own block start/end behavior, such as Cosmos/Polkadot
 
-For a deep dive into the protocol, we have a working implementation at https://github.com/AdExNetwork/adex-protocol-eth and a protocol description at https://github.com/AdExNetwork/adex-protocol
