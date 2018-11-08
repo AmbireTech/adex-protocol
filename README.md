@@ -4,9 +4,9 @@
 
 AdEx originated in 2017 as a decentralized ad exchange for digital advertising, and subsequently evolved into a full protocol for decentralized digital advertising.
 
-The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occured. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
+The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
-The rationale for creating the AdEx protocol was to create an open-source, transparent and fraud proof replacement to the entire existing adtech stack. By introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
+The rationale for creating the AdEx protocol was to create an open-source, transparent and fraud proof replacement to the entire existing ad tech stack. By introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
 
 The AdEx team also develops an open source dApp built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
 
@@ -25,11 +25,11 @@ Throughout these docs "demand side", "advertiser", "advertisers" or "buyers" all
 
 #### Users
 
-When we refer to "users", we mean end-users: not of AdEx itself, but of the publishers. In other words, the users who see the ads, but might not even be aware of AdEx's existance.
+When we refer to "users", we mean end-users: not of AdEx itself, but of the publishers. In other words, the users who see the ads, but might not even be aware of AdEx's existence.
 
 #### Events
 
-Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the webpage, etc. Events are usually broadcasted as signed messages.
+Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the web page, etc. Events are usually broadcasted as signed messages.
 
 #### Custom events
 
@@ -47,7 +47,7 @@ In the AdEx protocol, one campaign always maps to one payment channel called **O
 
 Layer 2 refers to blockchain scaling solutions which allow financial transactions or other state transitions to happen very fast, off the blockchain, while still being enforcable or eventually being committed to the underlying blockchain.
 
-Ideally, layer 2 solutions allow throughput levels seen in centralized system, while still being as trustless and censorship resistant as blockchains.
+Ideally, layer 2 solutions allow throughput levels seen in centralized system, while still being as trust-less and censorship resistant as blockchains.
 
 In AdEx, we use two scaling primitives that we defined: **OCEAN** and **OUTPACE**.
 
@@ -59,7 +59,7 @@ An OCEAN channel is defined on-chain with a validator set, timeout and a definit
 
 If a state is signed by a supermajority (>=2/3) of validators, it can be used to enforce a result on-chain.
 
-#### Ocean-based unidirectional trustless payment channel (OUTPACE)
+#### Ocean-based unidirectional trust-less payment channel (OUTPACE)
 
 **OUTPACE** stands for **O**cean-based **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
 
@@ -84,7 +84,7 @@ In the context of AdEx, this could mean two things:
 
 Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
-Each validator must have a keypair and a publically accessible HTTPS endpoint for receiving events from the SDK.
+Each validator must have a keypair and a publicly accessible HTTPS endpoint for receiving events from the SDK.
 
 #### Observers
 
@@ -92,7 +92,7 @@ The observers are delegated to collect events in relation to a certain campaign.
 
 However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
-Each observer must have a publically accessible HTTPS endpoint for receiving events from the SDK.
+Each observer must have a publicly accessible HTTPS endpoint for receiving events from the SDK.
 
 ## Components
 
@@ -100,13 +100,13 @@ Each observer must have a publically accessible HTTPS endpoint for receiving eve
 
 The primary role of the marketplace is to facilitate demand/supply discovery and trading. The marketplace keeps a database of all campaigns that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
 
-It also allows privacy if needed by allowing campaigns to be exchanged only within private grups of publishers/advertisers.
+It also allows privacy if needed by allowing campaigns to be exchanged only within private groups of publishers/advertisers.
 
 The marketplace is currently implemented in the `adex-node` repository.
 
 ### Core
 
-The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trustless, decentralized manner. This part is commonly referred as the "AdEx Core".
+The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trust-less, decentralized manner. This part is commonly referred as the "AdEx Core".
 
 The Core has to implement everything related to moving funds between advertisers and publishers. To be more precise, it provides an implementation of OUTPACE channels (unidirectional payment channel), and every advertiser's campaign maps to one OUTPACE channel with a certain deposit.
 
@@ -137,8 +137,8 @@ The smart platform is a server designed to handle most of the off-chain parts of
 4. Participate in a bidding process for each impression
 
 @TODO describe "publisher-side smart platform"
-@TODO describe off chain interactions, OUTPACE channels, including campaign specs, cancelling campaigns, what the campaign duration means, what the channel timeout means
-@TODO full spec in components/ ; and describe why two vlaidators are sufficient
+@TODO describe off chain interactions, OUTPACE channels, including campaign specs, canceling campaigns, what the campaign duration means, what the channel timeout means
+@TODO full spec in components/ ; and describe why two validators are sufficient
 
 #### Paying by impression (CPM) or by click (CPC)
 
@@ -192,7 +192,7 @@ In case `localStorage` is deleted, the user will receive a new keypair and the s
 
 The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to see what data the SDK has collected about them and possibly modify it to their liking.
 
-In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to present to the user what the SDK has learnt about them.
+In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to present to the user what the SDK has learned about them.
 
 The user may choose to delete some of that data. It should be noted that this data was never uploaded anywhere anyway, and it only affects targeting.
 
@@ -240,7 +240,7 @@ A further advantage to this approach is that the user may easily control what ki
 
 While it is possible to derive a rough approximation of what the user preferences are using historical data (events) on which ads were selected for a particular user, this approach still reveals very little, because:
 
-1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifyable data like name/email/IP
+1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifiable data like name/email/IP
 2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to campaigns they validate)
 
 
@@ -259,8 +259,13 @@ Users would be able to see their earned rewards and withdraw them through the Ad
 
 Real-time bidding (RTB) is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
 
-While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions, the privacy tradeoff is too big.
+While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions, the privacy trade-off is too big.
 
 However, header bidding is very rapidly replacing RTB in the adtech industry. Header bidding is when all the bids are pulled in the browser, evaluated and then the preferred bids are sent to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
 
 In other words, **in AdEx, advertisers can bid for an impression in real-time**, but we do not implement traditional real-time bidding.
+
+
+### AdEx Liquidity Network
+
+@TODO describe pools of ADX/DAI/ETH/etc. that may be used to convert funds on spot; think about Uniswap?
