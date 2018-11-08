@@ -55,7 +55,6 @@ Individual events can be retrieved by proving you control an address, via a sign
 
 @TODO merkle proofs, unidirectional payment channels
 
-@TODO balancesRoot allows to withdraw but not more than the overall channel deposit
 @TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
 @TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes; ~18 words need to be passed as args
 
@@ -70,18 +69,14 @@ Individual events can be retrieved by proving you control an address, via a sign
 @TODO channel full spec: validator logic same as OCEAN, except no rewards (rewards can be included in the balance tree); only channelStart (locks up a deposit), channelWithdraw, channelTimeout; timeouts are for extreme byzantine cases (validators offline)
 @TODO channel spec: describe channelWithdraw (array of `channelHash, (stateRoot, signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender]; also `assert(available > alreadyWithdrawn)`
 
-@TODO channel spec: explain why sequence is not needed
-@TODO channel spec: explain why challenge period is not needed
 @TODO channel spec: the worst byzantine case if the validators do not allow the advertiser to close their campaign (exhaust the channel by paying the remainder to themselves)
 @TODO channel spec: since we only check for supermajority now w/o rewarding, we can check `require(supermajority(validators, sigs))`; validator rewards can be added to the balances tree - the publisher-side (smart platform) would add themselves a reward and the advertiser might authorize it
 
 with an OCEAN-style validator structure:
-at each state transition, the leading validator (validators[0]) proposes a new state, and other validators sign it 
-adapting the current contracts is super easy; new states: Unknown, Active, Exhausted, TimedOut; functions: channelStart, channelWithdraw (does not change state/checkpoint, only changes withdrawn[channel] and withdrawnByAddr[channel][spender]), channelTimeout; the bid is removed, you pass channel at the beginning;
 
 @TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
 
-@TODO channel spec: the way to withdraw/deposit into the channel will be channelStart and channelWithdrawMany
+@TODO channel spec: the way to withdraw/deposit into the channel will be channelStart and channelWithdraw
 
 @TODO adex-smart-platform: one more interesting spec thing to think about: pre-paying for impressions: the leader would sign a state update that PAYS first, and the impression will be shown after
 

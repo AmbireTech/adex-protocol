@@ -16,6 +16,12 @@ Each AdEx campaign maps to one OUTPACE channel, where the advertiser locks up a 
 
 In case the advertiser decides to close the campaign, this can happen with the explicit agreement of the validators: they'd add a new balance entry for the advertiser, with the unspent portion of the total deposit, and sign the new state. This would allow the advertiser to withdraw their balance.
 
+## Unidirectional
+
+
+@TODO channel spec: explain why sequence is not needed
+@TODO channel spec: explain why challenge period is not needed
+
 ## Specification
 
 Each channel is `(creator, deposit, validUntil, validators[], spec)`, where:
@@ -24,7 +30,7 @@ Each payment channel message is `(stateRoot, signatures)` and can be used to wit
 
 What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(latestEventHash, balance1, balance2...)`
 
-The first validator is known as the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
+The first validator (`validators[0]`) is known as the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
 
 The leader does not have special privileges - they are just assigned to propose the new states. For a state to be valid, a supermajority of validators still needs to sign.
 
@@ -35,10 +41,11 @@ Furthermore:
 1. events might be bundled into one state advancement
 2. at each next state, `sum(balances)` must be >= to `sum(previous.balances)`
 3. at each next state, for every address x, `balances[x]` must be >= to `previous.balances[x]`
-4. at each next state `sum(balances)` must always be <= channel.totalDeposit
+4. at each next state `sum(balances)` must always be <= `channel.totalDeposit`
 5. at any time, only one balance entry per address must exist in the tree
 
 If a validator receives a state where one of the constraints (2-5) is broken, they will not sign the state.
+
 
 ### On-chain
 
@@ -58,4 +65,6 @@ First of all, we need to track the state of each channel. The possible states ar
 
 Secondly, we need to ensure that it's not possible for anyone to withdraw more than the total channel balance, even if the balances tree allows to. This is why we track the total withdrawn amount per channel.
 
-Finally, we track how much each account has withdrawn in total: if a new balance leaf appears in the tree giving them a higher balance, and they've already withdrawn some, they should only be able to withdraw the difference. 
+Finally, we track how much each account has withdrawn in total: if a new balance leaf appears in the tree giving them a higher balance, and they've already withdrawn some, they should only be able to withdraw the difference.
+
+
