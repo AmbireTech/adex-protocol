@@ -29,7 +29,7 @@ When we refer to "users", we mean end-users: not of AdEx itself, but of the publ
 
 #### Events
 
-Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the web page, etc. Events are usually broadcasted as signed messages.
+Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the web page, etc. Events are usually broadcast as signed messages.
 
 #### Custom events
 
@@ -45,7 +45,7 @@ In the AdEx protocol, one campaign always maps to one payment channel called **O
 
 #### Layer 2
 
-Layer 2 refers to blockchain scaling solutions which allow financial transactions or other state transitions to happen very fast, off the blockchain, while still being enforcable or eventually being committed to the underlying blockchain.
+Layer 2 refers to blockchain scaling solutions which allow financial transactions or other state transitions to happen very fast, off the blockchain, while still being enforceable or eventually being committed to the underlying blockchain.
 
 Ideally, layer 2 solutions allow throughput levels seen in centralized system, while still being as trust-less and censorship resistant as blockchains.
 
