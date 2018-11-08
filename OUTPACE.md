@@ -2,9 +2,11 @@
 
 ## Off-chain Unidirectional Trustless PAyment ChannEls
 
-OUTPACE is a system for unidirectional one-to-many payment channels based on the primitives laid out in [OCEAN.md](/OCEAN.md).
+OUTPACE is a system for unidirectional one-to-many payment channels built on OCEAN (Off-chain Event AggregatioN).
 
-OCEAN defines that we aggregate off-chain events with a certain aggregation function, and a certain set of validators is delegated to run this aggregation function and sign a new state. If 2/3 or more signatures are collected, the state is considered valid.
+@TODO introduce OCEAN as a concept and spec in a few short sentences
+
+OCEAN defines that we aggregate off-chain events with a certain aggregation function, and a certain committee of validators is delegated to run this aggregation function and sign a new state. If 2/3 or more signatures are collected, the state is considered valid.
 
 OUTPACE builds on this to allow creating a simple one-to-many payment channel: each state represents a balance tree, where the sum of balances and individual balances can only increase (therefore unidirectional). This allows any party to withdraw at any time, as long as their balance is in the tree and `>0`. The withdrawn amounts are accounted for on-chain.
 
@@ -43,3 +45,17 @@ If a validator receives a state where one of the constraints (2-5) is broken, th
 * `channelOpen(channel)`: open an OUTPACE channel
 * `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
 * `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
+
+The on-chain accounting that has to be done is:
+
+```
+states: channelId -> channelState
+withdrawnByChannel: channelId -> amount
+withdrawn: (channelId, account) -> amount
+```
+
+First of all, we need to track the state of each channel. The possible states are `{Unknown, Active, Expired}`.
+
+Secondly, we need to ensure that it's not possible for anyone to withdraw more than the total channel balance, even if the balances tree allows to. This is why we track the total withdrawn amount per channel.
+
+Finally, we track how much each account has withdrawn in total: if a new balance leaf appears in the tree giving them a higher balance, and they've already withdrawn some, they should only be able to withdraw the difference. 

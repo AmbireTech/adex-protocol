@@ -221,7 +221,7 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 
 ### Scalability
 
-Because impressions and clicks are tracked and rewarded off-chain (see **OCEAN**/**OUTPACE**), the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
+Because impressions and clicks are tracked and rewarded off-chain, the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
 We are also experimenting with implementations on top of Cosmos (https://github.com/AdExNetwork/adex-protocol-cosmos) and Polkadot (https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited. 
 
@@ -259,8 +259,8 @@ Users would be able to see their earned rewards and withdraw them through the Ad
 
 Real-time bidding (RTB) is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
 
-While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions such as **OCEAN**, the privacy tradeoff is too big.
+While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions, the privacy tradeoff is too big.
 
 However, header bidding is very rapidly replacing RTB in the adtech industry. Header bidding is when all the bids are pulled in the browser, evaluated and then the preferred bids are sent to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
 
-In other words, in AdEx, advertisers can bid for an impression in real-time, but we do not implement classic real-time bidding.
+In other words, **in AdEx, advertisers can bid for an impression in real-time**, but we do not implement traditional real-time bidding.
