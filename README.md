@@ -69,9 +69,9 @@ The state transition function enforces a few simple rules for each next state: (
 
 Because of these constraints, an OUTPACE channel does not need sequences or challenge periods.
 
-The initially delegated validators sign every new state, and a state signed by a supermajority (>2/3) of validators is considered valid.
+The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
 
-One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and a publisher-side smart platform. That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and a publisher-side [smart platform](/components/smart-platform.md). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
 
 For a full explanation, see [OUTPACE](/OUTPACE.md).
 
@@ -114,6 +114,7 @@ The channel is created with the following information:
 
 * `deposit`: total monetary deposit; on Ethereum, this is denoted in `tokenAddr` and `tokenAmount`
 * `validUntil`: the date until this channel is valid; this is also the period within the publishers can withdraw, so it should be longer than the actual specified campaign length (e.g. 3x longer)
+* `validators`: an array of all the validators who're responsible for signing new state; one of them should represent the advertiser, and the other the publishers
 * `spec`: describes all the campaign criteria: e.g. buy as many impressions as possible, with a maximum price they're willing to pay for impressions, and how long they want to achieve it for (campaign duration); this is stored as arbitrary bytes (32); in the dApp, we encode the criteria directly in there, but it can be used to reference a JSON descriptor stored on IPFS
 
 The Ethereum implementation of this component is called [`adex-protocol-eth`](https://github.com/AdExNetwork/adex-protocol-eth).
@@ -123,6 +124,8 @@ The on-chain interactions are:
 * `channelOpen(channel)`: open an OUTPACE channel
 * `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
 * `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
+
+For more information on how the payment channels work, see [OUTPACE](/OUTPACE.md).
 
 ### Smart Platform
 
@@ -136,6 +139,14 @@ The smart platform is a server designed to handle most of the off-chain parts of
 @TODO describe "publisher-side smart platform"
 @TODO describe off chain interactions, OUTPACE channels, including campaign specs, cancelling campaigns, what the campaign duration means, what the channel timeout means
 @TODO full spec in components/ ; and describe why two vlaidators are sufficient
+
+#### Paying by impression (CPM) or by click (CPC)
+
+It's possible to pay for advertising in any way by configuring the campaign goal - e.g. by impression, by click, or even my number of user registrations (CPA).
+
+However, the default option is always impressions and we believe that this creates the best incentives. Paying by click implies more risk and unpredictability, since the publishers will be pushing impressions out without prior knowledge of how much a certain ad will convert.
+
+Ultimately, the raw resource the publisher provides is impressions, and the conversion rate of the ad depends mostly on the advertiser.
 
 #### Analytics
 

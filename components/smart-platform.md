@@ -141,4 +141,4 @@ adapting the current contracts is super easy; new states: Unknown, Active, Exhau
 
 @TODO homomorphic encryption or some kind of obfuscation of the data in the SDK? how can this be done?
 
-
+@TODO validator fees can be paid via the OUTPACE channels themselves
