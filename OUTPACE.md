@@ -21,6 +21,7 @@ In case the advertiser decides to close the campaign, this can happen with the e
 
 @TODO channel spec: explain why sequence is not needed
 @TODO channel spec: explain why challenge period is not needed
+@TODO channel spec: describe channelWithdraw; describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender]; also `assert(available > alreadyWithdrawn)`
 
 ## Specification
 
@@ -50,7 +51,7 @@ If a validator receives a state where one of the constraints (2-5) is broken, th
 ### On-chain
 
 * `channelOpen(channel)`: open an OUTPACE channel
-* `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
+* `channelWithdraw(channel, state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
 * `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
 
 The on-chain accounting that has to be done is:

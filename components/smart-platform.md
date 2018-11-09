@@ -56,7 +56,6 @@ Individual events can be retrieved by proving you control an address, via a sign
 @TODO merkle proofs, unidirectional payment channels
 
 @TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
-@TODO how a publisher would withdraw their earnings; describe gas costs - each merkle proof is log 2 hashes; ~18 words need to be passed as args
 
 @TODO channel spec: the stateRoot contains lastEventHash; events should always be linked by containing a hash to the previous event, to ensure an immutable data structure; however, we should decide merkelize all events, in order to allow people ot check if events are genuine
 
@@ -66,13 +65,7 @@ Individual events can be retrieved by proving you control an address, via a sign
 
 @TODO header bidding spec; On each open of a publisher website, it would pull all bids from the operator and select a bid (campaign), and send events
 
-@TODO channel full spec: validator logic same as OCEAN, except no rewards (rewards can be included in the balance tree); only channelStart (locks up a deposit), channelWithdraw, channelTimeout; timeouts are for extreme byzantine cases (validators offline)
-@TODO channel spec: describe channelWithdraw (array of `channelHash, (stateRoot, signatures), merkleProof`); describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender]; also `assert(available > alreadyWithdrawn)`
-
 @TODO channel spec: the worst byzantine case if the validators do not allow the advertiser to close their campaign (exhaust the channel by paying the remainder to themselves)
-@TODO channel spec: since we only check for supermajority now w/o rewarding, we can check `require(supermajority(validators, sigs))`; validator rewards can be added to the balances tree - the publisher-side (smart platform) would add themselves a reward and the advertiser might authorize it
-
-with an OCEAN-style validator structure:
 
 @TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
 
@@ -108,7 +101,6 @@ with an OCEAN-style validator structure:
 @TODO describe importance of validators staying available
 
 @TODO when describing OUTPACE, lean on ameen's "a way for two or more entities to privately make updates to some state that only they control"; OCEAN spec should include state transition fn as well; OUTPACE extension should include the balance tree and restrictions; also, when describing OCEAN/OUTPACE emphasize privacy
-@TODO: OUTPACE: Ocean-based Unidirectional Trustless PAyment ChannEl; one-to-many (multiparty, in a way)
 
 @TODO OUTPACE/OCEAN usecases: can they be used for interoperability? like LN
 
@@ -132,4 +124,4 @@ with an OCEAN-style validator structure:
 
 @TODO homomorphic encryption or some kind of obfuscation of the data in the SDK? how can this be done?
 
-@TODO validator fees can be paid via the OUTPACE channels themselves
+@TODO validator fees can be paid via the OUTPACE channels themselves; the fees can even by dynamic/ongoing
