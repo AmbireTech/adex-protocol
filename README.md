@@ -12,6 +12,8 @@ The AdEx team also develops an open source dApp built on top of the Ethereum imp
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
+@TODO specify what familiarity this doc assumes - e.g. familiar with blockchain, familiar with advertising
+
 ### Terminology
 
 
@@ -132,13 +134,14 @@ For more information on how the payment channels work, see [OUTPACE](/OUTPACE.md
 The smart platform is a server designed to handle most of the off-chain parts of the AdEx protocol:
 
 1. Collect events coming from the users
-2. Build analytics/reports on them
-3. Serve as a validator of the OUTPACE channels
+2. Serve as a validator of the OUTPACE channels
+3. Build analytics/reports
 4. Participate in a bidding process for each impression
 
 @TODO describe "publisher-side smart platform"
 @TODO describe off chain interactions, OUTPACE channels, including campaign specs, canceling campaigns, what the campaign duration means, what the channel timeout means
-@TODO full spec in components/ ; and describe why two validators are sufficient
+
+@TODO perhaps this should be multiple small components
 
 #### Paying by impression (CPM) or by click (CPC)
 
@@ -269,3 +272,11 @@ In other words, **in AdEx, advertisers can bid for an impression in real-time**,
 ### AdEx Liquidity Network
 
 @TODO describe pools of ADX/DAI/ETH/etc. that may be used to convert funds on spot; think about Uniswap?
+
+### Oracle-based advertising
+
+@TODO oracle based advertising
+
+### Harberger Ads
+
+@TODO harberger ads
