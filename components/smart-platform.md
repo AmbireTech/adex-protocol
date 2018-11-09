@@ -76,8 +76,6 @@ with an OCEAN-style validator structure:
 
 @TODO channel spec: describe timeouts, and how they're really last resort; if you expect the channel to be exhausted in 1m, the timeout should be 3x that (3m)
 
-@TODO channel spec: the way to withdraw/deposit into the channel will be channelStart and channelWithdraw
-
 @TODO adex-smart-platform: one more interesting spec thing to think about: pre-paying for impressions: the leader would sign a state update that PAYS first, and the impression will be shown after
 
 @TODO describe at what point (how many unreported events) the smart platform (publisher/supply) would decide to untrust the channel; or at which point an individual publisher might stop trusting it (e.g. invalid balances tree); perhaps a % of the min impressions for a campaign
@@ -109,8 +107,6 @@ with an OCEAN-style validator structure:
 
 @TODO describe importance of validators staying available
 
-@TODO describe importance of everything measured by impressions
-
 @TODO when describing OUTPACE, lean on ameen's "a way for two or more entities to privately make updates to some state that only they control"; OCEAN spec should include state transition fn as well; OUTPACE extension should include the balance tree and restrictions; also, when describing OCEAN/OUTPACE emphasize privacy
 @TODO: OUTPACE: Ocean-based Unidirectional Trustless PAyment ChannEl; one-to-many (multiparty, in a way)
 
@@ -120,7 +116,7 @@ with an OCEAN-style validator structure:
 
 @TODO describe `adex-smart-platform` events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; describe messages between validators too: ProposeNewState, SignNewState, RequestEventsBeIncluded; consider a Heartbeat message; also, each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHEr security measure is have the user sign the event for every validator separately
 
-@TODO adex-smart-platform DB structure, including a table `channels_onchain` which is populated by the blockchain-specific adapter (which consists of a continuous process that populates the table, AND an interface to sign and provide merkle proofs)
+@TODO adex-smart-platform DB structure, including a table `channels_onchain` which is populated by the blockchain-specific adapter (which consists of a continuous process that populates the table, AND an interface to sign and provide merkle proofs); this is important for having an agnostic system
 
 @TODO describe internal ledgers in adex-smart-platform: there's one on which events were provably observed by other users; and one for how many fees are claimed (ClaimValidationFee, can be created by a validator to make them claim a fee)
 
@@ -130,7 +126,7 @@ with an OCEAN-style validator structure:
 
 @TODO adex-smart-platform parameters: e.g. `{ batching: { maxEvents, maxTime } }`
 
-@TODO you can do an affiliate network, by rewarding the publisher if someone bought something on the site of the advertiser
+@TODO you can do an affiliate network, by rewarding the publisher if someone bought something on the site of the advertiser; in other words, adex can be used as an affiliates platform
 
 @TODO encrypt user's data in the SDK? with a key from the nodes?
 
