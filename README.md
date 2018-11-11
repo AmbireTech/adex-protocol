@@ -78,7 +78,7 @@ If a state is signed by a supermajority (>=2/3) of validators, it can be used to
 
 **OUTPACE** stands for **O**cean-based **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
 
-This is a concept that builds on **OCEAN**, where each channel also has a deposit and a validUntil date, and each state represents a tree of balances.
+This is a concept that builds on **OCEAN**, where each channel also has a deposit and a `validUntil` date, and each state represents a tree of balances.
 
 The state transition function enforces a few simple rules for each next state: (1) the sum of all balances in the state can only increase, (2) each individual balance can only increase and (3) the total sum of the balances can never exceed the channel deposit.
 
@@ -158,16 +158,34 @@ While it is possible for a publisher-side platform to refuse to approve the stat
 
 In a minimal setup, we have two validators defending opposite interests (advertiser-side platform, publisher-side platform).
 
-@TODO why 2 validators are trustless in a normal channel
-@TODO there are many cases where you'd want more than two validators -> natural discepancies, publisher trusts the publisher-side platform, liveness
-@TODO why validators are generalized, why can you need more than two
+This setup, by itself, does not imply any additional trust: each new state has to be approved by both the paying side and the receiving side (essentially, a 2 out of 2 setup). Essentially, the sender signs a new state, which pays more to the receiver, but we require both to sign off, otherwise the sender would be able to arbitrarily manipulate the balances. To understand more, you can read [Understanding payment channels](https://blog.chainside.net/understanding-payment-channels-4ab018be79d4) or [state channels](https://www.jeffcoleman.ca/state-channels/).
+
+However, in OUTPACE, unlike in regular state/payment channels, we separate participants from signing parties (validators), and allow any arbitrary number of validators.
+
+We do that because:
+
+* Sometimes we need a third party to resolve conflicts created by natural discrepancies (e.g. an event was received by 1 out of 2 parties, and there's no tie breaker)
+* Maintaining liveness is critical; in a 2 out of 2 setup, 1 party going down means that the channel stalls
+* The publisher needs to trust the publisher-side platform, read on to [Trust implications](#trust-implications)
 
 ### Trust implications
 
-For a state to be valid, it requires 2/3 or more validator signatures. In a setup with the minimum number of validators, 2, this can only mean two signatures.
+For a state to be valid, it requires 2/3 or more validator signatures. In a setup with the minimum number of validators, 2, this can only mean 2 signatures.
 
-@TODO describe trust model; worst cases
-@TODO describe the worst attack: publisher-side platform is malicious, works together with advertiser-side platform; describe mitigations: more validators
+As you many have noticed, we imply that multiple publishers delegate a single "publisher-side platform". This means that a consortium of publishers assume that a given publisher-side platform will act in their interest.
+
+Generally, even without trusting the platform, the publishers will receive constant guarantees for their revenue.
+
+However, if the publisher-side platform and the advertiser-side platform both become malicious, they can sign a new state, allowing them to withdraw the channel balance together.
+
+This attack is only possible if >=2/3 (in this case, all 2 out of 2) validators become malicious, but it wouldn't be a problem in a regular payment channel setup where one of the signers is the actual participant.
+
+There are a number of mitigations that we believe are sufficient:
+
+1. The publisher-side platform should actually be operated by publishers
+2. There could more than 2 validators (this also solves natural discrepancies and liveness issues)
+3. Anyone can run publisher-side platforms, so we expect different publishers grouping together to create multiple platforms
+
 
 ### Liveness implications
 
