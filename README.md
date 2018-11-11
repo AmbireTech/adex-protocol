@@ -12,6 +12,8 @@ The AdEx team also develops an open source dApp built on top of the Ethereum imp
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
+@TODO quick rationalization of the benefits
+@TODO emphasize on browser agnostic, blockchain agnostic and token agnostic
 @TODO specify what familiarity this doc assumes - e.g. familiar with blockchain, familiar with advertising
 
 ### Terminology
@@ -65,7 +67,7 @@ If a state is signed by a supermajority (>=2/3) of validators, it can be used to
 
 **OUTPACE** stands for **O**cean-based **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
 
-This is a concept that builds on **OCEAN**, where each channel also has a deposit and each state represents a tree of balances.
+This is a concept that builds on **OCEAN**, where each channel also has a deposit and a validUntil date, and each state represents a tree of balances.
 
 The state transition function enforces a few simple rules for each next state: (1) the sum of all balances in the state can only increase, (2) each individual balance can only increase and (3) the total sum of the balances can never exceed the channel deposit.
 
@@ -73,7 +75,14 @@ Because of these constraints, an OUTPACE channel does not need sequences or chal
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
 
-One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and a publisher-side [smart platform](/components/smart-platform.md). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and a publisher-side [platforms](#validator-stack-platform). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
+
+The possible states of an OUTPACE channel are:
+
+* Unknown: the channel does not exist yet
+* Active: the channel exists, has a deposit, and it's within the valid period
+* Expired: the channel exists, but it's no longer valid
+* Exhausted: this is a meta-state that's not reflected on-chain; it means Active, but all funds in the channel are spent
 
 For a full explanation, see [OUTPACE](/OUTPACE.md).
 
@@ -98,14 +107,6 @@ Each observer must have a publicly accessible HTTPS endpoint for receiving event
 
 ## Components
 
-### Marketplace
-
-The primary role of the marketplace is to facilitate demand/supply discovery and trading. The marketplace keeps a database of all campaigns that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
-
-It also allows privacy if needed by allowing campaigns to be exchanged only within private groups of publishers/advertisers.
-
-The marketplace is currently implemented in the `adex-node` repository.
-
 ### Core
 
 The AdEx protocol builds on top of blockchain technology to facilitate the parts that need achieving consensus in a trust-less, decentralized manner. This part is commonly referred as the "AdEx Core".
@@ -129,19 +130,46 @@ The on-chain interactions are:
 
 For more information on how the payment channels work, see [OUTPACE](/OUTPACE.md).
 
-### Smart Platform
+### Market
 
-The smart platform is a server designed to handle most of the off-chain parts of the AdEx protocol:
+The primary role of the market is to facilitate demand/supply discovery and trading. The marketplace keeps record of all campaigns that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
 
-1. Collect events coming from the users
-2. Serve as a validator of the OUTPACE channels
-3. Build analytics/reports
-4. Participate in a bidding process for each impression
+The market needs to track all on-chain OUTPACE channels and needs to constantly monitor their liveness (>=2/3 validators online and producing new states) and state.
 
-@TODO describe "publisher-side smart platform"
+Additional privacy can be achieved by having groups of publishers/advertisers run their own instances of the market - that way, campaigns will be visible only within their private group.
+
+The market is currently implemented in the `adex-node` repository.
+
+
+### Validator stack ("platform")
+
+The validator stack is a collective term for all off-chain components responsible of handling events, managing OUTPACE channels and generating analytical reports.
+
+Full list of functionalities and the respective components:
+
+1. Collecting events from users; this includes filtering the events and ensuring their validity (`adex-sentry`)
+2. Serve as a validator of the OUTPACE channels (`adex-outpace-validator-worker`)
+3. Generating analytical reports (`adex-reports-worker`)
+4. Providing RESTful APIs for access to reports, events and OUTPACE channel data (`adex-sentry`)
+
+
+In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
+
+We refer to all the components of the validator stack as the "platform". To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform"
+
+
+#### Flow
+
+@TODO
 @TODO describe off chain interactions, OUTPACE channels, including campaign specs, canceling campaigns, what the campaign duration means, what the channel timeout means
 
-@TODO perhaps this should be multiple small components
+#### campaignSpec
+
+In the [Core](#core), each OUTPACE channel has it's own `spec`, which is an arbitrary blob of bytes designed to contain any additional information for this channel.
+
+In the AdEx Protocol, we use that field for a specification of the advertising campaign.
+
+@TODO
 
 #### Paying by impression (CPM) or by click (CPC)
 
@@ -151,11 +179,11 @@ However, the default option is always impressions and we believe that this creat
 
 Ultimately, the raw resource the publisher provides is impressions, and the conversion rate of the ad depends mostly on the advertiser.
 
-#### Analytics
+#### Analytical reports
 
-The validators of an OUTPACE channel are usually two instances of the smart platform software: one represents the advertiser, and the other represents multiple publishers.
+The validators of an OUTPACE channel are usually two instances of the platform: one represents the advertiser, and the other represents multiple publishers.
 
-This means they receive all the data related to this OUTPACE channel, therefore allowing them to aggregate it into useful reports.
+This means they receive all the data related to this OUTPACE channel, therefore allowing them to aggregate it into useful reports (via the `adex-reports-worker` component).
 
 This architecture ensures that both parties get their analytics reports by aggregating the data directly from the users, which ensures reporting transparency.
 
@@ -167,7 +195,7 @@ The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/ade
 The SDK is responsible for:
 
 1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser
-2. Pulling all possible demand (campaigns, bids) from the network (namely, the smart platform)
+2. Pulling all possible demand (campaigns, bids) from the market (the `adex-market`)
 3. Picking which ad to show depending on the user: this means running a quick blind auction, and picking an ad depending on a combination of price and targeting
 4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad
 5. Learning more about the user, and storing this in their browser
@@ -215,7 +243,7 @@ One of the main challenges of the AdEx protocol is preventing fake impressions/c
 This is mitigated in a few ways:
 
 1) Traditional adtech methods, such as IP whitelists/blacklists
-2) The SDK has to send each event to each validator, and the smart platform(s) will keep an internal ledger of IPs events came from and impose a limit
+2) The SDK has to send each event to each validator, and the platform(s) will keep an internal ledger of IPs events came from and impose a limit
 3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
 4) the SDK allows publishers to "vouch for" users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold
 5) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser
@@ -230,10 +258,15 @@ We are also experimenting with implementations on top of Cosmos (https://github.
 
 ### Privacy of publishers/advertisers
 
-@TODO take this from components/smart-platform
+There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity. Information that might reveal more (e.g. ad unit info, web addresses, creatives) is kept off-chain and and revealed to any parties only with explicit consent.
 
-There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity, so one entity may use as many identities as they want to help preserve their privacy.
+Furthermore, the full event history is distributed across validators/observers. Each validator will only collect the full event history for the channels they're validating.
 
+In other words, sensitive and valuable data is kept private to the parties that have accumulated it.
+
+Anyone in the network can query any validators for events, but only for the events that they're involved in. For example, if you're a publisher/advertiser/user, you can query all validators to get the events related to you.
+
+Please note that the entire balances tree will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
 
 ### Privacy of the end-user
 

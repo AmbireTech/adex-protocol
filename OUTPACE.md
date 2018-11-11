@@ -47,6 +47,12 @@ Furthermore:
 
 If a validator receives a state where one of the constraints (2-5) is broken, they will not sign the state.
 
+### States
+
+* `Unknown`: the channel does not exist yet
+* `Active`: the channel exists, has a deposit, and it's within the valid period
+* `Expired`: the channel exists, but it's no longer valid
+* `Exhausted`: this is a meta-state that's not reflected on-chain; it means Active, but all funds in the channel are spent
 
 ### On-chain
 
