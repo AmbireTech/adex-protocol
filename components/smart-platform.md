@@ -1,8 +1,10 @@
 # Smart platform
 
-In AdEx, a campaign (large piece of demand with certain parameters) initiated by an advertiser maps directly to one unidirectional payment channel that we call OUTPACE.
+@TODO take the intro and the entire flow to README.md
 
-Then, using that payment channel, the demand will be satisfied by various different publishers, all competing for the best price per goal they can offer in real time.
+In AdEx, a campaign (large piece of demand with certain parameters) initiated by an advertiser maps directly to one OUTPACE channel.
+
+Then, using that payment channel, the demand will be satisfied by various different publishers, all competing for the best price they can offer in real time.
 
 The state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw by proving valid signatures of the state and that their balance is in the state tree. The channel is strictly unidirectional, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
 
@@ -34,19 +36,6 @@ Therefore, the system has these properties that guarantee it's trustlessness:
 See [OUTPACE.md](/OUTPACE.md)
 
 ## @TODO why validators are generalized, why can you need more than two
-
-## Privacy of publishers and advertisers
-
-Only the advertiser and the smart platform nodes would know the full event history. Sensitive and valuable data is kept private to the parties that have accumulated it, 
-
-However, they may choose to reveal certain info to certain parties and trustlessly prove it's true via the merkle root of the state (`stateRoot`). For example, each publisher would constantly receive a proof that their earnings are contained in the state (balances) tree. This guarantees they may withdraw at any time.
-
-Please note that the entire balances tree will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
-
-Same goes for aggregated analytics and reporting - any part can be trustlessly revealed to any party.
-
-Individual events can be retrieved by proving you control an address, via a signed message, involved in a subset of events - this applies for end users, advertisers and publishers. This means that even users can get all events they've generated, trustlessly. However, a publisher cannot see the events that another publisher generated.
-
 
 
 
@@ -106,6 +95,8 @@ Individual events can be retrieved by proving you control an address, via a sign
 
 @TODO describe the bidding system: between the smart platform and the publisher/user; maybe send bid{matchToCpmRatio, minCpm}; then we calculate match rating (floating point, 0 to 1, depending on targeting) and the bid price is `max(matchToCpmRatio*match, minCpm)`; as for the match ratio, that can actually be defined as; every ad gets a match rating `sum(targetingTags.filter(tag in userTags).map(x => x.weight))`, and then all match ratings will be scaled between 0 and 1, where 1 represents the highest match rating;   ALTHOUGH this model is not nice for privacy - you can probe if a user has a certain tag at a cost of outbidding everyone else
 
+@TODO bidding system: should we use a second-price auction? also, there should be a minimum threshold of difference in order for a bid to be considered higher (e.g. at least 0.5% higher)
+
 @TODO describe `adex-smart-platform` events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; describe messages between validators too: ProposeNewState, SignNewState, RequestEventsBeIncluded; consider a Heartbeat message; also, each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHEr security measure is have the user sign the event for every validator separately
 
 @TODO adex-smart-platform DB structure, including a table `channels_onchain` which is populated by the blockchain-specific adapter (which consists of a continuous process that populates the table, AND an interface to sign and provide merkle proofs); this is important for having an agnostic system
@@ -125,3 +116,5 @@ Individual events can be retrieved by proving you control an address, via a sign
 @TODO homomorphic encryption or some kind of obfuscation of the data in the SDK? how can this be done?
 
 @TODO validator fees can be paid via the OUTPACE channels themselves; the fees can even by dynamic/ongoing
+
+@TODO describe the idea of users implicitly outbidding advertisers, if they want to pay for content rather than see ads; the flow of money is `{user OR advertiser} -> publisher`
