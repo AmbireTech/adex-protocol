@@ -212,7 +212,11 @@ In the [Core](#core), each OUTPACE channel has it's own `spec`, which is an arbi
 
 In the AdEx Protocol, we use that field for a specification of the advertising campaign.
 
-@TODO
+The `campaignSpec` value is a 32-byte IPFS hash of a JSON file, using the SHA2-256 digest function.
+
+If you're a dApp builder, it is recommended that you pin this file on your own IPFS nodes. However, this file will also be permenantly stored by the [Market](#market) when it's uploaded to it.
+
+For the JSON file specification, see [`campaignSpec.md`](/campaignSpec.md).
 
 #### Paying by impression (CPM) or by click (CPC)
 
