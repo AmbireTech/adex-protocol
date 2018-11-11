@@ -158,13 +158,16 @@ While it is possible for a publisher-side platform to refuse to approve the stat
 
 In a minimal setup, we have two validators defending opposite interests (advertiser-side platform, publisher-side platform).
 
+@TODO why 2 validators are trustless in a normal channel
+@TODO there are many cases where you'd want more than two validators -> natural discepancies, publisher trusts the publisher-side platform, liveness
 @TODO why validators are generalized, why can you need more than two
 
 ### Trust implications
 
 For a state to be valid, it requires 2/3 or more validator signatures. In a setup with the minimum number of validators, 2, this can only mean two signatures.
 
-@TODO describe trust model; worst cases 
+@TODO describe trust model; worst cases
+@TODO describe the worst attack: publisher-side platform is malicious, works together with advertiser-side platform; describe mitigations: more validators
 
 ### Liveness implications
 
