@@ -86,7 +86,7 @@ Because of these constraints, an OUTPACE channel does not need sequences or chal
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
 
-One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally the advertiser and a publisher-side [platforms](#validator-stack-platform). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side platform and a publisher-side [platforms](#validator-stack-platform). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
 
 The possible states of an OUTPACE channel are:
 
@@ -170,22 +170,22 @@ We do that because:
 
 ### Trust implications
 
-For a state to be valid, it requires 2/3 or more validator signatures. In a setup with the minimum number of validators, 2, this can only mean 2 signatures.
+For a state to be valid, it requires >=2/3 validator signatures. In a setup with the minimum number of validators, 2, this can only mean 2 signatures.
 
-As you many have noticed, we imply that multiple publishers delegate a single "publisher-side platform". This means that a consortium of publishers assume that a given publisher-side platform will act in their interest.
+As you many have noticed, we imply that multiple publishers delegate/operate a single publisher-side platform, implying it will act in their interest.
 
 Generally, even without trusting the platform, the publishers will receive constant guarantees for their revenue.
 
 However, if the publisher-side platform and the advertiser-side platform both become malicious, they can sign a new state, allowing them to withdraw the channel balance together.
 
-This attack is only possible if >=2/3 (in this case, all 2 out of 2) validators become malicious, but it wouldn't be a problem in a regular payment channel setup where one of the signers is the actual participant.
+This attack is only possible if >2/3 (in this case, all 2 out of 2) validators become malicious, and it wouldn't be a problem in a regular payment channel where the signers are the actual participants.
 
 There are a number of mitigations that we believe are sufficient:
 
-1. The publisher-side platform should actually be operated by publishers
+1. The publisher-side platform(s) should be operated by consortiums of the largest publishers
 2. There could more than 2 validators (this also solves natural discrepancies and liveness issues)
-3. Anyone can run publisher-side platforms, so we expect different publishers grouping together to create multiple platforms
-
+3. Generally, there's little incentive for an advertiser-side platform to help a publisher-side platform steal a portion of *their own* deposit
+4. Anyone can run publisher-side platforms, so we expect different publishers grouping together to create multiple platforms; in other words, large publishers can run their own publisher-side platforms
 
 ### Liveness implications
 
@@ -196,6 +196,9 @@ If this happens, the publishers can immediately stop delivering ads for the give
 Should the validator(s) come online again, everything can resume as normal.
 
 The possibility of validators going offline is mitigated by (1) the architecture of [the validator stack](#validator-stack-platform) - there's always a sentry node and (2) the ability of OUTPACE to work with any arbitrary number of validators.
+
+
+
 
 ## Components
 
@@ -246,6 +249,7 @@ Full list of functionalities and the respective components:
 
 
 In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
+
 
 #### campaignSpec
 
