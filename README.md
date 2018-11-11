@@ -275,6 +275,15 @@ On each next impression, the SDK will aggregate all the data reported by all pub
 
 In other words, it won't be possible for a single publisher to poison the data.
 
+#### Blacklisting ads
+
+Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do, this will be saved locally so this ad will never be shown to you, but also reported to all publisher-side platforms the SDK is aware of.
+
+While a publisher-side platform may choose to ignore such an event, it's mostly in the interest of publishers to keep track of the most blacklisted ads and possibly stop serving them altogether.
+
+An additional improvement on the SDK would be to allow users to gossip blacklists directly between each other, therefore eliminating the ability of publisher-side platforms to act together and ignore blacklist events. This feature is not trivial, as it requires a reliable sybil resistance mechanism.
+
+
 #### Security
 
 The keypair is saved in `localStorage`. However it never holds any funds, it merely serves to identify users anonymously
@@ -318,6 +327,20 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 Because impressions and clicks are tracked and rewarded off-chain, the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
 We are also experimenting with implementations on top of Cosmos (https://github.com/AdExNetwork/adex-protocol-cosmos) and Polkadot (https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited. 
+
+### Autonomous regulation
+
+Ultimately, AdEx is completely censorship resistant since anyone can run their own [Market](#market) and [Platform](#validator-stack-platform) and do whatever they want with them.
+
+However, there's plenty of situations where you need control, for example, as a publisher, you may want your website to be free of deceptive ads (malvertising).
+
+The AdEx components provide multiple ways for the system to self regulate:
+
+* Publishers can whitelist or blacklist advertisers or ad units
+* Advertisers can whitelist or blacklist publishers, topics (tags) or individual ad slots
+* Users can blacklist ad units, advertisers and even topics (tags)
+
+Further down the line, reputation systems could be developed to make it easier for participants to push low quality or deceptive ads out.
 
 ### Privacy of publishers/advertisers
 
