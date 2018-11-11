@@ -2,9 +2,6 @@
 
 @TODO take the intro and the entire flow to README.md
 
-In AdEx, a campaign (large piece of demand with certain parameters) initiated by an advertiser maps directly to one OUTPACE channel.
-
-Then, using that payment channel, the demand will be satisfied by various different publishers, all competing for the best price they can offer in real time.
 
 The state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw by proving valid signatures of the state and that their balance is in the state tree. The channel is strictly unidirectional, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
 
@@ -13,34 +10,31 @@ However, in the real world, this design can be used with 2 validators only (dema
 
 ### @TODO furthermore, admarket uses normal payment channels while OUTPACE is one-to-many
 
-To summarize, the entire flow is:
+The entire flow is:
 
-1. The advertiser (demand) starts a campaign with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening a payment channel; at this point the advertiser delegates two validators: one that represents them, and one that represents publishers
-2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like regular header bidding; the AdEx SDK will select one of those bids and relay that selection to the validators of the payment channel
-3. The user will generate some events (impressions, clicks, page closed, etc.) and send them to the validators of the payment channel
-4. The events will be registered in the payment channel, which will create new state; as long as the majority of validators sign, publishers will be able to use that signed state to withdraw their earnings
-5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once by providing signed states and merkle proofs of their earnings
+1. The advertiser (demand) starts a [campaign](#campaign) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform))
+2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like regular header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
+3. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
+4. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
+5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
+6. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing, publishers can immediately stop serving ads
 
-## Trustless
+The benefits of this approach are:
 
-Even though the validators are delegated to advance the state, the AdEx SDK sends events independently to all validators and observers.
+* The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`)
+* Publishers have a constant guarantee that they can withdraw their latest earnings on-chain
+* Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers
+* If new states are no longer created (someone is no longer offline or is malicious), publishers can immediately stop delivering ads for this campaign (channel)
+* Allows off-chain negotiations: advertisers can bid for impressions in real time
+* All data, other than payments, is kept off-chain
 
-Therefore, the system has these properties that guarantee it's trustlessness:
-
-1. If any of the sides detects that the state is inconsistent with the events they're receiving, they can stop cooperating (stop signing new states)
-2. @TODO not receiving new states
-3. Supply (publishers) can withdraw their earnings on-chain anytime by using the latest state
-
-## Specification
-
-See [OUTPACE.md](/OUTPACE.md)
-
-## @TODO why validators are generalized, why can you need more than two
 
 
 
 
 ------------------------------
+
+@TODO why validators are generalized, why can you need more than two
 
 @TODO merkle proofs, unidirectional payment channels
 

@@ -19,10 +19,10 @@ This document assumes basic familiarity with computer science, blockchain and ad
 * Transparent reporting for all sides
 * Minimized trust
 * Minimized fees
-* Users in control of their data
+* Users [in control](#the-adex-lounge) of [their data](#sdk)
 * Blockchain agnostic
 * Token/currency agnostic
-* Browser/technology agnostic
+* Browser/runtime agnostic
 
 
 ### Terminology
@@ -50,9 +50,11 @@ Custom events usually refer to events that are publisher-defined. For example, i
 
 #### Campaigns
 
-Ad campaigns are traditionally defined as "coordinated series of linked advertisements with a single idea or theme". In AdEx, they further represent a intent to spend a certain budget towards spreading those advertisements.
+Ad campaigns are traditionally defined as "coordinated series of linked advertisements with a single idea or theme". In AdEx, they further represent a intent to spend a certain budget towards spreading those advertisements: essentially, a big piece of demand.
 
 Campaigns are created with a total budget (e.g. 5000 DAI) and a specification of the desired result: e.g. purchase as many impressions as possible for this ad, with a maximum allowed price per impression and targeting information.
+
+The cryptocurrencies that can be used for a campaign depend on what [Core](#core) is used and what it supports: e.g. the Ethereum implementation supports all ERC20 tokens.
 
 In the AdEx protocol, one campaign always maps to one payment channel called **OUTPACE**.
 
@@ -122,6 +124,38 @@ To prevent confusion with the normal terms "supply-side platform" (SSP) and "dem
 
 
 
+## Flow
+
+The entire flow is:
+
+1. The advertiser (demand) starts a [campaign](#campaign) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform))
+2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like regular header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
+3. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
+4. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
+5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
+6. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing, publishers can immediately stop serving ads
+
+The benefits of this approach are:
+
+* The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`)
+* Publishers have a constant guarantee that they can withdraw their latest earnings on-chain
+* Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers
+* If new states are no longer created (someone is no longer offline or is malicious), publishers can immediately stop delivering ads for this campaign (channel)
+* Allows off-chain negotiations: advertisers can bid for impressions in real time
+* All data, other than payments, is kept off-chain
+
+@TODO: other cases: closing a campaign
+@TODO describe off chain interactions, OUTPACE channels, including campaign specs, canceling campaigns, what the campaign duration means, what the channel timeout means
+
+### Validator consensus
+
+In a minimal setup, we have two validators defending opposite interests (advertiser-side platform, publisher-side platform).
+
+@TODO describe trust model
+@TODO why validators are generalized, why can you need more than two
+
+
+
 ## Components
 
 ### Core
@@ -137,7 +171,7 @@ The channel is created with the following information:
 * `validators`: an array of all the validators who're responsible for signing new state; one of them should represent the advertiser, and the other the publishers
 * `spec`: describes all the campaign criteria: e.g. buy as many impressions as possible, with a maximum price they're willing to pay for impressions, and how long they want to achieve it for (campaign duration); this is stored as arbitrary bytes (32); in the dApp, we encode the criteria directly in there, but it can be used to reference a JSON descriptor stored on IPFS
 
-The Ethereum implementation of this component is called [`adex-protocol-eth`](https://github.com/AdExNetwork/adex-protocol-eth).
+The Ethereum implementation of this component is called [`adex-protocol-eth`](https://github.com/AdExNetwork/adex-protocol-eth). While the current running implementation of AdEx is the Ethereum one, we are also experimenting with [Cosmos](https://github.com/AdExNetwork/adex-protocol-cosmos) and [Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate).
 
 The on-chain interactions are:
 
@@ -171,13 +205,6 @@ Full list of functionalities and the respective components:
 
 
 In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
-
-
-
-#### Flow
-
-@TODO
-@TODO describe off chain interactions, OUTPACE channels, including campaign specs, canceling campaigns, what the campaign duration means, what the channel timeout means
 
 #### campaignSpec
 
