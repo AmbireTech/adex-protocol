@@ -1,44 +1,8 @@
-# Smart platform
 
-@TODO take the intro and the entire flow to README.md
-
-
-The state represented by the channel will contain a tree of the publisher's earnings, and they can withdraw by proving valid signatures of the state and that their balance is in the state tree. The channel is strictly unidirectional, as with each next message, the total earnings of the publishers would increase, depleting the total deposit by the advertiser.
-
-This design is partially inspired by [AdMarket](https://github.com/adchain/admarket). However, unlike AdMarket, the payment channel is based on our [OUTPACE design](/OUTPACE.md) - which means it can have any number of validators, and 2/3 supermajority of signed messages would advance the state.
-However, in the real world, this design can be used with 2 validators only (demand and supply) while still keeping the system trustless. The events (including impressions) are sent to both. If the event is, for some reason, received by one side only (e.g. network issues), the sides have to come to an agreement whether to record it or not. If the advertiser (demand) decides to underreport, or the publisher (supply) decides to overreport, the other side can always stop advancing the channel and withdraw their funds.
-
-### @TODO furthermore, admarket uses normal payment channels while OUTPACE is one-to-many
-
-The entire flow is:
-
-1. The advertiser (demand) starts a [campaign](#campaign) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform))
-2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like regular header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
-3. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
-4. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
-5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
-6. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing, publishers can immediately stop serving ads
-
-The benefits of this approach are:
-
-* The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`)
-* Publishers have a constant guarantee that they can withdraw their latest earnings on-chain
-* Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers
-* If new states are no longer created (someone is no longer offline or is malicious), publishers can immediately stop delivering ads for this campaign (channel)
-* Allows off-chain negotiations: advertisers can bid for impressions in real time
-* All data, other than payments, is kept off-chain
-
-
-
-
-
-------------------------------
-
-@TODO why validators are generalized, why can you need more than two
+@TODO furthermore, admarket uses normal payment channels while OUTPACE is one-to-many
 
 @TODO merkle proofs, unidirectional payment channels
 
-@TODO benefits: continuous guarantee that you can withdraw your earnings, UX, bid selection, etc.
 
 @TODO channel spec: the stateRoot contains lastEventHash; events should always be linked by containing a hash to the previous event, to ensure an immutable data structure; however, we should decide merkelize all events, in order to allow people ot check if events are genuine
 
@@ -81,7 +45,6 @@ The benefits of this approach are:
 
 @TODO describe the possibility to reward users with tokens (via the balances tree); However the economic incentives work against us as they incentivize users to forge; although if the users masquerade as publishers, it should be the same thing; Anyway, memory-bound PoW and ip limits should be considered; and/or using the ip in the sig
 
-@TODO describe importance of validators staying available
 
 @TODO when describing OUTPACE, lean on ameen's "a way for two or more entities to privately make updates to some state that only they control"; OCEAN spec should include state transition fn as well; OUTPACE extension should include the balance tree and restrictions; also, when describing OCEAN/OUTPACE emphasize privacy
 
