@@ -12,9 +12,18 @@ The AdEx team also develops an open source dApp built on top of the Ethereum imp
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
-@TODO quick rationalization of the benefits
-@TODO emphasize on browser agnostic, blockchain agnostic and token agnostic
-@TODO specify what familiarity this doc assumes - e.g. familiar with blockchain, familiar with advertising
+This document assumes basic familiarity with computer science, blockchain and adtech.
+
+### Benefits
+
+* Transparent reporting for all sides
+* Minimized trust
+* Minimized fees
+* Users in control of their data
+* Blockchain agnostic
+* Token/currency agnostic
+* Browser/technology agnostic
+
 
 ### Terminology
 
@@ -105,6 +114,14 @@ However, in practice, it's possible to have additional observers who are not val
 
 Each observer must have a publicly accessible HTTPS endpoint for receiving events from the SDK.
 
+#### Platform
+
+Platform refers to the entire [validator stack](#validator-stack-platform), which is a set of software components that all validators/observers need to run.
+
+To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform".
+
+
+
 ## Components
 
 ### Core
@@ -155,7 +172,6 @@ Full list of functionalities and the respective components:
 
 In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
 
-We refer to all the components of the validator stack as the "platform". To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform"
 
 
 #### Flow
