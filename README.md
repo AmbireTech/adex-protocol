@@ -144,17 +144,33 @@ The benefits of this approach are:
 * Allows off-chain negotiations: advertisers can bid for impressions in real time
 * All data, other than payments, is kept off-chain
 
-@TODO: other cases: closing a campaign
-@TODO describe off chain interactions, OUTPACE channels, including campaign specs, canceling campaigns, what the campaign duration means, what the channel timeout means
+@TODO what the campaign duration means, what the channel timeout means
+
+### Closing a campaign
+
+@TODO describe closing a campaign
 
 ### Validator consensus
 
 In a minimal setup, we have two validators defending opposite interests (advertiser-side platform, publisher-side platform).
 
-@TODO describe trust model
 @TODO why validators are generalized, why can you need more than two
 
+### Trust implications
 
+For a state to be valid, it requires 2/3 or more validator signatures. In a setup with the minimum number of validators, 2, this can only mean two signatures.
+
+@TODO describe trust model; worst cases 
+
+### Liveness implications
+
+It's absolutely essential that validators stay online, all of the time. If more than 1/3rd go offline, no new states can be produced (threshold for a valid state is >=2/3 signatures), meaning that the micropayments from the advertiser to the publishers are essentially stopped.
+
+If this happens, the publishers can immediately stop delivering ads for the given campaign mapped to the stalled channel, therefore not losing anything. The [market component](#market) is responsible for monitoring the state of all channels, and keeping track of which ones are active and non-exhausted.
+
+Should the validator(s) come online again, everything can resume as normal.
+
+The possibility of validators going offline is mitigated by (1) the architecture of [the validator stack](#validator-stack-platform) - there's always a sentry node and (2) the ability of OUTPACE to work with any arbitrary number of validators.
 
 ## Components
 
