@@ -144,11 +144,15 @@ The benefits of this approach are:
 * Allows off-chain negotiations: advertisers can bid for impressions in real time
 * All data, other than payments, is kept off-chain
 
-@TODO what the campaign duration means, what the channel timeout means
+Each campaign has a duration, normally in the range of 2-12 weeks. An OUTPACE channel should have 2-3 times as long of a duration, in order to allow extra time for publishers to withdraw their revenue.
 
 ### Closing a campaign
 
-@TODO describe closing a campaign
+If an advertiser wants to close a campaign, they sign a new state, which distributes the remaining deposit: most of it goes to the advertiser's wallet, and a small part goes to the publisher platform as a cancellation fee.
+
+The publisher-side platform recognizes this as an intention to close the campaign, and signs the state as well, therefore allowing the advertiser to withdraw their unspent funds. With this, the channel is considered exhausted, and it no longer represents any demand.
+
+While it is possible for a publisher-side platform to refuse to approve the state, they gain nothing from doing so: (1) the advertiser has decided to cancel the campaign, meaning they won't sign any new states with new payments to publishers anyway (2) after a channel is no longer valid, they still get their unspent deposit back and (3) the publisher-side platform gets compensated with a cancellation fee.
 
 ### Validator consensus
 
