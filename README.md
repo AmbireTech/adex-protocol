@@ -420,6 +420,7 @@ In other words, **in AdEx, advertisers can bid for an impression in real-time**,
 ### AdEx Liquidity Network
 
 @TODO describe pools of ADX/DAI/ETH/etc. that may be used to convert funds on spot; think about Uniswap?
+@TODO With counterparties, there can be BTC to DAI atomic swaps too; if that could support a Lightning payment too, it will be awesome
 
 ### Oracle-based advertising
 
@@ -428,3 +429,14 @@ In other words, **in AdEx, advertisers can bid for an impression in real-time**,
 ### Harberger Ads
 
 @TODO harberger ads
+
+
+
+### Role of AdEx Network OÜ
+
+AdEx Network OÜ is a legal entity with two primary responsibilities:
+
+1) Fund and govern the development of the AdEx Protocol, with an emphasis of keeping it completely open-source, transparent and free of corporate agenda
+2) Profit from providing any additional services related to the AdEx Protocol, such as consultancy related to integration of the protocol or running a SaaS for rentable AdEx validators
+
+Because of the open-source nature of the protocol, we do expect (and encourage) other entities interested in using it to join the development/design over time.
