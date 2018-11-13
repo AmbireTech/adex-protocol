@@ -140,7 +140,7 @@ The benefits of this approach are:
 * The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`)
 * Publishers have a constant guarantee that they can withdraw their latest earnings on-chain
 * Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers
-* If new states are no longer created (someone is no longer offline or is malicious), publishers can immediately stop delivering ads for this campaign (channel)
+* If new states are no longer created (someone is no longer online or is malicious), publishers can immediately stop delivering ads for this campaign (channel)
 * Allows off-chain negotiations: advertisers can bid for impressions in real time
 * All data, other than payments, is kept off-chain
 
