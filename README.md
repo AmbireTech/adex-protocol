@@ -419,12 +419,19 @@ In other words, **in AdEx, advertisers can bid for an impression in real-time**,
 
 ### AdEx Liquidity Network
 
+@TODO should this just be "easier on-boarding"
 @TODO describe pools of ADX/DAI/ETH/etc. that may be used to convert funds on spot; think about Uniswap?
 @TODO With counterparties, there can be BTC to DAI atomic swaps too; if that could support a Lightning payment too, it will be awesome
 
 ### Oracle-based advertising
 
-@TODO oracle based advertising
+With the advancement of trust-minimized blockchain oracles, it is possible for AdEx to be used in a much wider set of use cases, including, but not limited to:
+
+* Ads in the physical world - e.g. highway banners, magazines
+* Video product placement
+
+We believe that AdEx still offers benefits for those cases, mostly revolving around transparent auctions and payments.
+
 
 ### Harberger Ads
 
