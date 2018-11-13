@@ -417,7 +417,8 @@ However, header bidding is very rapidly replacing RTB in the adtech industry. He
 In other words, **in AdEx, advertisers can bid for an impression in real-time**, but we do not implement traditional real-time bidding.
 
 
-### AdEx Liquidity Network
+### Optimizing on-boarding
+
 
 @TODO should this just be "easier on-boarding"
 @TODO describe pools of ADX/DAI/ETH/etc. that may be used to convert funds on spot; think about Uniswap?
@@ -432,11 +433,18 @@ With the advancement of trust-minimized blockchain oracles, it is possible for A
 
 We believe that AdEx still offers benefits for those cases, mostly revolving around transparent auctions and payments.
 
+**To be explored further**
 
-### Harberger Ads
 
-@TODO harberger ads
+### Harberger tax ownership model
 
+There is a project that uses this model for ads right now, called [Harberger ads](https://devpost.com/software/harberger-ads).
+
+In AdEx, it is possible to use the Harberger tax ownership model. However, due to the dynamic nature of digital advertising, it's not practical for certain entities (advertisers) to fully own an ad space.
+
+The way we envision the model working is by using the OUTPACE channels to pay rent, but paying rent on display time rather than on physical time.
+
+**To be expored further.**
 
 
 ### Role of AdEx Network OÜ
