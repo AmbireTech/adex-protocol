@@ -419,10 +419,16 @@ In other words, **in AdEx, advertisers can bid for an impression in real-time**,
 
 ### Optimizing on-boarding
 
+There are many hurdles in on-boarding users to an app that interacts with a blockchain.
 
-@TODO should this just be "easier on-boarding"
-@TODO describe pools of ADX/DAI/ETH/etc. that may be used to convert funds on spot; think about Uniswap?
-@TODO With counterparties, there can be BTC to DAI atomic swaps too; if that could support a Lightning payment too, it will be awesome
+Some of the hurdles are pretty general: for example, how to convey the importance of a seed phrase and backing it up securely.
+
+Others are specific to Ethereum: for example, needing ETH to pay for gas.
+
+In order to mitigate those UX issues, we intend to use the [Universal Login SDK](https://github.com/UniversalLogin/UniversalLoginSDK). The user's identity will be represented by a multisig identity contract, which allows the user to interact with AdEx through multiple device-specific private keys, and furthermore allows relayers to take care of paying the gas.
+
+In order to facilitate opening campaigns using different assets, our dApp currently integrates with Airswap, but we plan on adding support for [Uniswap](https://uniswap.io/). We are further exploring possibilities of HTLC-based atomic swaps between Ethereum-based assets and BTC, possibly even Lightning-enabled.
+
 
 ### Oracle-based advertising
 
