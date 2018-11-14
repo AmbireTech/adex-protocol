@@ -129,7 +129,7 @@ To prevent confusion with the normal terms "supply-side platform" (SSP) and "dem
 The entire flow is:
 
 1. The advertiser (demand) starts a [campaign](#campaign) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform))
-2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like regular header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
+2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
 3. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
 4. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
 5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
@@ -419,6 +419,8 @@ In other words, **in AdEx, advertisers can bid for an impression in real-time**,
 
 ### Optimizing on-boarding
 
+**To be updated as we implement these. Up to date as of November 2018**
+
 There are many hurdles in on-boarding users to an app that interacts with a blockchain.
 
 Some of the hurdles are pretty general: for example, how to convey the importance of a seed phrase and backing it up securely.
@@ -428,6 +430,8 @@ Others are specific to Ethereum: for example, needing ETH to pay for gas.
 In order to mitigate those UX issues, we intend to use the [Universal Login SDK](https://github.com/UniversalLogin/UniversalLoginSDK). The user's identity will be represented by a multisig identity contract, which allows the user to interact with AdEx through multiple device-specific private keys, and furthermore allows relayers to take care of paying the gas.
 
 In order to facilitate opening campaigns using different assets, our dApp currently integrates with Airswap, but we plan on adding support for [Uniswap](https://uniswap.io/). We are further exploring possibilities of HTLC-based atomic swaps between Ethereum-based assets and BTC, possibly even Lightning-enabled.
+
+Furthermore, we intend to allow opening a campaign with USD/EUR, by integrating with a third-party service that allows purchasing DAI with USD/EUR.
 
 
 ### Oracle-based advertising
