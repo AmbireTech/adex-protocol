@@ -5,7 +5,6 @@
 @TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the money from an advertising campaign is flowing, even if everyone withdrawls
 
 @TODO blog post about benefits, use cases of the unidirectional payment channel model with multiple validators; perhaps it can even be used in a DEX if we can atomically interleave a value transfer between two unidirectional payment channels; can be done with something similar to HTLC
-@TODO questions that arise
 "But what if someone goes offline?"
 "but what if someone uses older state?"
 "what if the parties mutually agree to close the channel early?" - explain how, on mutual agreement, the paying party can withdraw their funds out; the timeout only exists for extreme byzantine cases
@@ -32,10 +31,7 @@
 
 @TODO adex-smart-platform parameters: e.g. `{ batching: { maxEvents, maxTime } }`
 
-@TODO you can do an affiliate network, by rewarding the publisher if someone bought something on the site of the advertiser; in other words, adex can be used as an affiliates platform
-
 @TODO encrypt user's data in the SDK? with a key from the nodes?
-
 @TODO homomorphic encryption or some kind of obfuscation of the data in the SDK? how can this be done? maybe nucypher?
 
 @TODO validator fees can be paid via the OUTPACE channels themselves; the fees can even by dynamic/ongoing
