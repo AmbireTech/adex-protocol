@@ -49,7 +49,7 @@ Furthermore:
 4. at each next state `sum(balances)` must always be <= `channel.totalDeposit`
 5. at any time, only one balance entry per address must exist in the tree
 
-If a validator receives a state where one of the constraints (2-5) is broken, they will not sign the state.
+If a validator receives a state where one of the constraints (2-5) is violated, they will not sign the state.
 
 ### States
 

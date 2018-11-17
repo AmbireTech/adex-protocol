@@ -15,7 +15,7 @@
 * negotiate validators
 * create a channel (ethereum, polkadot, whatever)
 * upload campaignSpec to the market, and potentially to validators (IPFS?)
-* each validator would go through these states for a channel: UNKNOWN, CONFIRMED (on-chain finality), LIVE (we pulled campaignSpec and received a `init` msg from other validators) (other states: EXHAUSTED, TIMEDOUT)
+* each validator would go through these states for a channel: UNKNOWN, CONFIRMED (on-chain finality), LIVE (we pulled campaignSpec and received a `init` msg from other validators) (other states: EXHAUSTED, EXPIRED, VIOLATED_CONSTRAINTS)
 * SDK asks all publisher-side platforms for ACTIVE channels, sorts by price, takes top N; applies targeting on those top N, and signs a message using the user's keypair on which campaign was chosen and at what price
 
 
@@ -48,6 +48,7 @@ POST /channel/validator-events
 @TODO validator `init` message;  all validators exchange the init, once each observes all others the channel is considered LIVE
 
 `user_events`
+@TODO There should be a special msg in the payment channel that should be send to the consensus leader: `need_missed_events`/`user_events`, where the publishers stop working with the channel/campaign unless those events are included or at least some part of them; that would be determined by `missed_event_threshold`
 
 Each has to be signed by the validator themselves
 
