@@ -1,5 +1,7 @@
 # OUTPACE
 
+@TODO explain merkle proofs?
+
 ## Off-chain Unidirectional Trustless PAyment ChannEls
 
 OUTPACE is a system for unidirectional one-to-many payment channels built on OCEAN (Off-chain Event AggregatioN).
@@ -20,7 +22,9 @@ In case the advertiser decides to close the campaign, this can happen with the e
 
 
 @TODO channel spec: explain why sequence is not needed
+
 @TODO channel spec: explain why challenge period is not needed
+
 @TODO channel spec: describe channelWithdraw; describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender]; also `assert(available > alreadyWithdrawn)`
 
 ## Specification
