@@ -289,11 +289,12 @@ This architecture ensures that both parties get their analytical reports by aggr
 
 #### Alternative implementations
 
-@TODO explain that you might build a validator stack to follow the same protocol, or implement a different need altogether
+The validator stack is, like anything else in the AdEx protocol, modular and replaceable.
 
-The validator stack could be implemented in other ways, to fill a different set of requirements.
+Alternative validator stack implementations can be created, and can be useful for optimizing for particular flows/workloads.
 
-It doesn't have to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), although you could chose to follow the same protocol by implementing the same RESTful APIs.
+In order to maintain compatibility with the existing AdEx infrastructure (the dApp and the SDK), you don't need to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), but you need to implement the same RESTful APIs.
+
 
 ### SDK
 
