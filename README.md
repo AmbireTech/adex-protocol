@@ -23,7 +23,7 @@ This document assumes basic familiarity with computer science, blockchain and ad
 * Blockchain agnostic
 * Token/currency agnostic
 * Browser/runtime agnostic
-
+* Wide variety of use cases, including but not limited to: display advertising, affiliate networks, and even content micropayments
 
 ### Terminology
 
@@ -47,6 +47,8 @@ Events, in the context of the SDK or the off-chain event aggregation, mean anyth
 #### Custom events
 
 Custom events usually refer to events that are publisher-defined. For example, if you're a publisher with an e-commerce website, you might choose to send an event for product purchases.
+
+A potential use case is using AdEx for affiliate networks, where publishers getevery purchase of a product.
 
 #### Campaigns
 
