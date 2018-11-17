@@ -243,9 +243,10 @@ The validator stack is a collective term for all off-chain components responsibl
 Full list of functionalities and the respective components:
 
 1. Collecting events from users; this includes filtering the events and ensuring their validity (`adex-sentry`)
-2. Serve as a validator of the OUTPACE channels (`adex-outpace-validator-worker`)
-3. Generating analytical reports (`adex-reports-worker`)
-4. Providing RESTful APIs for access to reports, events and OUTPACE channel data (`adex-sentry`)
+2. Track the on-chain state of OUTPACE channels (`adex-outpace-watcher`)
+3. Serve as a validator of the OUTPACE channels (`adex-outpace-validator-worker`)
+4. Generating analytical reports (`adex-reports-worker`)
+5. Providing RESTful APIs for access to reports, events and OUTPACE channel data (`adex-sentry`)
 
 
 In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
