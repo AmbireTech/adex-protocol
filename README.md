@@ -240,17 +240,17 @@ The market is currently implemented in the `adex-node` repository.
 
 The validator stack is a collective term for all off-chain components responsible of handling events, managing OUTPACE channels and generating analytical reports.
 
-Full list of functionalities and the respective components:
+Full list of functionalities:
 
-1. Collecting events from users; this includes filtering the events and ensuring their validity (`adex-sentry`)
-2. Track the on-chain state of OUTPACE channels (`adex-outpace-watcher`)
-3. Serve as a validator of the OUTPACE channels (`adex-outpace-validator-worker`)
-4. Generating analytical reports (`adex-reports-worker`)
-5. Providing RESTful APIs for access to reports, events and OUTPACE channel data (`adex-sentry`)
-
+1. Collecting events from users; this includes filtering the events and ensuring their validity
+2. Track the on-chain state of OUTPACE channels
+3. Serve as a validator of the OUTPACE channels
+4. Generating analytical reports
+5. Providing RESTful APIs for access to reports, events and OUTPACE channel data
 
 In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
 
+For a detailed specification of each component, see [validator-stack.md](/components/validator-stack.md).
 
 #### campaignSpec
 
@@ -280,6 +280,14 @@ This means they receive all the data related to this OUTPACE channel, therefore 
 
 This architecture ensures that both parties get their analytical reports by aggregating the data directly from the users, which ensures reporting transparency.
 
+
+#### Alternative implementations
+
+@TODO explain that you might build a validator stack to follow the same protocol, or implement a different need altogether
+
+The validator stack could be implemented in other ways, to fill a different set of requirements.
+
+It doesn't have to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), although you could chose to follow the same protocol by implementing the same RESTful APIs.
 
 ### SDK
 
@@ -428,11 +436,13 @@ Some of the hurdles are pretty general: for example, how to convey the importanc
 
 Others are specific to Ethereum: for example, needing ETH to pay for gas.
 
-In order to mitigate those UX issues, we intend to use the [Universal Login SDK](https://github.com/UniversalLogin/UniversalLoginSDK). The user's identity will be represented by a multisig identity contract, which allows the user to interact with AdEx through multiple device-specific private keys, and furthermore allows relayers to take care of paying the gas.
+In order to mitigate those UX issues, we intend to use the [Universal Login SDK](https://github.com/UniversalLogin/UniversalLoginSDK). The user's identity will be represented by a multisig identity contract, which allows the user to interact with AdEx through multiple device-specific private keys, and furthermore allows relayers to take care of paying the gas (called ["meta tx" or "executable signed messages"](https://ethereum-magicians.org/t/erc-1077-and-erc-1078-the-magic-of-executable-signed-messages-to-login-and-do-actions/351)).
+
+Another benefit of 
 
 In order to facilitate opening campaigns using different assets, our dApp currently integrates with Airswap, but we plan on adding support for [Uniswap](https://uniswap.io/). We are further exploring possibilities of HTLC-based atomic swaps between Ethereum-based assets and BTC, possibly even Lightning-enabled.
 
-Furthermore, we intend to allow opening a campaign with USD/EUR, by integrating with a third-party service that allows purchasing DAI with USD/EUR.
+Furthermore, we intend to allow opening a campaign with USD/EUR, by integrating the dApp with a third-party service that allows purchasing DAI with USD/EUR.
 
 
 ### Oracle-based advertising
