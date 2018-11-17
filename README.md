@@ -201,7 +201,7 @@ If this happens, the publishers can immediately stop delivering ads for the give
 
 Should the validator(s) come online again, everything can resume as normal.
 
-The possibility of validators going offline is mitigated by (1) the architecture of [the validator stack](#validator-stack-platform) - there's always a sentry node and (2) the ability of OUTPACE to work with any arbitrary number of validators.
+The possibility of validators going offline is mitigated by (1) the architecture of [the validator stack](#validator-stack-platform) and (2) the ability of OUTPACE to work with any arbitrary number of validators.
 
 
 
@@ -255,6 +255,8 @@ Full list of functionalities:
 5. Providing RESTful APIs for access to reports, events and OUTPACE channel data
 
 In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
+
+The validators communicate with the outside world and between each other through a RESTful API, exposed by a component called a Sentry.
 
 For a detailed specification of each component, see [validator-stack.md](/components/validator-stack.md).
 
