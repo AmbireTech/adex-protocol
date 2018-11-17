@@ -133,14 +133,14 @@ The entire flow is:
 3. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
 4. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
 5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
-6. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing, publishers can immediately stop serving ads
+6. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health))
 
 The benefits of this approach are:
 
 * The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`)
 * Publishers have a constant guarantee that they can withdraw their latest earnings on-chain
 * Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers
-* If new states are no longer created (someone is no longer online or is malicious), publishers can immediately stop delivering ads for this campaign (channel)
+* If new states are no longer created (someone is no longer online or malicious), publishers can immediately stop delivering ads for this campaign (channel)
 * Allows off-chain negotiations: advertisers can bid for impressions in real time
 * All data, other than payments, is kept off-chain
 
@@ -153,6 +153,12 @@ If an advertiser wants to close a campaign, they sign a new state, which distrib
 The publisher-side platform recognizes this as an intention to close the campaign, and signs the state as well, therefore allowing the advertiser to withdraw their unspent funds. With this, the channel is considered exhausted, and it no longer represents any demand.
 
 While it is possible for a publisher-side platform to refuse to approve the state, they gain nothing from doing so: (1) the advertiser has decided to cancel the campaign, meaning they won't sign any new states with new payments to publishers anyway (2) after a channel is no longer valid, they still get their unspent deposit back and (3) the publisher-side platform gets compensated with a cancellation fee.
+
+### Campaign health
+
+The campaign health is a publisher-specific concept which represents whether the advertiser is properly paying out after impression events.
+
+Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the payment catches up.
 
 ### Validator consensus
 
