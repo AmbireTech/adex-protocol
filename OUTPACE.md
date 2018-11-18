@@ -4,11 +4,9 @@
 
 ## Off-chain Unidirectional Trustless PAyment ChannEls
 
-OUTPACE is a system for unidirectional one-to-many payment channels built on OCEAN (Off-chain Event AggregatioN).
+OUTPACE is a system for unidirectional one-to-many payment channels built on [OCEAN (Off-chain Event AggregatioN)](https://medium.com/the-adex-blog/introducing-ocean-alternative-layer-2-scalability-7d24bb22ebe4).
 
-@TODO introduce OCEAN as a concept and spec in a few short sentences
-
-OCEAN defines that we aggregate off-chain events with a certain aggregation function, and a certain committee of validators is delegated to run this aggregation function and sign a new state. If 2/3 or more signatures are collected, the state is considered valid.
+OCEAN defines that we aggregate off-chain events with a certain aggregation function, and a certain committee of validators is delegated to run this aggregation function and sign a new state. Unlike regular state channels, OCEAN defines that there can be any arbitrary number of validators and arbitrary rules for when new states are produced. If 2/3 or more validators sign a state, it is considered valid.
 
 OUTPACE builds on this to allow creating a simple one-to-many payment channel: each state represents a balance tree, where the sum of balances and individual balances can only increase (therefore unidirectional). This allows any party to withdraw at any time, as long as their balance is in the tree and `>0`. The withdrawn amounts are accounted for on-chain.
 
@@ -27,7 +25,11 @@ In case the advertiser decides to close the campaign, this can happen with the e
 
 @TODO channel spec: describe channelWithdraw; describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender]; also `assert(available > alreadyWithdrawn)`
 
+@TODO answer the question "but what if someone uses older state?"
+
 ## Specification
+
+@TODO should we cover OCEAN: events, validators, aggregation function, rules for when new states are produced
 
 Each channel is `(creator, deposit, validUntil, validators[], spec)`, where:
 
@@ -35,7 +37,7 @@ Each payment channel message is `(stateRoot, signatures)` and can be used to wit
 
 What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(latestEventHash, balance1, balance2...)`
 
-The first validator (`validators[0]`) is known as the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
+The first validator (`validators[0]`) is the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
 
 The leader does not have special privileges - they are just assigned to propose the new states. For a state to be valid, a supermajority of validators still needs to sign.
 
