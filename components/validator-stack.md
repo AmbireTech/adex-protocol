@@ -25,6 +25,7 @@
 
 ## Core client library
 
+@TODO name adex-lib.js ? adex-client.js ?
 
 ## Sentry
 

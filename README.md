@@ -163,6 +163,8 @@ The campaign health is a publisher-specific concept which represents whether the
 
 Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the payment catches up.
 
+The campaign health should not be confused with OUTPACE state sanity: even if a campaign is unhealthy, the publisher-side platform validator will continue signing new states as long as they're valid: because of the unidirectional flow, valid states can only mean more revenue for publishers.
+
 ### Validator fees
 
 Running the validator stack requires computational resource, and the way the validator consensus works implies that channel validators have to represent opposite sides (if they don't, the channel should not be used).
