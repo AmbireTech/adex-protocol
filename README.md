@@ -131,11 +131,12 @@ To prevent confusion with the normal terms "supply-side platform" (SSP) and "dem
 The entire flow is:
 
 1. The advertiser (demand) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform))
-2. Publishers will query the network for available demand every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
-3. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
-4. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
-5. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
-6. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health))
+2. Validator(s) have to accept that they're nominated for this channel (and prove that they're available) by broadcasting a signed message to the other validator(s)
+3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
+4. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
+5. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
+6. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
+7. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health))
 
 The benefits of this approach are:
 
@@ -161,6 +162,14 @@ While it is possible for a publisher-side platform to refuse to approve the stat
 The campaign health is a publisher-specific concept which represents whether the advertiser is properly paying out after impression events.
 
 Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the payment catches up.
+
+### Validator fees
+
+Running the validator stack requires computational resource, and the way the validator consensus works implies that channel validators have to represent opposite sides (if they don't, the channel should not be used).
+
+This means that in most cases, no matter if you're a publisher or an advertiser, you'd end up using a validator ran by someone else.
+
+Third-party validators may require fees to participate in your channel (campaign). With OUTPACE, there's a convenient way of doing that, by just including an entry in the balances tree. Furthermore, the fees can be ongoing (e.g. per 1k events, or per minute), taking advantage of the micropayments capability of OUTPACE.
 
 ### Validator consensus
 

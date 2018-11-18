@@ -4,12 +4,6 @@
 
 @TODO a nice privacy preserving property would be that the platform wouldn't reveal which wallet (in terms of revenue in the balances part of the state tree) belongs to which publisher; that way you can't see where the money from an advertising campaign is flowing, even if everyone withdrawls
 
-@TODO blog post about benefits, use cases of the unidirectional payment channel model with multiple validators; perhaps it can even be used in a DEX if we can atomically interleave a value transfer between two unidirectional payment channels; can be done with something similar to HTLC
-"But what if someone goes offline?"
-"but what if someone uses older state?"
-"what if the parties mutually agree to close the channel early?" - explain how, on mutual agreement, the paying party can withdraw their funds out; the timeout only exists for extreme byzantine cases
-"are 2 validators enough" - if the validators have opposing interests, yes; in this case, the model is exactly as in any payment channel - party A will send micropayments to party B, and if party A stops paying, party B can stop delivering their service and withdraw theire earnings without much loss (Use (1))
-"what does leading validator imply?" - they only propose new states, but can't authorize spending without a total supermajority
 "are there other usecases besides AdEx" - "a dex", pun intended, lol
 "is this for ethereum?" technically it can be done on any programmable blockchain platform; it can even be done on BTC using the UTXO model, similarly to how lightning works; unfortunately we need RSMC
 
@@ -31,7 +25,5 @@
 
 @TODO encrypt user's data in the SDK? with a key from the nodes?
 @TODO homomorphic encryption or some kind of obfuscation of the data in the SDK? how can this be done? maybe nucypher?
-
-@TODO validator fees can be paid via the OUTPACE channels themselves; the fees can even by dynamic/ongoing
 
 @TODO describe the idea of users implicitly outbidding advertisers, if they want to pay for content rather than see ads; the flow of money is `{user OR advertiser} -> publisher` in that case; and `advertiser -> {publisher OR user}` in case the user is rewarded for attention
