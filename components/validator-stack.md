@@ -49,16 +49,22 @@ POST /channel/validator-events
 
 #### Validator messages
 
-`init`
-@TODO validator `init` message;  all validators exchange the init, once each observes all others the channel is considered LIVE
+Each validator message has to be signed by the validator themselves
 
-`user_events`
-@TODO There should be a special msg in the payment channel that should be send to the consensus leader: `need_missed_events`/`user_events`, where the publishers stop working with the channel/campaign unless those events are included or at least some part of them; that would be determined by `missed_event_threshold`
+OUTPACE generic:
 
-Each has to be signed by the validator themselves
+* Init: all validators must exchange the init, once each observes all others the channel is considered LIVE
+* ProposeState
+* ConfirmState
+* ReportObservedEvents adex-specific extra flags: IsCampaignUnhealthy (also document campaign's MissedEventsThreshold)
+* Heartbeat
+
+AdEx specific:
+
+* SetImpressionPrice: set the current price the advertiser is willing to pay per impression; also allows to set a per-publisher price
 
 
-@TODO describe validator stack events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; describe messages between validators too: ProposeNewState, SignNewState, RequestEventsBeIncluded; consider a Heartbeat message; also, each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHEr security measure is have the user sign the event for every validator separately
+@TODO describe validator stack events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHEr security measure is have the user sign the event for every validator separately
 
 
 ### OUTPACE validator worker
@@ -93,3 +99,12 @@ On every impression, the SDK (running on the publisher's website/app) will pull 
 Then, it will sort them by the price the advertisers are willing to pay (as reported by the publisher-side platforms), take only top N (where N is configurable by the publisher), and run the targeting process between these top N.
 
 By adjusting N, the publisher can decide the balance between UX (more appropriate ads shown to the users) and revenue.
+
+
+## DB structure
+
+* Channels
+* States
+* StateTrees
+* Events - ObservedByUs, ObservedByOthers
+* ValidatorEvents
