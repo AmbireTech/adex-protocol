@@ -434,6 +434,21 @@ We do intend to implement this capability in the validator stack once we analyze
 
 In technical terms, everything needed to do this is there - every user signs an event with a keypair (which can be used for receiving funds), OUTPACE channels allow easy micropayments, and users would be able to see their earnings and withdraw them through the AdEx Lounge UI.
 
+The fund flow would be: `advertiser -> {publisher AND user}`
+
+
+### End-users paying for content
+
+It is possible for users to pay for the publisher's content and therefore not see any ads.
+
+This could be done in what we believe is a very fair way: by having users deposit certain funds (open an OUTPACE channel), and implicitly outbid advertisers for each ad they'd otherwise see.
+
+That way, the ad space/attention is priced fairly by the market. This ensures that the users pay minimal amounts while still not damaging the publishers' revenue.
+
+The fund flow would be: `{user OR advertiser} -> publisher`
+
+**To be explored further**
+
 
 ### Real-time bidding / Header Bidding
 

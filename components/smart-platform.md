@@ -26,4 +26,3 @@
 @TODO encrypt user's data in the SDK? with a key from the nodes?
 @TODO homomorphic encryption or some kind of obfuscation of the data in the SDK? how can this be done? maybe nucypher?
 
-@TODO describe the idea of users implicitly outbidding advertisers, if they want to pay for content rather than see ads; the flow of money is `{user OR advertiser} -> publisher` in that case; and `advertiser -> {publisher OR user}` in case the user is rewarded for attention
