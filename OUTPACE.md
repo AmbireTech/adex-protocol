@@ -1,6 +1,6 @@
 # OUTPACE
 
-@TODO explain merkle proofs?
+Note: this spec assumes you're familiar with merkle [trees](https://en.wikipedia.org/wiki/Merkle_tree)/[proofs](https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5) and somewhat familiar with [state channels](https://www.learnchannels.org).
 
 ## Off-chain Unidirectional Trustless PAyment ChannEls
 
