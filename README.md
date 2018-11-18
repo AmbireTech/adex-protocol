@@ -426,13 +426,13 @@ While it is possible to derive a rough approximation of what the user preference
 
 ### Rewarding end-users for attention
 
-Through OUTPACE channels, it's possible that users are rewarded for certain events, with mutual agreement between the validators.
+Through OUTPACE channels, it's possible that users are rewarded for certain events.
 
-However, this is currently left out (not implemented), mostly because it makes it might make it easier to perform Sybil attacks and earn from fake traffic.
+However, this is currently not something we intend to implement, mostly because it makes it might make it easier to perform Sybil attacks and earn from fake traffic.
 
-We do intend to implement this in the Smart Platform once we analyze the implications and risks. It must be noted that this feature can be implemented very easily with **OUTPACE** and the Smart Platform.
+We do intend to implement this capability in the validator stack once we analyze the implications and risks. Once we've established a model we're confident with, we will make this configurable through the `campaignSpec`.
 
-Users would be able to see their earned rewards and withdraw them through the AdEx Lounge UI.
+In technical terms, everything needed to do this is there - every user signs an event with a keypair (which can be used for receiving funds), OUTPACE channels allow easy micropayments, and users would be able to see their earnings and withdraw them through the AdEx Lounge UI.
 
 
 ### Real-time bidding / Header Bidding
