@@ -57,6 +57,8 @@ Each has to be signed by the validator themselves
 
 @TODO this is where the signing key is handled; describe how this can work: randomly generated keypair, HSM ?
 
+@TODO configuration parameters `{ batching: { maxEvents, maxTime } }`
+
 ## Watcher
 
 @TODO elaborate on the blockchain-agnostic design
