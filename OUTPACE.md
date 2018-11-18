@@ -35,7 +35,9 @@ Each channel is `(creator, deposit, validUntil, validators[], spec)`, where:
 
 Each payment channel message is `(stateRoot, signatures)` and can be used to withdraw at anytime, as long as `signatures` are valid for a supermajority of the validators. Unlike other payment channels, `sequence` is not needed. Because of the strict unidirectional property of the payment channel, any message can be used to withdraw at any time safely.
 
-What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(latestEventHash, balance1, balance2...)`
+What the validators sign is `hash(channelHash, stateRoot)`, where `stateRoot` is a merkle root of `(eventHash, balance1, balance2...)`. As you can see, other than the balances, a `latestEventHash` is included. Other state representations can be added to the `stateRoot` if necessary.
+
+An important aspect of this is privacy: even though micropayments happen on a per-event basis, the event history itself is only accessible to the validators.
 
 The first validator (`validators[0]`) is the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
 
