@@ -402,15 +402,16 @@ Further down the line, reputation systems could be developed to make it easier f
 
 ### Privacy of publishers/advertisers
 
-There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity. Information that might reveal more (e.g. ad unit info, web addresses, creatives) is kept off-chain and and revealed to any parties only with explicit consent.
+There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity. Information that might reveal more (e.g. ad unit info, web addresses, creatives) is kept off-chain and and revealed between parties only with explicit consent.
 
 Furthermore, the full event history is distributed across validators/observers. Each validator will only collect the full event history for the channels they're validating.
 
-In other words, sensitive and valuable data is kept private to the parties that have accumulated it.
+In other words, sensitive and valuable data is kept private to the parties that have accumulated it, and relationships between publishers/advertisers cannot be publically traced.
 
 Anyone in the network can query any validators for events, but only for the events that they're involved in. For example, if you're a publisher/advertiser/user, you can query all validators to get the events related to you.
 
 Please note that the entire balances tree will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
+
 
 ### Privacy of the end-user
 
