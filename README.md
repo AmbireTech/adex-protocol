@@ -444,13 +444,13 @@ The fund flow would be: `advertiser -> {publisher AND user}`
 
 It is possible for users to pay for the publisher's content and therefore not see any ads.
 
-This could be done in what we believe is a very fair way: by having users deposit certain funds (open an OUTPACE channel), and implicitly outbid advertisers for each ad they'd otherwise see.
+This could be done in what we believe is a very fair way: by having users deposit funds (open an OUTPACE channel), and implicitly outbid advertisers for each ad they'd otherwise see.
 
 That way, the ad space/attention is priced fairly by the market. This ensures that the users pay minimal amounts while still not damaging the publishers' revenue.
 
 The fund flow would be: `{user OR advertiser} -> publisher`
 
-**To be explored further**
+**To be explored further; including possible collaborations with ad blockers**
 
 
 ### Real-time bidding / Header Bidding
