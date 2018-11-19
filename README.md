@@ -465,6 +465,7 @@ However, header bidding is very rapidly replacing RTB in the adtech industry. He
 
 In other words, **in AdEx, advertisers can bid for an impression in real-time**, but we do not implement traditional real-time bidding.
 
+See [Flow](#flow) and [Bidding Process](/validator-stack.md#bidding-process).
 
 ### Optimizing on-boarding
 
