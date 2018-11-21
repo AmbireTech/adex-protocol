@@ -36,13 +36,22 @@
 #### API
 
 @TODO http://restcookbook.com/HTTP%20Methods/put-vs-post/
-GET /channel/:id/status - get channel status, and the validator sig(s); should each node maintain all sigs? also, remaining funds in the channel and remaining funds that are not claimed on chain (useful past validUntil); AND the health, perceived by each validator
-PUT /channel/:id/update - should this be a PUT? the idea here is that we foce an update of the status
 
-GET /channel/tree - getthe full balances tree; you can use that to generate proofs
+##### Do not require authentication, can be cached:
+
+GET /channel/:id/status - get channel status, and the validator sig(s); should each node maintain all sigs? also, remaining funds in the channel and remaining funds that are not claimed on chain (useful past validUntil); AND the health, perceived by each validator
+
+GET /channel/:id/tree - get the full balances tree; you can use that to generate proofs
+
+GET /channel/list
+
+##### Requires authentication, can be cached:
+
+GET /channel/:user/events
+
+##### Requires authentication:
 
 POST /channel/events
-GET /channel/events
 
 POST /channel/validator-events
 
