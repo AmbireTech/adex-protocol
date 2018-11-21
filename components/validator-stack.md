@@ -1,8 +1,9 @@
 # AdEx validator stack
 
+
 @TODO describe the implementation: it should be on top of SQL, as this allows easy abstraction and using both embedded dbs (sqlite) and normal dbms (postgresql); or, another similar abstraction that works
 
-@TODO authentication: a way for a user to prove they control a given addr (HTTP authentication header with a signed msg?), and expose the validator `init` message so that other people can know that this really is the given validator
+@TODO authentication: a way for a user to prove they control a given addr (HTTP authentication header with a signed msg?). This authentication scheme might be required for all communication to the sentry. So validators, when communicating between each other, will have to both authenticate via this scheme AND sign all their messages
 
 ## Diagram
 
@@ -71,6 +72,8 @@ OUTPACE generic:
 AdEx specific:
 
 * SetImpressionPrice: set the current price the advertiser is willing to pay per impression; also allows to set a per-publisher price
+
+Each message must be individually signed by the validator who's emitting it.
 
 
 @TODO describe validator stack events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHER security measure is have the user sign the event for every validator separately
