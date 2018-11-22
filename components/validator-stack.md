@@ -48,13 +48,13 @@ GET /channel/list
 
 ##### Requires authentication, can be cached:
 
-GET /channel/:user/events
+GET /channel/:id/events/:user
 
 ##### Requires authentication:
 
 POST /channel/events
 
-POST /channel/validator-events
+POST /channel/validator-messages
 
 
 #### Validator messages
