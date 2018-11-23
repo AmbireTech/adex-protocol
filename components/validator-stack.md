@@ -32,6 +32,10 @@
 
 ### Sentry
 
+The Sentry is responsible for all the RESTful APIs and communication.
+
+Furthermore, the Sentry is the point that receives events from users, and it is it's job to impose limits described in the `campaignSpec` (e.g. max 10 events per user) and other sanity checks (e.g. limits per IP). Basically, any event that the sentry puts in the database will be counted by the validator worker.
+
 @TODO nginx, ip restrictions
 
 #### API
