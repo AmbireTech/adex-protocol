@@ -261,7 +261,7 @@ The validator stack is a collective term for all off-chain components responsibl
 
 Full list of functionalities:
 
-1. Collecting events from users; this includes filtering the events and ensuring their validity
+1. Collecting events from users; this includes filtering them to ensure their validity and applying `campaignSpec` policies (e.g. max 10 events per user)
 2. Track the on-chain state of OUTPACE channels
 3. Serve as a validator of the OUTPACE channels
 4. Generating analytical reports
