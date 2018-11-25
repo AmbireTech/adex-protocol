@@ -452,6 +452,8 @@ That way, the ad space/attention is priced fairly by the market. This ensures th
 
 The fund flow would be: `{user OR advertiser} -> publisher`
 
+A realistic way for this to work is for it to be implemented in an ad blocker, so that any ads that don't allow being implicitly outbid (not AdEx-enabled) would not appear at all.
+
 **To be explored further; including possible collaborations with ad blockers**
 
 
