@@ -495,6 +495,8 @@ With the advancement of trust-minimized blockchain oracles, it is possible for A
 * Ads in the physical world - e.g. highway banners, magazines
 * Video product placement
 
+In those cases, OUTPACE will still be used, but the payments would be time-based ("time tick" event).
+
 We believe that AdEx still offers benefits for those cases, mostly revolving around transparent auctions and payments.
 
 **To be explored further**
@@ -506,7 +508,7 @@ There is a project that uses this model for ads right now, called [Harberger ads
 
 In AdEx, it is possible to use the Harberger tax ownership model. However, due to the dynamic nature of digital advertising, it's not practical for certain entities (advertisers) to fully own an ad space.
 
-The way we envision the model working is by using the OUTPACE channels to pay rent, but paying rent on display time rather than on physical time.
+The way we envision the model working is by using the OUTPACE channels to pay rent, but paying rent on display time rather than on physical time ("time tick" event).
 
 **To be expored further.**
 
