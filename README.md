@@ -48,7 +48,7 @@ Events, in the context of the SDK or the off-chain event aggregation, mean anyth
 
 Custom events usually refer to events that are publisher-defined. For example, if you're a publisher with an e-commerce website, you might choose to send an event for product purchases.
 
-A potential use case is using AdEx for affiliate networks, where publishers getevery purchase of a product.
+A potential use case is using AdEx for affiliate networks, where publishers get a share of the revenue on every purchase of a product.
 
 #### Campaigns
 
@@ -329,11 +329,16 @@ There's currently no native mobile implementations, but the adview can be easily
 
 #### Learning about the user
 
-The SDK builds a profile of the user and learns about them through the publishers. Each publisher who integrates the SDK has the ability to "tell" the SDK what they know. The incentive for this is built-in: the publisher wants better targeted ads, which should yield higher revenue.
+The SDK builds a profile of the user and learns about them through the publishers and advertisers. Everyone who integrates the SDK has the ability to "tell" the SDK what they know. The incentive for this is built-in: better targeted ads mean higher revenues for publishers and more efficient spend for advertisers.
 
-On each next impression, the SDK will aggregate all the data reported by all publishers, in a weighted way, and use that to match to an ad.
+This system is based on tags. For example, if a website knows a user belongs to a specific demographic, they'd invoke something like `SDK.addUserTag('ageRange22to37')`. Tags are not specified in the AdEx protocol itself and are entirely defined by network participants.
 
-In other words, it won't be possible for a single publisher to poison the data.
+Advertisers may report tags that allow for remarketing, such as a tag indicating that a user visited their website, or even a tag indicating they've visited a particular page, allowing for dynamic remarketing.
+
+When performing targeting, the advertiser can either match against an aggregate of all reported tags, weighted equally between each reporter, or against tags reported by themselves. In other words, no single reporter can poison the data.
+
+Once again, it's important to note that all those tags collected reside in the user's browser (in `localStorage`) and never get sent to anyone.
+
 
 #### Blacklisting ads
 
