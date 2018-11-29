@@ -122,9 +122,7 @@ Each observer must have a publicly accessible HTTPS endpoint for receiving event
 
 Platform refers to the entire [validator stack](#validator-stack-platform), which is a set of software components that all validators/observers need to run.
 
-To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform" when referring to the validator stacks.
-
-
+To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform".
 
 ## Flow
 
@@ -161,7 +159,7 @@ While it is possible for a publisher-side platform to refuse to approve the stat
 
 The campaign health is a publisher-specific concept that indicates whether the advertiser is properly paying out after impression events.
 
-Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the outstanding payment is settled.
+Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the paid amount increases sufficiently.
 
 The campaign health should not be confused with OUTPACE state sanity: even if a campaign is unhealthy, the publisher-side platform validator will continue signing new states as long as they're valid: because of the unidirectional flow, valid states can only mean more revenue for publishers.
 
@@ -419,7 +417,7 @@ In other words, sensitive and valuable data is kept private to the parties that 
 
 Anyone in the network can query any validators for events, but only for the events that they're involved in. For example, if you're a publisher/advertiser/user, you can query all validators to get the events related to you.
 
-Please note that the entire balance trees will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
+Please note that the entire balance tree of each channel will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
 
 
 ### Privacy of the end-user
