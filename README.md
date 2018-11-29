@@ -6,23 +6,23 @@ AdEx originated in 2017 as a decentralized ad exchange for digital advertising, 
 
 The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
-The rationale for creating the AdEx protocol was to create an open-source, transparent and fraud proof replacement to the entire existing ad tech stack. By introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
+The rationale for creating the AdEx protocol was to create an open-source, transparent and fraud-proof replacement to the entire existing stack. By introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
 
 The AdEx team also develops an open source dApp built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
-This document assumes basic familiarity with computer science, blockchain and adtech.
+This document assumes basic familiarity with computer science, blockchain and ad tech.
 
 ### Benefits
 
 * Transparent reporting for all sides
-* Minimized trust
+* Minimized trust required
 * Minimized fees
-* Users [in control](#the-adex-lounge) of [their data](#sdk)
-* Blockchain agnostic
-* Token/currency agnostic
-* Browser/runtime agnostic
+* End users [in control](#the-adex-lounge) of [their data](#sdk)
+* Blockchain-agnostic
+* Token/currency-agnostic
+* Browser/runtime-agnostic
 * Wide variety of use cases, including but not limited to: display advertising, affiliate networks, and even content micropayments
 
 ### Terminology
@@ -30,15 +30,15 @@ This document assumes basic familiarity with computer science, blockchain and ad
 
 #### Supply side
 
-Throughout these docs, "supply side", "publisher" or "publishers" all refer to entities who sell ad inventory.
+Throughout these documents, "supply side", "publisher" or "publishers" all refer to entities who sell ad inventory.
 
 #### Demand side
 
-Throughout these docs "demand side", "advertiser", "advertisers" or "buyers" all refer to entities who buy ad inventory.
+Throughout these documents, "demand side", "advertiser", "advertisers" or "buyers" all refer to entities who buy ad inventory.
 
 #### Users
 
-When we refer to "users", we mean end-users: not of AdEx itself, but of the publishers. In other words, the users who see the ads, but might not even be aware of AdEx's existence.
+When we refer to "users", we mean end users: not of AdEx itself, but of the publishers. In other words, the users who see the ads, but might not even be aware of AdEx's existence.
 
 #### Events
 
@@ -62,9 +62,9 @@ In the AdEx protocol, one campaign always maps to one payment channel called **O
 
 #### Layer 2
 
-Layer 2 refers to blockchain scaling solutions which allow financial transactions or other state transitions to happen very fast, off the blockchain, while still being enforceable or eventually being committed to the underlying blockchain.
+Layer 2 refers to blockchain scaling solutions, which allow financial transactions or other state transitions to happen very fast, off the blockchain, while still being enforceable or eventually being committed to the underlying blockchain.
 
-Ideally, layer 2 solutions allow throughput levels seen in centralized system, while still being as trust-less and censorship resistant as blockchains.
+Ideally, layer 2 solutions allow throughput levels seen in centralized systems, while still being as trustless and censorship-resistant as blockchains.
 
 In AdEx, we use two scaling primitives that we defined: **OCEAN** and **OUTPACE**.
 
@@ -88,14 +88,14 @@ Because of these constraints, an OUTPACE channel does not need sequences or chal
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
 
-One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side platform and a publisher-side [platforms](#validator-stack-platform). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression), and the publishers are able to withdraw their earnings at any point.
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side platform and a publisher-side [platforms](#validator-stack-platform). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression/click/etc.), and the publishers are able to withdraw their earnings at any point.
 
 The possible states of an OUTPACE channel are:
 
 * Unknown: the channel does not exist yet
 * Active: the channel exists, has a deposit, and it's within the valid period
 * Expired: the channel exists, but it's no longer valid
-* Exhausted: this is a meta-state that's not reflected on-chain; it means Active, but all funds in the channel are spent
+* Exhausted: this is a meta-state that's not reflected on-chain; it means the channel is Active, but all funds in it are spent
 
 For a full explanation, see [OUTPACE](/OUTPACE.md).
 
@@ -103,8 +103,8 @@ For a full explanation, see [OUTPACE](/OUTPACE.md).
 
 In the context of AdEx, this could mean two things:
 
-1) **OCEAN**/**OUTPACE** validators, responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel
-2) the proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx
+1) **OCEAN**/**OUTPACE** validators, responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel; or
+2) The proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx.
 
 Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
@@ -122,46 +122,46 @@ Each observer must have a publicly accessible HTTPS endpoint for receiving event
 
 Platform refers to the entire [validator stack](#validator-stack-platform), which is a set of software components that all validators/observers need to run.
 
-To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform".
+To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform" when referring to the validator stacks.
 
 
 
 ## Flow
 
-The entire flow is:
+The entire flow is as follows:
 
-1. The advertiser (demand) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform))
-2. Validator(s) have to accept that they're nominated for this channel (and prove that they're available) by broadcasting a signed message to the other validator(s)
-3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators
-4. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators
-5. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings
-6. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once
-7. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health))
+1. The advertiser (demand side) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform)).
+2. Validator(s) have to accept that they're nominated for this channel (and prove that they're available) by broadcasting a signed message to the other validator(s).
+3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators.
+4. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators.
+5. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings.
+6. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once.
+7. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health)).
 
 The benefits of this approach are:
 
-* The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`)
-* Publishers have a constant guarantee that they can withdraw their latest earnings on-chain
-* Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers
-* If new states are no longer created (someone is no longer online or malicious), publishers can immediately stop delivering ads for this campaign (channel)
-* Allows off-chain negotiations: advertisers can bid for impressions in real time
-* All data, other than payments, is kept off-chain
+* The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`);
+* Publishers have a constant guarantee that they can withdraw their latest earnings on-chain;
+* Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers;
+* If new states are no longer created (someone is no longer online or is malicious), publishers can immediately stop delivering ads for this campaign (channel);
+* Allows off-chain negotiations: advertisers can bid for impressions in real time;
+* All data other than payments information is kept off-chain.
 
 Each campaign has a duration, normally in the range of 2-12 weeks. An OUTPACE channel should have 2-3 times as long of a duration, in order to allow extra time for publishers to withdraw their revenue.
 
 ### Closing a campaign
 
-If an advertiser wants to close a campaign, they sign a new state, which distributes the remaining deposit: most of it goes to the advertiser's wallet, and a small part goes to the publisher platform as a cancellation fee.
+If an advertiser wants to close a campaign, they sign a new state, which distributes the remaining deposit: most of it goes back to the advertiser's wallet, and a small part goes to the publisher platform as a cancellation fee.
 
-The publisher-side platform recognizes this as an intention to close the campaign, and signs the state as well, therefore allowing the advertiser to withdraw their unspent funds. With this, the channel is considered exhausted, and it no longer represents any demand.
+The publisher-side platform recognizes this as an intention to close the campaign, and signs the state as well, therefore allowing the advertiser to withdraw their unspent funds. With this, the channel is considered exhausted and no longer represents any demand.
 
-While it is possible for a publisher-side platform to refuse to approve the state, they gain nothing from doing so: (1) the advertiser has decided to cancel the campaign, meaning they won't sign any new states with new payments to publishers anyway (2) after a channel is no longer valid, they still get their unspent deposit back and (3) the publisher-side platform gets compensated with a cancellation fee.
+While it is possible for a publisher-side platform to refuse to approve the state, they gain nothing from doing so: (1) the advertiser has decided to cancel the campaign, meaning they won't sign any new states with new payments to publishers anyway; (2) after a channel is no longer valid, they still get their unspent deposit back; and (3) the publisher-side platform gets compensated with a cancellation fee.
 
 ### Campaign health
 
-The campaign health is a publisher-specific concept which represents whether the advertiser is properly paying out after impression events.
+The campaign health is a publisher-specific concept that indicates whether the advertiser is properly paying out after impression events.
 
-Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the payment catches up.
+Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the outstanding payment is settled.
 
 The campaign health should not be confused with OUTPACE state sanity: even if a campaign is unhealthy, the publisher-side platform validator will continue signing new states as long as they're valid: because of the unidirectional flow, valid states can only mean more revenue for publishers.
 
@@ -177,15 +177,15 @@ Third-party validators may require fees to participate in your channel (campaign
 
 In a minimal setup, we have two validators defending opposite interests (advertiser-side platform, publisher-side platform).
 
-This setup, by itself, does not imply any additional trust: each new state has to be approved by both the paying side and the receiving side (essentially, a 2 out of 2 setup). Essentially, the sender signs a new state, which pays more to the receiver, but we require both to sign off, otherwise the sender would be able to arbitrarily manipulate the balances. To understand more, you can read [Understanding payment channels](https://blog.chainside.net/understanding-payment-channels-4ab018be79d4) or [state channels](https://www.jeffcoleman.ca/state-channels/).
+This setup, by itself, does not imply any additional trust: each new state has to be approved by both the paying side and the receiving side (essentially, a 2 out of 2 setup). Essentially, the sender signs a new state, which pays more to the receiver, but we require both to sign off, otherwise the sender would be able to arbitrarily manipulate the balances. To learn more, you can read [Understanding payment channels](https://blog.chainside.net/understanding-payment-channels-4ab018be79d4) or [state channels](https://www.jeffcoleman.ca/state-channels/).
 
 However, in OUTPACE, unlike in regular state/payment channels, we separate participants from signing parties (validators), and allow any arbitrary number of validators.
 
 We do that because:
 
-* Sometimes we need a third party to resolve conflicts created by natural discrepancies (e.g. an event was received by 1 out of 2 parties, and there's no tie breaker)
-* Maintaining liveness is critical; in a 2 out of 2 setup, 1 party going down means that the channel stalls
-* The publisher needs to trust the publisher-side platform, read on to [Trust implications](#trust-implications)
+* Sometimes we need a third party to resolve conflicts created by natural discrepancies (e.g. an event was received by 1 out of 2 parties, and there's no tiebreaker);
+* Maintaining liveness is critical; in a 2 out of 2 setup, 1 party going down means that the channel stalls;
+* The publisher needs to trust the publisher-side platform, read on to [Trust implications](#trust-implications).
 
 ### Trust implications
 
@@ -201,14 +201,14 @@ This attack is only possible if >2/3 (in this case, all 2 out of 2) validators b
 
 There are a number of mitigations that we believe are sufficient:
 
-1. The publisher-side platform(s) should be operated by consortiums of the largest publishers
-2. There could more than 2 validators (this also solves natural discrepancies and liveness issues)
-3. Generally, there's little incentive for an advertiser-side platform to help a publisher-side platform steal a portion of *their own* deposit
-4. Anyone can run publisher-side platforms, so we expect different publishers grouping together to create multiple platforms; in other words, large publishers can run their own publisher-side platforms
+1. The publisher-side platform(s) should be operated by consortiums of the largest publishers;
+2. There could be more than 2 validators (this also solves natural discrepancies and liveness issues);
+3. Generally, there's little incentive for an advertiser-side platform to help a publisher-side platform steal a portion of *their own* deposit'
+4. Anyone can run publisher-side platforms, so we expect different publishers grouping together to create multiple platforms; in other words, large publishers can run their own publisher-side platforms.
 
 ### Liveness implications
 
-It's absolutely essential that validators stay online, all of the time. If more than 1/3rd go offline, no new states can be produced (threshold for a valid state is >=2/3 signatures), meaning that the micropayments from the advertiser to the publishers are essentially stopped.
+It's absolutely essential that validators stay online all of the time. If more than a third of them go offline, no new states can be produced (threshold for a valid state is >=2/3 signatures), meaning that the micropayments from the advertiser to the publishers are essentially stopped.
 
 If this happens, the publishers can immediately stop delivering ads for the given campaign mapped to the stalled channel, therefore not losing anything. The [market component](#market) is responsible for monitoring the state of all channels, and keeping track of which ones are active and non-exhausted.
 
@@ -229,18 +229,18 @@ The Core has to implement everything related to moving funds between advertisers
 
 The channel is created with the following information:
 
-* `deposit`: total monetary deposit; on Ethereum, this is denoted in `tokenAddr` and `tokenAmount`
-* `validUntil`: the date until this channel is valid; this is also the period within the publishers can withdraw, so it should be longer than the actual specified campaign length (e.g. 3x longer)
-* `validators`: an array of all the validators who're responsible for signing new state; one of them should represent the advertiser, and the other the publishers
-* `spec`: describes all the campaign criteria: e.g. buy as many impressions as possible, with a maximum price they're willing to pay for impressions, and how long they want to achieve it for (campaign duration); this is stored as arbitrary bytes (32); in the dApp, we encode the criteria directly in there, but it can be used to reference a JSON descriptor stored on IPFS
+* `deposit`: total monetary deposit; on Ethereum, this is denoted in `tokenAddr` and `tokenAmount`;
+* `validUntil`: the date until this channel is valid; this is also the period within the publishers can withdraw, so it should be longer than the actual specified campaign length (e.g. 3x longer);
+* `validators`: an array of all the validators who are responsible for signing a new state; one of them should represent the advertiser, and the other - the publisher(s);
+* `spec`: describes all the campaign criteria: e.g. buy as many impressions as possible, the maximum price they're willing to pay for impressions, and campaign duration; this is stored as arbitrary bytes (32); in the dApp, we encode the criteria directly in there, but it can be used to reference a JSON descriptor stored on IPFS.
 
 The Ethereum implementation of this component is called [`adex-protocol-eth`](https://github.com/AdExNetwork/adex-protocol-eth). While the current running implementation of AdEx is the Ethereum one, we are also experimenting with [Cosmos](https://github.com/AdExNetwork/adex-protocol-cosmos) and [Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate).
 
 The on-chain interactions are:
 
-* `channelOpen(channel)`: open an OUTPACE channel
-* `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
-* `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
+* `channelOpen(channel)`: open an OUTPACE channel;
+* `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`;
+* `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot.
 
 For more information on how the payment channels work, see [OUTPACE](/OUTPACE.md).
 
@@ -261,11 +261,11 @@ The validator stack is a collective term for all off-chain components responsibl
 
 Full list of functionalities:
 
-1. Collecting events from users; this includes filtering them to ensure their validity and applying `campaignSpec` policies (e.g. max 10 events per user)
-2. Track the on-chain state of OUTPACE channels
-3. Serve as a validator of the OUTPACE channels
-4. Generating analytical reports
-5. Providing RESTful APIs for access to reports, events and OUTPACE channel data
+1. Collecting events from users; this includes filtering them to ensure their validity and applying `campaignSpec` policies (e.g. max 10 events per user);
+2. Track the on-chain state of OUTPACE channels;
+3. Serve as a validator of the OUTPACE channels;
+4. Generating analytical reports;
+5. Providing RESTful APIs for access to reports, events and OUTPACE channel data.
 
 In a normal setup, each of the nominated validators for an OUTPACE channel would run a full validator stack setup.
 
@@ -287,9 +287,9 @@ For the JSON file specification, see [`campaignSpec.md`](/campaignSpec.md).
 
 #### Paying by impression (CPM) or by click (CPC)
 
-It's possible to pay for advertising in any way by configuring the campaign goal - e.g. by impression, by click, or even my number of user registrations (CPA).
+It's possible to pay for advertising in any way by configuring a campaign goal - e.g. by impression, by click, or even  by number of user registrations (CPA).
 
-However, the default option is always impressions and we believe that this creates the best incentives. Paying by click implies more risk and unpredictability, since the publishers will be pushing impressions out without prior knowledge of how much a certain ad will convert.
+However, the default option is always impressions as we believe that this creates the best incentives. Paying by click implies more risk and unpredictability, since the publishers will be pushing impressions out without prior knowledge of how much a certain ad will convert.
 
 Ultimately, the raw resource the publisher provides is impressions, and the conversion rate of the ad depends mostly on the advertiser.
 
@@ -317,19 +317,19 @@ The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/ade
 
 The SDK is responsible for:
 
-1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser
-2. Pulling all possible demand (campaigns, bids) from the market (the `adex-market`)
-3. Picking which ad to show depending on the user: this means running a quick blind auction, and picking an ad depending on a combination of price and targeting
-4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad
-5. Learning more about the user, and storing this in their browser
+1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser;
+2. Pulling all possible demand (campaigns, bids) from the market (the `adex-market`);
+3. Picking which ad to show depending on the user: this means running a quick blind auction, and picking an ad depending on a combination of price and targeting;
+4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad;
+5. Learning more about the user, and storing this information in the user's browser.
 
 Notice a common pattern here: **all sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself.
 
-There's currently no native mobile implementations, but the adview can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
+There are currently no native mobile implementations, but the adview can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
 
 #### Learning about the user
 
-The SDK builds a profile of the user and learns about them through the publishers and advertisers. Everyone who integrates the SDK has the ability to "tell" the SDK what they know. The incentive for this is built-in: better targeted ads mean higher revenues for publishers and more efficient spend for advertisers.
+The SDK builds a profile of the user and learns about them through the publishers and advertisers. Everyone who integrates the SDK has the ability to "tell" the SDK what they know. The incentive for this is built-in: better targeted ads mean higher revenues for publishers and higher ROI for advertisers.
 
 This system is based on tags. For example, if a website knows a user belongs to a specific demographic, they'd invoke something like `SDK.addUserTag('ageRange22to37')`. Tags are not specified in the AdEx protocol itself and are entirely defined by network participants.
 
@@ -342,7 +342,7 @@ Once again, it's important to note that all those tags collected reside in the u
 
 #### Blacklisting ads
 
-Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do, this will be saved locally so this ad will never be shown to you, but also reported to all publisher-side platforms the SDK is aware of.
+Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do this, it will be saved locally so this ad will never be shown to you, but also reported to all publisher-side platforms the SDK is aware of.
 
 While a publisher-side platform may choose to ignore such an event, it's mostly in the interest of publishers to keep track of the most blacklisted ads and possibly stop serving them altogether.
 
@@ -351,7 +351,7 @@ An additional improvement on the SDK would be to allow users to gossip blacklist
 
 #### Security
 
-The keypair is saved in `localStorage`. However it never holds any funds, it merely serves to identify users anonymously
+The keypair is saved in `localStorage`. However it never holds any funds, it merely serves to identify users anonymously.
 
 In case `localStorage` is deleted, the user will receive a new keypair and the system will start learning about them again - which is actually intended behavior (e.g. using incognito mode in the browser).
 
@@ -360,13 +360,13 @@ In case `localStorage` is deleted, the user will receive a new keypair and the s
 
 The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to see what data the SDK has collected about them and possibly modify it to their liking.
 
-In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to present to the user what the SDK has learned about them.
+In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to show the user what the SDK has learned about them.
 
-The user may choose to delete some of that data. It should be noted that this data was never uploaded anywhere anyway, and it only affects targeting.
+The user may choose to delete some of that data. It should be noted that this data is never uploaded anywhere anyway, and that it only affects targeting.
 
-With OUTPACE channels, it's possible for users to earn monetary rewards as well, so the Lounge may be used at some point to allow for users to withdraw their funds.
+With OUTPACE channels, it's possible for users to earn monetary rewards as well, so at some point the Lounge may be used to allow for users to withdraw their funds.
 
-There's no public implementation of the lounge yet.
+There's no public implementation of the Lounge yet.
 
 
 
@@ -375,15 +375,15 @@ There's no public implementation of the lounge yet.
 
 ### Preventing fraud/Sybil attacks
 
-One of the main challenges of the AdEx protocol is preventing fake impressions/clicks.
+One of the main challenges of the AdEx protocol is preventing fake or invalid impressions/clicks.
 
 This is mitigated in a few ways:
 
-1) Traditional adtech methods, such as IP whitelists/blacklists
-2) The SDK has to send each event to each validator, and the platform(s) will keep an internal ledger of IPs events came from and impose a limit
-3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
-4) the SDK allows publishers to "vouch for" users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold
-5) publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser
+1) Traditional ad tech methods, such as IP whitelists/blacklists;
+2) The SDK has to send each event to each validator, and the platform(s) will keep an internal ledger of IPs events came from and impose a limit;
+3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event;
+4) The SDK allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold;
+5) Publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser.
 
 It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives for fraud are significantly reduced.
 
@@ -399,15 +399,15 @@ This is why we are also experimenting with implementations on top of Cosmos (htt
 
 Ultimately, AdEx is completely censorship resistant since anyone can run their own [Market](#market) and [Platform](#validator-stack-platform) and do whatever they want with them.
 
-However, there's plenty of situations where you need control, for example, as a publisher, you may want your website to be free of deceptive ads (malvertising).
+However, there are plenty of situations where you need control; for example, as a publisher, you may want your website to be free of deceptive ads (malvertising).
 
 The AdEx components provide multiple ways for the system to self regulate:
 
-* Publishers can whitelist or blacklist advertisers or ad units
-* Advertisers can whitelist or blacklist publishers, topics (tags) or individual ad slots
-* Users can blacklist ad units, advertisers and even topics (tags)
+* Publishers can whitelist or blacklist advertisers or ad units;
+* Advertisers can whitelist or blacklist publishers, topics (tags) or individual ad slots;
+* Users can blacklist ad units, advertisers and even topics (tags).
 
-Further down the line, reputation systems could be developed to make it easier for participants to push low quality or deceptive ads out.
+Further down the line, reputation systems could be developed to make it easier for participants to push out low quality or deceptive ads.
 
 ### Privacy of publishers/advertisers
 
@@ -419,19 +419,19 @@ In other words, sensitive and valuable data is kept private to the parties that 
 
 Anyone in the network can query any validators for events, but only for the events that they're involved in. For example, if you're a publisher/advertiser/user, you can query all validators to get the events related to you.
 
-Please note that the entire balances tree will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
+Please note that the entire balance trees will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
 
 
 ### Privacy of the end-user
 
-Privacy of end users is protected by having all of the information that the system learns about them stored only their own browser by our SDK's `localStorage`. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the user's browser, somewhat similar to header bidding. 
+Privacy of end users is protected by having all of the information that the system learns about them stored only in their own browser by our SDK's `localStorage`. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the user's browser, somewhat similar to header bidding. 
 
 A further advantage to this approach is that the user may easily control what kinds of ads they see, without this being revealed to third parties.
 
 While it is possible to derive a rough approximation of what the user preferences are using historical data (events) on which ads were selected for a particular user, this approach still reveals very little, because:
 
-1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifiable data like name/email/IP
-2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to campaigns they validate)
+1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifiable data like name/email/IP;
+2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to campaigns they validate).
 
 
 ### Rewarding end-users for attention
@@ -444,31 +444,31 @@ We do intend to implement this capability in the validator stack once we analyze
 
 In technical terms, everything needed to do this is there - every user signs an event with a keypair (which can be used for receiving funds), OUTPACE channels allow easy micropayments, and users would be able to see their earnings and withdraw them through the AdEx Lounge UI.
 
-The fund flow would be: `advertiser -> {publisher AND user}`
+The fund flow would be: `advertiser -> {publisher AND user}`.
 
 
 ### End-users paying for content
 
 It is possible for users to pay for the publisher's content and therefore not see any ads.
 
-This could be done in what we believe is a very fair way: by having users deposit funds (open an OUTPACE channel), and implicitly outbid advertisers for each ad they'd otherwise see.
+This could be done in what we believe is a very fair way: by having users deposit funds (open an OUTPACE channel) through the AdEx Lounge, and implicitly outbid advertisers for each ad they'd otherwise see.
 
 That way, the ad space/attention is priced fairly by the market. This ensures that the users pay minimal amounts while still not damaging the publishers' revenue.
 
-The fund flow would be: `{user OR advertiser} -> publisher`
+The fund flow would be: `{user OR advertiser} -> publisher`.
 
 A realistic way for this to work is for it to be implemented in an ad blocker, so that any ads that don't allow being implicitly outbid (not AdEx-enabled) would not appear at all.
 
-**To be explored further; including possible collaborations with ad blockers**
+**To be explored further; including possible collaborations with ad blockers.**
 
 
 ### Real-time bidding / Header Bidding
 
 Real-time bidding (RTB) is something we intentionally left out of the protocol, primarily because it relies on some details about the user being propagated around the network to the exchange.
 
-While from a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions, the privacy trade-off is too big.
+From a scalability perspective, real-time bidding can be implemented using off-chain scaling solutions, however the privacy trade-off is too big.
 
-However, header bidding is very rapidly replacing RTB in the adtech industry. Header bidding is when all the bids are pulled in the browser, evaluated and then the preferred bids are sent to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
+We don't consider this to be a major disadvantage as header bidding is very rapidly replacing RTB in the adtech industry anyway. Header bidding is the process of pulling all the bids in the browser, evaluating them and then sending the preferred bids to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
 
 In other words, **in AdEx, advertisers can bid for an impression in real-time**, but we do not implement traditional real-time bidding.
 
@@ -476,35 +476,36 @@ See [Flow](#flow) and [Bidding Process](/components/validator-stack.md#bidding-p
 
 ### Optimizing on-boarding
 
-**To be updated as we implement these. Up to date as of November 2018**
+**To be updated as we implement these. Up to date as of November 2018.**
 
-There are many hurdles in on-boarding users to an app that interacts with a blockchain.
+There are many hurdles in onboarding users to an app that interacts with a blockchain.
 
 Some of the hurdles are pretty general: for example, how to convey the importance of a seed phrase and backing it up securely.
 
 Others are specific to Ethereum: for example, needing ETH to pay for gas.
 
-In order to mitigate those UX issues, we intend to use the [Universal Login SDK](https://github.com/UniversalLogin/UniversalLoginSDK). The user's identity will be represented by a multisig identity contract, which allows the user to interact with AdEx through multiple device-specific private keys, and furthermore allows relayers to take care of paying the gas (called ["meta tx" or "executable signed messages"](https://ethereum-magicians.org/t/erc-1077-and-erc-1078-the-magic-of-executable-signed-messages-to-login-and-do-actions/351)).
+In order to mitigate these UX issues, we intend to use the [Universal Login SDK](https://github.com/UniversalLogin/UniversalLoginSDK). The user's identity will be represented by a multisig identity contract, which allows the user to interact with AdEx through multiple device-specific private keys, and furthermore allows relayers to take care of paying the gas (called ["meta tx" or "executable signed messages"](https://ethereum-magicians.org/t/erc-1077-and-erc-1078-the-magic-of-executable-signed-messages-to-login-and-do-actions/351)).
 
-Another benefit of 
+Another benefit of using such an abstraction is the ability to schedule transactions for a certain point in time even if they’re not online.
 
 In order to facilitate opening campaigns using different assets, our dApp currently integrates with Airswap, but we plan on adding support for [Uniswap](https://uniswap.io/). We are further exploring possibilities of HTLC-based atomic swaps between Ethereum-based assets and BTC, possibly even Lightning-enabled.
 
-Furthermore, we intend to allow opening a campaign with USD/EUR, by integrating the dApp with a third-party service that allows purchasing DAI with USD/EUR.
+Furthermore, we intend to allow opening a campaign with USD/EUR by integrating the dApp with a third-party service that allows purchasing DAI with USD/EUR.
 
 
 ### Oracle-based advertising
 
 With the advancement of trust-minimized blockchain oracles, it is possible for AdEx to be used in a much wider set of use cases, including, but not limited to:
 
-* Ads in the physical world - e.g. highway banners, magazines
-* Video product placement
+* Ads in the physical world - e.g. highway banners, magazines;
+* Video product placement;
+* Influencer marketing, etc.
 
 In those cases, OUTPACE will still be used, but the payments would be time-based ("time tick" event).
 
 We believe that AdEx still offers benefits for those cases, mostly revolving around transparent auctions and payments.
 
-**To be explored further**
+**To be explored further.**
 
 
 ### Harberger tax ownership model
@@ -515,14 +516,14 @@ In AdEx, it is possible to use the Harberger tax ownership model. However, due t
 
 The way we envision the model working is by using the OUTPACE channels to pay rent, but paying rent on display time rather than on physical time ("time tick" event).
 
-**To be expored further.**
+**To be explored further.**
 
 
 ### Role of AdEx Network OÜ
 
 AdEx Network OÜ is a legal entity with two primary responsibilities:
 
-1) Fund and govern the development of the AdEx Protocol, with an emphasis of keeping it completely open-source, transparent and free of corporate agenda
-2) Profit from providing any additional services related to the AdEx Protocol, such as consultancy related to integration of the protocol or running a SaaS for rentable AdEx validators
+1) Fund and govern the development of the AdEx Protocol, with an emphasis of keeping it completely open-source, transparent and free of corporate agenda;
+2) Profit from providing any additional services related to the AdEx Protocol, such as consultancy related to integration of the protocol or running a SaaS for rentable AdEx validators.
 
 Because of the open-source nature of the protocol, we do expect (and encourage) other entities interested in using it to join the development/design over time.
