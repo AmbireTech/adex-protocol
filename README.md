@@ -244,7 +244,9 @@ For more information on how the payment channels work, see [OUTPACE](/OUTPACE.md
 
 ### Market
 
-The primary role of the market is to facilitate demand/supply discovery and trading. The marketplace keeps record of all campaigns that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
+The market is a RESTful service maintained and hosted by AdEx Network OÜ.
+
+The primary role of the market is to facilitate demand/supply discovery and trading. It keeps record of all campaigns that are currently valid, and allows publishers/advertisers to query that list in order to find what they need.
 
 The market needs to track all on-chain OUTPACE channels and needs to constantly monitor their liveness (>=2/3 validators online and producing new states) and state.
 
@@ -312,6 +314,8 @@ In order to maintain compatibility with the existing AdEx infrastructure (the dA
 ### SDK
 
 The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/adex-adview), which is designed for the web.
+
+It's important to note that the SDK is entirely browser-agnostic, and runs in an `<iframe>` tag on the publisher's webpage. It's always loaded from the same domain (`adex.network`), in order to ensure it always reads/writes to the same `localStorage`. This can be trust-minimized in the future through ENS, IPFS or even just using checksum-based integrity checks.
 
 The SDK is responsible for:
 
