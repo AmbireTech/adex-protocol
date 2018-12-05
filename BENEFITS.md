@@ -10,7 +10,7 @@ Nonetheless, advertisers continue their complicated relationship with them for l
 
 The need of an alternative, especially to the smaller providers, is most ostensible now, when online advertising has outspent TV for the first time since the coexistence of the two mediums. In 2018, the global spend on online reached 44.9% compared to 31.2% for TV. 
 
-Despite its huge growth, however, the online advertising industry struggles with a lot of issues. The ones that affect it the most are lack of transparency in reporting, a multitude of middlemen, high fees and commissions, ad fraud and violating end users’ privacy.  That’s why 2018 is a fruitful moment for an impactful disruption of the online marketing landscape. This is  and this is where solutions such as AdEx come in.
+Despite its huge growth, however, the online advertising industry struggles with a lot of issues. The ones that affect it the most are lack of transparency in reporting, a multitude of middlemen, high fees and commissions, ad fraud and violating end users’ privacy.  That’s why 2018 is a fruitful moment for an impactful disruption of the online marketing landscape. This is where solutions such as AdEx come in.
 
 ## Transparent reporting for all sides
 
@@ -20,7 +20,7 @@ Data discrepancies often [go beyond](https://www.en.advertisercommunity.com/t5/T
 
 In addition to that, all the information that marketers get about their campaigns generally comes from the same source - the ad serving network - and is not objectively verifiable. This means that there is no mechanism to protect marketers and advertisers from [losses caused by bugs or even by malicious intent](https://www.nytimes.com/2016/11/17/technology/facebook-acts-to-restore-trust-after-overstating-video-views.html). 
 
-In order to avoid this, we are introducing real-time tracking and reporting that is easily accessible by each advertiser or publisher. This reporting is aggregated into reports by the adex-reports-worker component. The reporting data is derived directly from the users from the SDK to the publisher's validator(s) (publisher platform) and the advertiser's validator(s) (advertiser platform), and this guarantees reporting transparency.
+In order to avoid this, we are introducing real-time tracking and reporting that is easily accessible by each advertiser or publisher. The reporting data is derived directly from the users from the SDK to the publisher's validator(s) (publisher platform) and the advertiser's validator(s) (advertiser platform), and this guarantees reporting transparency.
 
 ## Minimized trust required
 
