@@ -22,13 +22,13 @@ In order to avoid this, we are introducing real-time tracking and reporting that
 
 ## Minimized trust required
 
-By offering governance enforced through validators stacks, the AdEx protocol eliminates the need of additional parties or authorities who would oversee the validity of campaigns and their respective payments.. 
+By utilizing event verification through validators stacks, the AdEx protocol eliminates the need of additional parties or authorities who would oversee the validity of campaigns and their respective payments. 
 
-Validators are responsible for tracking ad delivery and signing states in an OUTPACE channel. They are assigned by both advertisers and publishers, and need to sign every new state related to an ad delivery within the AdEx ecosystem. Only states signed by a supermajority (>=⅔) are considered valid. 
+Validators are responsible for tracking ad delivery. They are assigned by both advertisers and publishers, and need to sign every new state related to an ad delivery within the AdEx ecosystem. Only states signed by a supermajority are considered valid. 
 
-In OUTPACE, unlike in regular state/payment channels, we separate participants from signing parties (validators), and allow any arbitrary number of validators. We do this for a number of reasons, such as allowing for tiebreakers in conflicts created by natural discrepancies; maintaining channel liveness, etc.
+We allow any arbitrary number of validators. We do this for a number of reasons, such as allowing for tiebreakers in conflicts created by natural discrepancies; maintaining channel liveness, etc.
 
-In addition to this, AdEx allows for delegating the so called observers - these can be but are not necessarily validators as well. Observers can monitor various events of an advertising campaign by receiving events information from the AdEx SDK. 
+In addition to this, AdEx allows for delegating the so called observers - these can be but are not necessarily validators as well. Observers can monitor various events of an advertising campaign by receiving events information from the AdEx SDK. Just as validators, observers can and should be assigned by both advertisers and publisher to make sure no additional overseeing authority is required for trust. 
 
 ## Minimized fees
 
