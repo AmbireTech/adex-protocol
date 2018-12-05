@@ -1,9 +1,10 @@
 # AdEx validator stack
 
+## In progress
 
-@TODO describe the implementation: it should be on top of SQL, as this allows easy abstraction and using both embedded dbs (sqlite) and normal dbms (postgresql); or, another similar abstraction that works
+This document is currently a work in progress.
 
-@TODO authentication: a way for a user to prove they control a given addr (HTTP authentication header with a signed msg?). This authentication scheme might be required for all communication to the sentry. So validators, when communicating between each other, will have to both authenticate via this scheme AND sign all their messages
+However, there is an actual reference implementation of the validator stack here: https://github.com/adexnetwork/adex-validator-stack-js
 
 ## Diagram
 
@@ -12,6 +13,8 @@
 @TODO there can be multiple sentry nodes
 
 ## Flow
+
+@TODO explain EWT/JWT authentication
 
 @TODO explain what the flow is FOR; all processes that require the validator stack
 
@@ -88,8 +91,6 @@ Each message must be individually signed by the validator who's emitting it.
 @TODO this is where the signing key is handled; describe how this can work: randomly generated keypair, HSM ?
 
 @TODO configuration parameters `{ batching: { maxEvents, maxTime } }`
-
-@TODO: describe the `stateRoot` and what the `eventHash` is and what it is for
 
 @TODO validator stack DB structure, including a table `channels_onchain` which is populated by the blockchain-specific adapter (which consists of a continuous process that populates the table, AND an interface to sign and provide merkle proofs); this is important for having an agnostic system
 @TODO describe internal ledgers in the validator stack: there's one on which events were provably observed by other users; and one for how many fees are claimed (ClaimValidationFee, can be created by a validator to make them claim a fee)
