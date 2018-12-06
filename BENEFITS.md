@@ -48,7 +48,7 @@ Unlike other ad serving providers, AdEx gives users full control of their data.
 
 All of the information that AdEx uses for user targeting is collected through [the AdEx SDK](https://github.com/AdExNetwork/adex-protocol#sdk) into the user’s local storage. This information never leaves the device of the user, and they are able to clear it at any time. 
 
-In the future, we will introduce the AdEx Lounge - a user-facing part of AdEx that allows you to  see what type of data has the SDK collected about you and modify it. 
+In the future, we will introduce the [AdEx Lounge](https://github.com/AdExNetwork/adex-protocol#the-adex-lounge) - a user-facing part of AdEx that allows you to  see what type of data has the SDK collected about you and modify it. 
 
 Once again, it's important to note that all of the targeting data resides in the user's browser and never get sent to anyone as an additional layer of privacy. 
 
