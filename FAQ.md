@@ -24,6 +24,13 @@ Running the validator stack requires computational resources and the third-party
 ## What wallets can I use to create an AdEx advertiser or publisher account? 
 You can sign up for AdEx with Trezor, Ledger or Metamask. 
 
+## What is the purpose of the ADX token
+The ADX token is used for staking if you're running an [AdEx validator](https://github.com/adexnetwork/adex-protocol#validator-stack-platform). Staking your ADX will register your validator in a global registry where your visibility will be proportional to your staked amount.
+
+The staked amount will be slashed if your validator misbehaves (i.e. an economic punishment will be applied to the misbehaving validator).
+
+We are currently working on the specification of this, however you can [track the progress here](https://github.com/AdExNetwork/adex-protocol/issues/7).
+
 ## How can I get ADX tokens? 
 If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance and Bittrex for example. 
 
