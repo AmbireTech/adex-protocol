@@ -371,6 +371,38 @@ With OUTPACE channels, it's possible for users to earn monetary rewards as well,
 There's no public implementation of the Lounge yet.
 
 
+### Identity
+
+The Identity layer is currently specific to our Ethereum implementation and designed to streamline the user experience of the dApp.
+
+It is a smart contract that allows the users of the dApp (publishers/advertisers) to:
+
+* Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them
+* Interact with the Ethereum network w/o needing to have ETH
+* Allow certain actions to be scheduled/performed automatically without needing them to be online, for example withdrawing funds from OUTPACE channels
+
+This solves many UX hurdles that are typical for blockchain-related applications.
+
+Some of these concepts are known to the Ethereum community as "meta tx" or "gas abstractions".
+
+The design of this component is currently (Dec 2018) a work in progress, but you can track it at: https://github.com/AdExNetwork/adex-protocol/issues/10
+
+#### Pre-approved tokens
+
+While OUTPACE can work with any Ethereum token that implements the ERC20 standard, not each one of them is suitable for using as campaign deposit. Some tokens have fatal bugs, others allow arbitrary minting, and some are simply not liquid enough.
+
+This is why we feel that we need a set of pre-approved tokens. For now, we've decided on DAI and ADX, but we can easily allow more.
+
+It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [adex-dapp](https://github.com/AdExNetwork/adex-dapp).
+
+
+#### Sign-up process
+
+We intend to allow publishers/advertisers to sign-up to the dApp using any pre-approved token (e.g. DAI, ADX), or with ETH (by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
+
+If there's a suitable way to do it, we intend to allow opening a campaign with USD/EUR by integrating the dApp with a third-party service that allows purchasing DAI with USD/EUR.
+
+We are also exploring the possibilities of allowing signing up with BTC, by using HTLC-based atomic swaps or Bitcoin SPVs to exchange it for a pre-approved token.
 
 
 ## Appendix
@@ -475,24 +507,6 @@ We don't consider this to be a major disadvantage as header bidding is very rapi
 In other words, **in AdEx, advertisers can bid for an impression in real-time**, but we do not implement traditional real-time bidding.
 
 See [Flow](#flow) and [Bidding Process](/components/validator-stack.md#bidding-process).
-
-### Optimizing on-boarding
-
-**To be updated as we implement these. Up to date as of November 2018.**
-
-There are many hurdles in onboarding users to an app that interacts with a blockchain.
-
-Some of the hurdles are pretty general: for example, how to convey the importance of a seed phrase and backing it up securely.
-
-Others are specific to Ethereum: for example, needing ETH to pay for gas.
-
-In order to mitigate these UX issues, we intend to use the [Universal Login SDK](https://github.com/UniversalLogin/UniversalLoginSDK). The user's identity will be represented by a multisig identity contract, which allows the user to interact with AdEx through multiple device-specific private keys, and furthermore allows relayers to take care of paying the gas (called ["meta tx" or "executable signed messages"](https://ethereum-magicians.org/t/erc-1077-and-erc-1078-the-magic-of-executable-signed-messages-to-login-and-do-actions/351)).
-
-Another benefit of using such an abstraction is the ability to schedule transactions for a certain point in time even if they’re not online.
-
-In order to facilitate opening campaigns using different assets, our dApp currently integrates with Airswap, but we plan on adding support for [Uniswap](https://uniswap.io/). We are further exploring possibilities of HTLC-based atomic swaps between Ethereum-based assets and BTC, possibly even Lightning-enabled.
-
-Furthermore, we intend to allow opening a campaign with USD/EUR by integrating the dApp with a third-party service that allows purchasing DAI with USD/EUR.
 
 
 ### Oracle-based advertising
