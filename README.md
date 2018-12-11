@@ -405,6 +405,19 @@ If there's a suitable way to do it, we intend to allow opening a campaign with U
 We are also exploring the possibilities of allowing signing up with BTC, by using HTLC-based atomic swaps or Bitcoin SPVs to exchange it for a pre-approved token.
 
 
+### Registry
+
+The Registry is an autonomous system designed to provide a list of publically accessible validators that you can nominate for your campaign.
+
+The ultimate goal of the Registry is provide exposure for everyone who wants to be a public validator, and also to hold these validators accountable if they misbehave.
+
+This is accomplished by having each validator who wants to be on the Registry stake ADX tokens. If they misbehave, a portion of those tokens will be burned. This makes validators with more stake more trustworthy, as they have more skin in the game.
+
+This system differs from token curated registries in that there is no approval/rejection game, and anyone with a sufficient minimal stake can be registered. Furthermore, there are specific conditions which will punish misbehavior, related to the particular mechanics of OUTPACE and the validator stack.
+
+The current spec of the registry is in very early stages, but you can track it at: https://github.com/AdExNetwork/adex-protocol/issues/7
+
+
 ## Appendix
 
 ### Preventing fraud/Sybil attacks
