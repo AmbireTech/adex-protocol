@@ -422,9 +422,9 @@ The current spec of the registry is in very early stages, but you can track it a
 
 ### Preventing fraud/Sybil attacks
 
-One of the main challenges of the AdEx protocol is preventing fake or invalid impressions/clicks.
+One of the main challenges of any digital advertising system is preventing fake or invalid impressions/clicks.
 
-This is mitigated in a few ways:
+There are a few ways to mitigate that in AdEx:
 
 1) Traditional ad tech methods, such as IP whitelists/blacklists;
 2) The SDK has to send each event to each validator, and the platform(s) will keep an internal ledger of IPs events came from and impose a limit;
@@ -436,7 +436,7 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 
 ### Scalability
 
-Because impressions and clicks are tracked and rewarded off-chain, the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
+Because impressions are tracked and rewarded off-chain, the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
 We might hit network limitations with features like [End-users paying for content](#end-users-paying-for-content), where publishers might need to withdraw from thousands of OUTPACE channels at the same time.
 
