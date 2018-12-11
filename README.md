@@ -378,7 +378,7 @@ The Identity layer is currently specific to our Ethereum implementation and desi
 It is a smart contract that allows the users of the dApp (publishers/advertisers) to:
 
 * Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them
-* Interact with the Ethereum network w/o needing to have ETH
+* Interact with the Ethereum network without needing to have ETH
 * Allow certain actions to be scheduled/performed automatically without needing them to be online, for example withdrawing funds from OUTPACE channels
 
 This solves many UX hurdles that are typical for blockchain-related applications.
@@ -389,16 +389,16 @@ The design of this component is currently (Dec 2018) a work in progress, but you
 
 #### Pre-approved tokens
 
-While OUTPACE can work with any Ethereum token that implements the ERC20 standard, not each one of them is suitable for using as campaign deposit. Some tokens have fatal bugs, others allow arbitrary minting, and some are simply not liquid enough.
+While OUTPACE can work with any Ethereum token that implements the ERC20 standard, not all of them are suitable for using as campaign deposit. Some tokens have fatal bugs, others allow arbitrary minting, and some are simply not liquid enough.
 
-This is why we feel that we need a set of pre-approved tokens. For now, we've decided on DAI and ADX, but we can easily allow more.
+This is why we came up with a set of pre-approved tokens. For now, we've decided on DAI and ADX, but we can easily allow more.
 
 It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [adex-dapp](https://github.com/AdExNetwork/adex-dapp).
 
 
 #### Sign-up process
 
-We intend to allow publishers/advertisers to sign-up to the dApp using any pre-approved token (e.g. DAI, ADX), or with ETH (by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
+We intend to allow publishers/advertisers to sign-up to the dApp using any pre-approved token (e.g. DAI, ADX), or with ETH, by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
 
 If there's a suitable way to do it, we intend to allow opening a campaign with USD/EUR by integrating the dApp with a third-party service that allows purchasing DAI with USD/EUR.
 
