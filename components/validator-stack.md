@@ -2,11 +2,15 @@
 
 ## In progress
 
-This document is currently a work in progress.
+#### This document is currently a work in progress.
 
-However, there is an actual reference implementation of the validator stack here: https://github.com/adexnetwork/adex-validator-stack-js
+#### However, there is an actual reference implementation of the validator stack here: https://github.com/adexnetwork/adex-validator-stack-js
+
+-----------------------
 
 ## Diagram
+
+@TODO
 
 ## Redundancy
 
