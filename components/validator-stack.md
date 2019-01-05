@@ -70,11 +70,10 @@ Each validator message has to be signed by the validator themselves
 
 OUTPACE generic:
 
-* Init: all validators must exchange the init, once each observes all others the channel is considered LIVE
-* ProposeState
-* ConfirmState
-* ReportObservedEvents adex-specific extra flags: IsCampaignUnhealthy (also document campaign's MissedEventsThreshold)
-* Heartbeat
+* `NewState`: proposes a new state
+* `ApproveState`: approves a `NewState`
+* `Heartbeat`: validators send that periodically; once there is a Heartbeat for every validator, the channel is considered `LIVE`
+* `ReportObservedEvents` adex-specific extra flags: IsCampaignUnhealthy (also document campaign's MissedEventsThreshold)
 
 AdEx specific:
 
