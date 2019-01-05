@@ -41,7 +41,7 @@ An important aspect of this is privacy: even though micropayments happen on a pe
 
 The first validator (`validators[0]`) is the leader - they are responsible for proposing new states - they will sort the events, apply them to the state and sign. Each new state may apply more than one new event, allowing for higher throughput. Once the leader signs the new state, all the other validators will validate and sign too.
 
-The leader does not have special privileges - they are just assigned to propose the new states. For a state to be valid, a supermajority of validators still needs to sign.
+The leader does not have special privileges - they are just assigned to propose the new states. For a state to be valid, a supermajority of validators still needs to sign. However, it is required that the leader is the one who provided the channel deposit, to align the incentives correctly (they can't "steal" their own funds).
 
 The minimal trustless setup has two validators, where the leading one is protecting the interests of the demand (advertiser), and the second one is protecting the interests of the supply (publishers).
 
