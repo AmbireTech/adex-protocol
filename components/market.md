@@ -1,6 +1,9 @@
 # AdEx Market
 
-The `adex-market` (currently named `adex-node`) is the RESTful service responsible for the discovery of advertising demand and supply.
+The `adex-market` (formerly named `adex-node`) is the RESTful service responsible for the discovery of advertising demand and supply.
+
+To be more precise, it facilitates submission and tracking of campaigns, as well as user registrations.
+
 
 ## Tracking all campaigns
 
