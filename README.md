@@ -422,9 +422,7 @@ The current spec of the registry is in very early stages, but you can track it a
 
 ## Appendix
 
-### Graphs
-
-#### Basic visual representation
+### Basic visual representation
 
 ![Architecture](/graphs/architecture.svg)
 
