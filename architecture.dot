@@ -12,12 +12,15 @@ graph {
 		sentry -- db;
 		watcher -- db;
 	}
-	dapp[label="dApp"];
 	market[label="Market"];
 	market -- sentry;
 	ethereum[label="the Ethereum network", shape="diamond"];
 	watcher -- ethereum;
+	dapp[label="dApp",shape="box"];
 	dapp -- market;
 	dapp -- sentry;
 	dapp -- ethereum;
+	SDK[shape="box"];
+	SDK -- sentry;
+	SDK -- market;
 }
