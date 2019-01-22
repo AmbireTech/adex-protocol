@@ -1,0 +1,23 @@
+graph {
+	// @TODO: users, SDK
+	// @TODO: can we visualize what data flows between the components?
+	// @TODO: most validator stack components use the adapter, and the adapter uses adex-protocol-eth
+	subgraph cluster_validator {
+		label="Validator (components/validator-stack.md)";
+		db[label="Database"];
+		worker[label="validatorWorker"];
+		sentry[label="Sentry"];
+		watcher[label="Watcher"];
+		worker -- db;
+		sentry -- db;
+		watcher -- db;
+	}
+	dapp[label="dApp"];
+	market[label="Market"];
+	market -- sentry;
+	ethereum[label="the Ethereum network", shape="diamond"];
+	watcher -- ethereum;
+	dapp -- market;
+	dapp -- sentry;
+	dapp -- ethereum;
+}
