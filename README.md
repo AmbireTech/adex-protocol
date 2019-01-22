@@ -387,7 +387,8 @@ This solves many UX hurdles that are typical for blockchain-related applications
 
 Some of these concepts are known to the Ethereum community as "meta tx" or "gas abstractions".
 
-The design of this component is currently (Dec 2018) a work in progress, but you can track it at: https://github.com/AdExNetwork/adex-protocol/issues/10
+The Identity component is implemented in the adex-protocol-eth repository.
+
 
 #### Pre-approved tokens
 
