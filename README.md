@@ -426,7 +426,9 @@ The current spec of the registry is in very early stages, but you can track it a
 
 ![Architecture](/graphs/architecture.svg)
 
-The dApp and the SDK are both client-side software, everything round is part of the AdEx peer-to-peer network (although, in practice, [many validators and markets may exist](/graphs/real-world.svg)), and the diamond shape represents another P2P network, in this case Ethereum.
+* The box-shaped dApp and SDK are client-side software
+* Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](/graphs/real-world.svg))
+* The diamond shape represents another P2P network, in this case Ethereum 
 
 To keep the representation simple, we've omitted some components: for example, the Identity is used by publishers/advertisers to interact with the dApp, and the Core runs on the Ethereum network itself. The Registry is a separate system, designed to help dApp users pick validators.
 
