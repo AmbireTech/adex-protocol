@@ -1,0 +1,19 @@
+graph {
+	subgraph cluster_adexNetwork {
+		label="The AdEx Network (many validators and markets can exist)";
+		vstack1[label="Validator"];
+		vstack2[label="Validator"];
+		vstack3[label="Validator"];
+		market[label="Market"];
+		vstack1 -- market;
+		vstack2 -- market;
+		vstack3 -- market;
+		vstack4 -- market;
+	}
+	ethereum[label="the Ethereum network", shape=diamond];
+	dapp[label="dApp"];
+	dapp -- market[penwidth=2];
+	dapp -- vstack1[style="dashed"];
+	dapp -- vstack3[style="dashed"];
+	dapp -- ethereum;
+}
