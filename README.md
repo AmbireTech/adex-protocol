@@ -254,6 +254,8 @@ Additional privacy can be achieved by having groups of publishers/advertisers ru
 
 The market is currently implemented in the `adex-node` repository. Because of it's aggregation-only role, it can be considered a back-end to [the dApp](https://beta.adex.network).
 
+For a detailed specification, see [market.md](/components/market.md).
+
 
 ### Validator stack ("platform")
 
@@ -271,7 +273,7 @@ In a normal setup, each of the nominated validators for an OUTPACE channel would
 
 The validators communicate with the outside world and between each other through a RESTful API, exposed by a component called a Sentry.
 
-For a detailed specification of each component, see [validator-stack.md](/components/validator-stack.md).
+For a detailed specification, see [validator-stack.md](/components/validator-stack.md).
 
 #### campaignSpec
 
