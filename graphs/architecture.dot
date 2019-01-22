@@ -3,7 +3,7 @@ graph {
 	// @TODO: can we visualize what data flows between the components?
 	// @TODO: most validator stack components use the adapter, and the adapter uses adex-protocol-eth
 	subgraph cluster_validator {
-		label="Validator (components/validator-stack.md)";
+		label="Validator";
 		db[label="Database"];
 		worker[label="validatorWorker"];
 		sentry[label="Sentry"];

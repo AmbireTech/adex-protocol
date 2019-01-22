@@ -12,7 +12,7 @@
 <g id="clust1" class="cluster">
 <title>cluster_validator</title>
 <polygon fill="none" stroke="#000000" points="337.5291,-8 337.5291,-155 747.5291,-155 747.5291,-8 337.5291,-8"/>
-<text text-anchor="middle" x="542.5291" y="-139.8" font-family="Times,serif" font-size="14.00" fill="#000000">Validator (components/validator&#45;stack.md)</text>
+<text text-anchor="middle" x="542.5291" y="-139.8" font-family="Times,serif" font-size="14.00" fill="#000000">Validator</text>
 </g>
 <!-- db -->
 <g id="node1" class="node">
