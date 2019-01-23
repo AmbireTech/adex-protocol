@@ -94,16 +94,32 @@ Returns all validators with that Ethereum address. It should usually return one 
 
 #### POST /user
 
-Allows publishers/advertisers to register by providing a signed message.
+Allows publishers/advertisers to register by providing a signed message. This will work even if you're using an [Identity contract](https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/extra/Identity.sol): in this case you need to provide a signed message which recovers an address that has at least `Transactions` privilege level at time of submission.
 
-Registration is not mandatory - it only serves discovery purposes
+Registration is not mandatory. The only purpose here is to signal your intent to be displayed as an advertiser/publisher in the Explorer.
 
 #### GET /user/list
 
 Lists registered users 
 
-`?isVerified` - verified users are addresses that have interacted with channels (opened or withdrew from channels)
+`?hasInteracted` - adresses that have interacted with channels (opened or withdrew from channels)
 
+
+### stats
+
+#### GET /stats
+
+Returns:
+
+* publisherCount - all the registered publishers where `hasInteracted` is true
+* advertiserCount - all the registered advertisers where `hasInteracted` is true
+* anonPublisherCount - count of all non-registered earners that appear in campaign balance trees (that are not validators)
+* anonAdvertiserCount - count of all non-registered advertisers (creators of campaigns)
+* campaignCount
+* campaignsByStatus: campaigns by status, counted
+* totalSpentFundsByAssetType
+
+At some point, we may add a method that returns an aggregated list of all ad units found in `campaignSpec` fields of known campaigns.
 
 
 ## Internals
