@@ -59,6 +59,7 @@ By default, this will return all the `Rctive` or `Ready` campaigns. Use `?status
 Each campaign will have:
 
 * id
+* creator
 * status
 * campaignSpec
 * depositAsset
