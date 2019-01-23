@@ -21,11 +21,11 @@ The Market must be configured with a list of validators beforehand, as well as w
 For example:
 
 
-```
+```json
 {
-	initialValidators: ['https://one.adex.network', 'https://thirdpartyvalidator.network'],
-	discoverValidators: {
-		enabled: true
+	"initialValidators": ["https://one.adex.network", "https://thirdpartyvalidator.network"],
+	"discoverValidators": {
+		"enabled": true
 	}
 }
 ```
