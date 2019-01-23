@@ -4,6 +4,7 @@ The `adex-market` (formerly named `adex-node`) is the RESTful service responsibl
 
 To be more precise, it facilitates submission and tracking of campaigns, as well as user registrations.
 
+**NOTE:** in AdEx, a campaign is a superset of a channel; when talking about the Market, we will use "campaign", but when pulling information from the validators, we are usually interacting with the `/channel` Sentry API
 
 ## Tracking all campaigns
 
@@ -17,12 +18,13 @@ This is accomplished by querying each individual validator about the channel sta
 
 The Market must be configured with a list of validators beforehand, as well as whether we want to enable further methods of discovery.
 
-e.g.
+For example:
+
 
 ```
 {
 	initialValidators: ['https://one.adex.network', 'https://thirdpartyvalidator.network'],
-	discover Validators: {
+	discoverValidators: {
 		enabled: true
 	}
 }
@@ -73,11 +75,38 @@ Returns all validators with that Ethereum address. It should usually return one 
 
 ### Discovery loop
 
-Every tick, 
+Every tick, we go through all the validators, and:
+
+1. query the `/channel/list`
+2. for each channel, we create a corresponding campaign entry (if we didn't already)
+3. for each channel, we record every validator that we didn't know of
 
 
 ### Status loop
 
+This loop starts with all the campaigns that we know of.
+
+For each campaign:
+
+1. It queries `/channel/:id/validator-messages` of every validator
+2. Determines the status from all of the responses
+3. Saves the status and a timestamp of when the status was last updated
+
+The status is determined:
+
+* `Initializing`: there are no messages at all for at least one validator
+* `Offline`: at least one validator doesn't have a recent `Heartbeat` message
+* `Disconnected`: validators have recent `Heartbeat` messages, but they don't seem to be propagating messages between one another (the majority of Heartbeats are not found on both validators)
+* `Invalid`: there are recent `NewState` messages, but the follower does not issue or propagate `ApproveState`
+* `Unhealthy`: there are recent `NewState` and `ApproveState`, but the `ApproveState` reports unhealthy
+* `Ready`: both validators have a recent `Heartbeat` but a `NewState` has never been emitted
+* `Active`: there are recent `NewState`, `ApproveState` and `Heartbeat`'s, and the `ApproveState` reports healthy
+
+For simplicity, initial implementations might merge `Disconnected` and `Invalid`
+
+Later, we will add detailed status reports: for example, "validator A is offline: has not produced any messages since ..."
+
+For discussion, see https://github.com/AdExNetwork/adex-market/issues/1
 
 ## Discovering campaigns without a Market service
 
@@ -85,4 +114,15 @@ In reality, running a Market service is nothing more than an optimization: the s
 
 However, we also provide an ability to use the `adex-market` repository as a library: if you only want to pull demand from a few validators, you can do that directly in your usecase without depending on another service.
 
+The library exposes both the discovery loop and the status loop.
 
+
+## Full process to get discovered
+
+The full process to get your campaign discovered by the dApp/SDK is:
+
+1. Create a campaign; this creates an OUTPACE channel on the Ethereum blockchain
+2. Send the campaign/channel information to every validator you've elected
+3. Once each validator ensures that the channel exists, and there are funds locked up in it, it will start returning it in `/channel/list` and issuing `Heartbeat` messages
+4. At this stage, the Market will discover it
+5. Once both validators have issued a `Heartbeat`, the status will turn into `Ready`
