@@ -50,7 +50,27 @@ Even though the AdEx Registry is the only method here that ensures validator rep
 
 ### campaigns
 
-### users
+#### GET /campaigns
+
+This will return all campaigns (paginated to a maximum of 100 results, through `?limit` and `?skip`)
+
+By default, this will return all the `Rctive` or `Ready` campaigns. Use `?status` to get campaigns with a different status. You can filter by multiple status values, e.g. `?status=Ready,Active`
+
+Each campaign will have:
+
+* id
+* status
+* campaignSpec
+* depositAsset
+* depositAmount
+
+#### GET /campaigns/:id
+
+This will return detailed information about each campaign, such as:
+
+* leaderBalanceTree
+* followerBalanceTree
+
 
 ### validators
 
@@ -70,6 +90,21 @@ Allows filtering returned validators by status (active, offline).
 Returns all validators with that Ethereum address. It should usually return one validator.
 
 
+### users
+
+#### POST /user
+
+Allows publishers/advertisers to register by providing a signed message.
+
+Registration is not mandatory - it only serves discovery purposes
+
+#### GET /user/list
+
+Lists registered users 
+
+`?isVerified` - verified users are addresses that have interacted with channels (opened or withdrew from channels)
+
+
 
 ## Internals
 
@@ -80,7 +115,6 @@ Every tick, we go through all the validators, and:
 1. query the `/channel/list`
 2. for each channel, we create a corresponding campaign entry (if we didn't already)
 3. for each channel, we record every validator that we didn't know of
-
 
 ### Status loop
 
@@ -101,6 +135,8 @@ The status is determined:
 * `Unhealthy`: there are recent `NewState` and `ApproveState`, but the `ApproveState` reports unhealthy
 * `Ready`: both validators have a recent `Heartbeat` but a `NewState` has never been emitted
 * `Active`: there are recent `NewState`, `ApproveState` and `Heartbeat`'s, and the `ApproveState` reports healthy
+* `Exhausted`: all of the funds in the channel have been distributed
+* `Expired`: the channel is expired
 
 For simplicity, initial implementations might merge `Disconnected` and `Invalid`
 
@@ -108,7 +144,8 @@ Later, we will add detailed status reports: for example, "validator A is offline
 
 For discussion, see https://github.com/AdExNetwork/adex-market/issues/1
 
-## Discovering campaigns without a Market service
+
+## Discovering campaigns without a Market service: adex-market library
 
 In reality, running a Market service is nothing more than an optimization: the same procedures described in [internals](#internals) could be ran directly at the dApp or the SDK. The Market service aggregates all this data so that the dApp/SDK don't need to send requests to every validator in the network on every user impression.
 
@@ -126,3 +163,15 @@ The full process to get your campaign discovered by the dApp/SDK is:
 3. Once each validator ensures that the channel exists, and there are funds locked up in it, it will start returning it in `/channel/list` and issuing `Heartbeat` messages
 4. At this stage, the Market will discover it
 5. Once both validators have issued a `Heartbeat`, the status will turn into `Ready`
+
+Channels that are `Ready` or `Active` will be considered by the SDK
+
+
+## Explorer
+
+The AdEx Explorer is a user interface directly on top of the Market, designed to provide all the detailed information the Market contains in an accessible way.
+
+It uses third-party APIs to provide extra information that's not available in the Market, for example:
+
+* Provides a list of all channels on the Ethereum blockchain that are not associated with a validator
+* Provides the USD/EUR value of campaign deposits
