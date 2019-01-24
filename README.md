@@ -263,7 +263,7 @@ The validator stack is a collective term for all off-chain components responsibl
 
 Full list of functionalities:
 
-1. Collecting events from users; this includes filtering them to ensure their validity and applying `campaignSpec` policies (e.g. max 10 events per user);
+1. Collecting events from users; this includes filtering them to ensure their validity and applying [`campaignSpec`](/campaignSpec.md) policies (e.g. max 10 events per user);
 2. Track the on-chain state of OUTPACE channels;
 3. Serve as a validator of the OUTPACE channels;
 4. Generating analytical reports;
@@ -279,13 +279,13 @@ For a detailed specification, see [validator-stack.md](/components/validator-sta
 
 In the [Core](#core), each OUTPACE channel has it's own `spec`, which is an arbitrary blob of bytes designed to contain any additional information for this channel.
 
-In the AdEx Protocol, we use that field for a specification of the advertising campaign.
+In the AdEx Protocol, we use that field for a specification of the advertising campaign, by referencing a JSON blob of the `campaignSpec` format.
 
-The `campaignSpec` value is a 32-byte IPFS hash of a JSON file, using the SHA2-256 digest function.
+To do that, we set the `spec` value to a 32-byte IPFS hash of the JSON blob, using the SHA2-256 digest function.
 
 If you're a dApp builder, it is recommended that you pin this file on your own IPFS nodes. However, this file will also be permenantly stored by the [Market](#market) when it's uploaded to it.
 
-For the JSON file specification, see [`campaignSpec.md`](/campaignSpec.md).
+For the JSON blob specification, see [`campaignSpec.md`](/campaignSpec.md).
 
 #### Paying by impression (CPM) or by click (CPC)
 
