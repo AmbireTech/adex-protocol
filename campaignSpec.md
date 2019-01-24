@@ -21,12 +21,32 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 **NOTE:** this format is unstable, it might change a lot
 
-**NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit
+**NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
-* `adUnits`: an array of `{ url: string, size: string }`
-* `validators`: an array of `{ addr: string, url: string, fee: BigNumStr }`; validators must directly correspond to the channel validators (same count and order)
+* `adUnits`: an array of AdUnit
+* `leader`: a Validator, corresponding to `channel.validators[0]`; also called "Advertiser-side Platform"
+* `follower`: a Validator, corresponding to `channel.validators[1]`; also called "Publisher-side Platform"
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
-* `targeting`: an array of `{ tag: string, score: uint }`
+* `targeting`: an array of TargetingTag, optional
+
+#### AdUnit
+
+* `type`: string, the type of the ad unit; currently, possible values are: `display:250x250`, `display:468x60`, `display:336x280`, `display:728x90`, `display:120x600`, `display:160x600`
+* `url`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
+* `targeting`: an array of TargetingTag, optional
+
+#### Validator
+
+* `addr`: string, the corresponding value in `channel.validators`
+* `url`: string, a HTTPS URL to the validator's sentry
+* `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
+
+#### TargetingTag
+
+* `tag`: string, arbitrary tag name
+* `score`: number, from 0 to 100
+
+**NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
 
 @TODO max events per user? also, how to define a "user"?
