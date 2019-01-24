@@ -27,3 +27,5 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 * `validators`: an array of `{ addr: string, url: string, fee: BigNumStr }`; validators must directly correspond to the channel validators (same count and order)
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
+
+@TODO max events per user? also, how to define a "user"?
