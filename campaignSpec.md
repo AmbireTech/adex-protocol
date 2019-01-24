@@ -23,6 +23,8 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
+**NOTE:** currently, we use separate `leader`/`follower` fields for validators rather than using an array of validators; this is because [Validator stack implementation](https://github.com/adexnetwork/adex-validator-stack-js), which this version of the format is intended to work with, only supports 2 validators
+
 * `adUnits`: an array of AdUnit
 * `leader`: a Validator, corresponding to `channel.validators[0]`; also called "Advertiser-side Platform"
 * `follower`: a Validator, corresponding to `channel.validators[1]`; also called "Publisher-side Platform"
@@ -50,3 +52,4 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 **NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
 
 @TODO max events per user? also, how to define a "user"?
+@TODO cancellation fee? may make fund distribution math more complex...
