@@ -34,7 +34,7 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 #### AdUnit
 
-* `type`: string, the type of the ad unit; currently, possible values are: `display:250x250`, `display:468x60`, `display:336x280`, `display:728x90`, `display:120x600`, `display:160x600`
+* `type`: string, the type of the ad unit; currently, possible values are: `display:250x250`, `display:468x60`, `display:336x280`, `display:728x90`, `display:120x600`, `display:160x600`; see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/)
 * `url`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
 * `targeting`: an array of TargetingTag, optional
 
