@@ -52,4 +52,4 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 **NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
 
 @TODO max events per user? also, how to define a "user"?
-@TODO cancellation fee? may make fund distribution math more complex...
+@TODO cancellation fee? may make fund distribution math more complex...; however, paying out the full validator fee is essentially *like* a cancellation fee
