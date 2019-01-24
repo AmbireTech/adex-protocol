@@ -15,7 +15,7 @@ Because the `campaignSpec` format needs to be able to evolve rapidly, we require
 * `version`: a semver version of the format
 * `body`: the `campaignSpec` body
 
-Example: `{ "version": "1.0.0-alpha",  "body": "..." }
+Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 ### campaignSpec format: v1.0.0-alpha
 
