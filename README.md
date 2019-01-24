@@ -171,6 +171,8 @@ This means that in most cases, no matter if you're a publisher or an advertiser,
 
 Third-party validators may require fees to participate in your channel (campaign). With OUTPACE, there's a convenient way of doing that, by just including an entry in the balances tree. Furthermore, the fees can be ongoing (e.g. per 1k events, or per minute), taking advantage of the micropayments capability of OUTPACE.
 
+In practice, a validator fee paid out proportionally to the distributed funds also works as the cancellation fee: if the cancel the campaign early, the full validator fee will be distributed without any real work done, giving the publisher-side platform an incentive to allow this.
+
 ### Validator consensus
 
 In a minimal setup, we have two validators defending opposite interests (advertiser-side platform, publisher-side platform).
