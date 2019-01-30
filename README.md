@@ -203,7 +203,7 @@ There are a number of mitigations that we believe are sufficient:
 
 1. The publisher-side platform(s) should be operated by consortiums of the largest publishers;
 2. There could be more than 2 validators (this also solves natural discrepancies and liveness issues);
-3. Generally, there's little incentive for an advertiser-side platform to help a publisher-side platform steal a portion of *their own* deposit'
+3. Generally, there's little incentive for an advertiser-side platform to help a publisher-side platform steal a portion of *their own* deposit
 4. Anyone can run publisher-side platforms, so we expect different publishers grouping together to create multiple platforms; in other words, large publishers can run their own publisher-side platforms.
 
 ### Liveness implications
