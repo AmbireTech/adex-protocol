@@ -31,7 +31,8 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
 * `targeting`: an array of TargetingTag, optional
-* `created`: a millisecond timestamp of when the campaign was created
+* `created`: Number, a millisecond timestamp of when the campaign was created
+* `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 
 #### AdUnit
 
