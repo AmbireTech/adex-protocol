@@ -18,10 +18,7 @@ In case the advertiser decides to close the campaign, this can happen with the e
 
 ## Unidirectional
 
-
-@TODO channel spec: explain why sequence is not needed
-
-@TODO channel spec: explain why challenge period is not needed
+Keeping the channels unidirectional allows OUTPACE to stay simple, and not rely on challenge periods and watchtowers. To read why, check out [Introducing OUTPACE](https://medium.com/the-adex-blog/introducing-outpace-off-chain-unidirectional-trustless-payment-channels-243a08e152a).
 
 @TODO channel spec: describe channelWithdraw; describe on-chain guarantees against double spending and why they work in a unidirectional channel; global withdrawn[channel] and withdrawnByAddr[channel][spender]; also `assert(available > alreadyWithdrawn)`
 
