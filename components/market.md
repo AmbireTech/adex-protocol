@@ -33,7 +33,7 @@ For example:
 
 ## AdEx Validator (Sentry node) discovery
 
-Currently, the only method of discovering validators that are not in the configuration set, is by scanning channels and aggregating validator information from the `campaignSpec` field of the channels it scrapes.
+Currently, the only method of discovering validators that are not in the configuration set, is by scanning channels and aggregating validator information from the [`campaignSpec`][campaignSpec] field of the channels it scrapes.
 
 For example, if we start with one validator in `initialValidators`, and it reports 3 channels, each of these 3 channels will have one more validator that we'll discover. If we repeat this cycle, we will discover even more channels and validators.
 
@@ -121,7 +121,76 @@ Returns:
 * campaignsByStatus: campaigns by status, counted
 * totalSpentFundsByAssetType
 
-At some point, we may add a method that returns an aggregated list of all ad units found in [campaignSpec] fields of known campaigns.
+At some point, we may add a method that returns an aggregated list of all ad units found in [`campaignSpec`][campaignSpec] fields of known campaigns.
+
+## Advertiser and Publisher data
+
+This routes requires user [authentication][auth] with `x-user-signature` header.
+
+Advertisers can add and get their [Ad Units][Ad Unit] and Publishers [Ad Slots][Ad Slot]
+
+### auth
+
+#### POST /auth
+
+Post body params:
+
+* userid,
+* signature,
+* authToken,
+* mode, [TODO]
+* typedData,
+* hash,
+* prefixed
+
+Returns user session in format:
+
+```
+{
+  "status": "OK",
+  "signature": "0xfd3360e247321a4126467e225d98e2ad299cb0eb99b5d3ec8d21f0e0a34deccd571f05b6aec9e21bb2274dba1a1aec826eeb6f5d7a40f497755061807006b2a51b",
+  "authToken": "4797227259654222",
+  "sigMode": 1,
+  "expiryTime": 1541927204484
+}
+``` 
+
+### media
+
+#### POST /media
+
+Accepts `Multipart form data` with `media` field for the media blob and `media-type` field for the media type and returns ipfs hash/
+
+Returns:
+
+* ipfs
+
+
+### Ad Units
+
+#### POST /unit
+
+Accepts JSON in valid [Ad Unit] format.
+Adds the data from the [Ad Units] to ipfs
+
+Returns:
+
+[Ad Unit] JSON plus ipfs hash
+
+#### GET /unit
+ Use `?limit` and `?skip` for pagination. 
+
+Returns aray with user's [Ad Units][Ad Unit].
+
+#### GET /unit/:id
+
+Returns [Ad Unit] bi it's [ipfs] hash
+
+### Ad Slots
+
+#### POST /slot
+
+@TODO
 
 
 ## Internals
@@ -196,3 +265,7 @@ It uses third-party APIs to provide extra information that's not available in th
 
 
 [campaignSpec]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md
+[Ad Unit]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adunit
+[Ad Slot]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adslot
+[auth]: #auth
+[ipfs]: https://ipfs.io/
