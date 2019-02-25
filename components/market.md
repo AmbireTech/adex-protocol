@@ -54,7 +54,7 @@ Even though the AdEx Registry is the only method here that ensures validator rep
 
 This will return all campaigns (paginated to a maximum of 100 results, through `?limit` and `?skip`)
 
-By default, this will return all the `Rctive` or `Ready` campaigns. Use `?status` to get campaigns with a different status. You can filter by multiple status values, e.g. `?status=Ready,Active`
+By default, this will return all the `Active` or `Ready` campaigns. Use `?status` to get campaigns with a different status. You can filter by multiple status values, e.g. `?status=Ready,Active`
 
 Each campaign will have:
 
@@ -62,7 +62,7 @@ Each campaign will have:
 * status
 * creator
 * validUntil
-* campaignSpec
+* [campaignSpec]
 * depositAsset
 * depositAmount
 
@@ -121,7 +121,7 @@ Returns:
 * campaignsByStatus: campaigns by status, counted
 * totalSpentFundsByAssetType
 
-At some point, we may add a method that returns an aggregated list of all ad units found in `campaignSpec` fields of known campaigns.
+At some point, we may add a method that returns an aggregated list of all ad units found in [campaignSpec] fields of known campaigns.
 
 
 ## Internals
@@ -193,3 +193,6 @@ It uses third-party APIs to provide extra information that's not available in th
 
 * Provides a list of all channels on the Ethereum blockchain that are not associated with a validator
 * Provides the USD/EUR value of campaign deposits
+
+
+[campaignSpec]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md
