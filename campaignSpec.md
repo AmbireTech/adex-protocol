@@ -4,9 +4,9 @@ The `spec` field within each channel describes the campaign it's associated with
 
 `campaignSpec` refers to the format of describing ad campaigns.
 
-If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's `spec` field would be set to an IPFS hash to a JSON blob of [the `campaignSpec` wrapper](#campaignSpec-wrapper).
+If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's `spec` field would be set to an [IPFS] hash to a JSON blob of [the `campaignSpec` wrapper](#campaignSpec-wrapper).
 
-Within the validator stack, the `campaignSpec` can be either downloaded from IPFS by the watcher or submitted directly to the Sentry.
+Within the validator stack, the `campaignSpec` can be either downloaded from [IPFS] by the watcher or submitted directly to the Sentry.
 
 ### campaignSpec wrapper
 
@@ -25,7 +25,7 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 **NOTE:** currently, we use separate `leader`/`follower` fields for validators rather than using an array of validators; this is because [Validator stack implementation](https://github.com/adexnetwork/adex-validator-stack-js), which this version of the format is intended to work with, only supports 2 validators
 
-* `adUnits`: an array of AdUnit
+* `adUnits`: an array of [AdUnit](#Adunit)
 * `leader`: a Validator, corresponding to `channel.validators[0]`; also called "Advertiser-side Platform"
 * `follower`: a Validator, corresponding to `channel.validators[1]`; also called "Publisher-side Platform"
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
@@ -55,3 +55,5 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 @TODO max events per user? also, how to define a "user"?
 @TODO cancellation fee? may make fund distribution math more complex...; however, paying out the full validator fee is essentially *like* a cancellation fee
+
+[ipfs]: https://ipfs.io/
