@@ -163,8 +163,7 @@ Accepts `Multipart form data` with `media` field for the media blob and `media-t
 
 Returns:
 
-* ipfs
-
+* `ipfs`, string with [ipfs] hash 
 
 ### Ad Units
 
@@ -178,7 +177,7 @@ Returns:
 [Ad Unit] JSON plus ipfs hash
 
 #### GET /unit
- Use `?limit` and `?skip` for pagination. 
+Use `?limit` and `?skip` for pagination. 
 
 Returns aray with user's [Ad Units][Ad Unit].
 
@@ -189,9 +188,17 @@ Returns [Ad Unit] bi it's [ipfs] hash
 ### Ad Slots
 
 #### POST /slot
+Accepts JSON in valid [Ad Slot] format.
+Adds the data from the [Ad Slot] to ipfs
 
-@TODO
+Returns:
 
+[Ad Slot] JSON plus ipfs hash
+
+#### GET /slot
+Use `?limit` and `?skip` for pagination. 
+
+Returns aray with user's [Ad Slots][Ad Slot].
 
 ## Internals
 
@@ -266,6 +273,6 @@ It uses third-party APIs to provide extra information that's not available in th
 
 [campaignSpec]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md
 [Ad Unit]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adunit
-[Ad Slot]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adslot
+[Ad Slot]: https://github.com/AdExNetwork/adex-protocol/blob/master/adSlot.md
 [auth]: #auth
 [ipfs]: https://ipfs.io/
