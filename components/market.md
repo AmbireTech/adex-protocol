@@ -141,7 +141,7 @@ Post body params:
 * `authToken`: number, random integer  
 * `hash`: string, hash of the signed typed data `[{ type: 'uint', name: 'Auth token', value: authToken }]`
 
-Returns user session in JOSON format:
+Returns user session in JSON format:
 
 * `status`: `OK` if `userid` match the recovered addres from `signature`, `mode`, and `hash`
 * `signature`: string, same as provided
