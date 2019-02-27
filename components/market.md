@@ -96,7 +96,7 @@ Returns all validators with that Ethereum address. It should usually return one 
 
 #### POST /user
 
-Allows publishers/advertisers to register by providing a signed message. This will work even if you're using an [Identity contract](https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/extra/Identity.sol): in this case you need to provide a signed message which recovers an address that has at least `Transactions` privilege level at time of submission.
+Allows publishers/advertisers to register by providing a signed message. This will work even if you're using an [Identity contract]: in this case you need to provide a signed message which recovers an address that has at least `Transactions` privilege level at time of submission.
 
 Registration is not mandatory. The only purpose here is to signal your intent to be displayed as an advertiser/publisher in the Explorer.
 
@@ -135,25 +135,19 @@ Advertisers can add and get their [Ad Units][Ad Unit] and Publishers [Ad Slots][
 
 Post body params:
 
-* userid,
-* signature,
-* authToken,
-* mode, [TODO]
-* typedData,
-* hash,
-* prefixed
+* `userid`: string, user eth address or [identity contrac] address
+* `signature`: string, signature of the signed hash provided 
+* `mode`: number, the way data is signed. `0` for EIP signature (Metamask), `1` for ETH Personal sig (GETH, LEDGER), `2` for Trezor (Legacy)
+* `authToken`: number, random integer  
+* `hash`: string, hash of the signed typed data `[{ type: 'uint', name: 'Auth token', value: authToken }]`
 
-Returns user session in format:
+Returns user session in JOSON format:
 
-```
-{
-  "status": "OK",
-  "signature": "0xfd3360e247321a4126467e225d98e2ad299cb0eb99b5d3ec8d21f0e0a34deccd571f05b6aec9e21bb2274dba1a1aec826eeb6f5d7a40f497755061807006b2a51b",
-  "authToken": "4797227259654222",
-  "sigMode": 1,
-  "expiryTime": 1541927204484
-}
-``` 
+* `status`: `OK` if `userid` match the recovered addres from `signature`, `mode`, and `hash`
+* `signature`: string, same as provided
+* `authToken`: number, same as provided
+* `mode`: number, same as provided
+* `expiryTime`: number, UTC timestamp in milliseconds until the seesion is active
 
 ### media
 
@@ -170,7 +164,7 @@ Returns:
 #### POST /unit
 
 Accepts JSON in valid [Ad Unit] format.
-Adds the data from the [Ad Units] to ipfs
+Adds the data from the [Ad Unit] to ipfs
 
 Returns:
 
@@ -276,3 +270,4 @@ It uses third-party APIs to provide extra information that's not available in th
 [Ad Slot]: https://github.com/AdExNetwork/adex-protocol/blob/master/adSlot.md
 [auth]: #auth
 [ipfs]: https://ipfs.io/
+[Identity contract]: https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/extra/Identity.sol
