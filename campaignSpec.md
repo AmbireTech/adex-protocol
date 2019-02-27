@@ -4,9 +4,9 @@ The `spec` field within each channel describes the campaign it's associated with
 
 `campaignSpec` refers to the format of describing ad campaigns.
 
-If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's `spec` field would be set to an IPFS hash to a JSON blob of [the `campaignSpec` wrapper](#campaignSpec-wrapper).
+If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's `spec` field would be set to an [IPFS] hash to a JSON blob of [the `campaignSpec` wrapper](#campaignSpec-wrapper).
 
-Within the validator stack, the `campaignSpec` can be either downloaded from IPFS by the watcher or submitted directly to the Sentry.
+Within the validator stack, the `campaignSpec` can be either downloaded from [IPFS] by the watcher or submitted directly to the Sentry.
 
 ### campaignSpec wrapper
 
@@ -25,7 +25,7 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 **NOTE:** currently, we use separate `leader`/`follower` fields for validators rather than using an array of validators; this is because [Validator stack implementation](https://github.com/adexnetwork/adex-validator-stack-js), which this version of the format is intended to work with, only supports 2 validators
 
-* `adUnits`: an array of AdUnit
+* `adUnits`: an array of [AdUnit](#Adunit)
 * `leader`: a Validator, corresponding to `channel.validators[0]`; also called "Advertiser-side Platform"
 * `follower`: a Validator, corresponding to `channel.validators[1]`; also called "Publisher-side Platform"
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
@@ -37,8 +37,11 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 #### AdUnit
 
 * `type`: string, the type of the ad unit; currently, possible values are: `legacy_250x250`, `legacy_468x60`, `legacy_336x280`, `legacy_728x90`, `legacy_120x600`, `legacy_160x600` see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/) and `iab_flex_{adUnitName}` (see [IAB's new ad portfolio](https://www.iab.com/newadportfolio/) and [PDF](https://www.iab.com/wp-content/uploads/2017/08/IABNewAdPortfolio_FINAL_2017.pdf))
-* `url`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
-* `targeting`: an array of TargetingTag, optional
+* `mediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
+* `targetUrl`: string, the advertised URL
+* `targeting`: an array of [TargetingTag](TargetingTag), optional
+* `tags`: an array of [TargetingTag](#TargetingTag), meant for discovery between publishers/advertisers
+* `owner`: user address from the session
 
 #### Validator
 
@@ -55,3 +58,5 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 @TODO max events per user? also, how to define a "user"?
 @TODO cancellation fee? may make fund distribution math more complex...; however, paying out the full validator fee is essentially *like* a cancellation fee
+
+[ipfs]: https://ipfs.io/
