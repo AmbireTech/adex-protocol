@@ -1,6 +1,6 @@
 ## Ad Slot
 
-Ad Slot represents Publisher ad space entity for displaying [Ad Unit] with the following fields:
+Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] with the following fields:
 
 * `type`: string, the type of the ad slot that will match [Ad Unit] `type`
 * `fallbackMediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability. It will be displayed int the ad slot space if there are no active campaigns for that slot
