@@ -33,7 +33,7 @@ For example:
 
 ## AdEx Validator (Sentry node) discovery
 
-Currently, the only method of discovering validators that are not in the configuration set, is by scanning channels and aggregating validator information from the `campaignSpec` field of the channels it scrapes.
+Currently, the only method of discovering validators that are not in the configuration set, is by scanning channels and aggregating validator information from the [`campaignSpec`][campaignSpec] field of the channels it scrapes.
 
 For example, if we start with one validator in `initialValidators`, and it reports 3 channels, each of these 3 channels will have one more validator that we'll discover. If we repeat this cycle, we will discover even more channels and validators.
 
@@ -54,7 +54,7 @@ Even though the AdEx Registry is the only method here that ensures validator rep
 
 This will return all campaigns (paginated to a maximum of 100 results, through `?limit` and `?skip`)
 
-By default, this will return all the `Rctive` or `Ready` campaigns. Use `?status` to get campaigns with a different status. You can filter by multiple status values, e.g. `?status=Ready,Active`
+By default, this will return all the `Active` or `Ready` campaigns. Use `?status` to get campaigns with a different status. You can filter by multiple status values, e.g. `?status=Ready,Active`
 
 Each campaign will have:
 
@@ -62,7 +62,7 @@ Each campaign will have:
 * status
 * creator
 * validUntil
-* campaignSpec
+* [campaignSpec]
 * depositAsset
 * depositAmount
 
@@ -96,7 +96,7 @@ Returns all validators with that Ethereum address. It should usually return one 
 
 #### POST /user
 
-Allows publishers/advertisers to register by providing a signed message. This will work even if you're using an [Identity contract](https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/extra/Identity.sol): in this case you need to provide a signed message which recovers an address that has at least `Transactions` privilege level at time of submission.
+Allows publishers/advertisers to register by providing a signed message. This will work even if you're using an [Identity contract]: in this case you need to provide a signed message which recovers an address that has at least `Transactions` privilege level at time of submission.
 
 Registration is not mandatory. The only purpose here is to signal your intent to be displayed as an advertiser/publisher in the Explorer.
 
@@ -121,8 +121,78 @@ Returns:
 * campaignsByStatus: campaigns by status, counted
 * totalSpentFundsByAssetType
 
-At some point, we may add a method that returns an aggregated list of all ad units found in `campaignSpec` fields of known campaigns.
+At some point, we may add a method that returns an aggregated list of all ad units found in [`campaignSpec`][campaignSpec] fields of known campaigns.
 
+## Advertiser and Publisher data
+
+This routes requires user [authentication][auth] with `x-user-signature` header.
+
+Advertisers can add and get their [Ad Units][Ad Unit] and Publishers [Ad Slots][Ad Slot]
+
+### auth
+
+#### POST /auth
+
+Post body params:
+
+* `userid`: string, user eth address or [identity contrac] address
+* `signature`: string, signature of the signed hash provided 
+* `mode`: number, the way data is signed. `0` for EIP signature (Metamask), `1` for ETH Personal sig (GETH, LEDGER), `2` for Trezor (Legacy)
+* `authToken`: number, random integer  
+* `hash`: string, hash of the signed typed data `[{ type: 'uint', name: 'Auth token', value: authToken }]`
+
+Returns user session in JSON format:
+
+* `status`: `OK` if `userid` match the recovered addres from `signature`, `mode`, and `hash`
+* `signature`: string, same as provided
+* `authToken`: number, same as provided
+* `mode`: number, same as provided
+* `expiryTime`: number, UTC timestamp in milliseconds until the seesion is active
+
+### media
+
+#### POST /media
+
+Accepts `Multipart form data` with `media` field for the media blob and `media-type` field for the media type and returns ipfs hash/
+
+Returns:
+
+* `ipfs`, string with [ipfs] hash 
+
+### Ad Units
+
+#### POST /unit
+
+Accepts JSON in valid [Ad Unit] format.
+Adds the data from the [Ad Unit] to ipfs
+
+Returns:
+
+[Ad Unit] JSON plus ipfs hash
+
+#### GET /unit
+Use `?limit` and `?skip` for pagination. 
+
+Returns aray with user's [Ad Units][Ad Unit].
+
+#### GET /unit/:id
+
+Returns [Ad Unit] bi it's [ipfs] hash
+
+### Ad Slots
+
+#### POST /slot
+Accepts JSON in valid [Ad Slot] format.
+Adds the data from the [Ad Slot] to ipfs
+
+Returns:
+
+[Ad Slot] JSON plus ipfs hash
+
+#### GET /slot
+Use `?limit` and `?skip` for pagination. 
+
+Returns aray with user's [Ad Slots][Ad Slot].
 
 ## Internals
 
@@ -193,3 +263,11 @@ It uses third-party APIs to provide extra information that's not available in th
 
 * Provides a list of all channels on the Ethereum blockchain that are not associated with a validator
 * Provides the USD/EUR value of campaign deposits
+
+
+[campaignSpec]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md
+[Ad Unit]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adunit
+[Ad Slot]: https://github.com/AdExNetwork/adex-protocol/blob/master/adSlot.md
+[auth]: #auth
+[ipfs]: https://ipfs.io/
+[Identity contract]: https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/extra/Identity.sol
