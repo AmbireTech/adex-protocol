@@ -135,7 +135,7 @@ Advertisers can add and get their [Ad Units][Ad Unit] and Publishers [Ad Slots][
 
 Post body params:
 
-* `identity`: string, identity contract address, will be used `owner` prop in [Ad unit] and [Ad Slot]
+* `identity`: string, [identity contract] address, will be used `owner` prop in [Ad unit] and [Ad Slot]
 * `address`: string, user eth address which signs the `authToken`, we check if the address has `privileges > 0` in the `identity` contract address
 * `signature`: string, signature of the signed hash param 
 * `mode`: number, the way data is signed. `0` for EIP signature (Metamask), `1` for ETH Personal sig (GETH, LEDGER), `2` for Trezor (Legacy)
