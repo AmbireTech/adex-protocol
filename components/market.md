@@ -135,19 +135,19 @@ Advertisers can add and get their [Ad Units][Ad Unit] and Publishers [Ad Slots][
 
 Post body params:
 
-* `userid`: string, user eth address or [identity contrac] address
-* `signature`: string, signature of the signed hash provided 
+* `identity`: string, [identity contract] address, will be used `owner` prop in [Ad unit] and [Ad Slot]
+* `address`: string, user eth address which signs the `authToken`, we check if the address has `privileges > 0` in the `identity` contract address
+* `signature`: string, signature of the signed hash param 
 * `mode`: number, the way data is signed. `0` for EIP signature (Metamask), `1` for ETH Personal sig (GETH, LEDGER), `2` for Trezor (Legacy)
 * `authToken`: number, random integer  
 * `hash`: string, hash of the signed typed data `[{ type: 'uint', name: 'Auth token', value: authToken }]`
 
 Returns user session in JSON format:
 
-* `status`: `OK` if `userid` match the recovered addres from `signature`, `mode`, and `hash`
-* `signature`: string, same as provided
-* `authToken`: number, same as provided
-* `mode`: number, same as provided
-* `expiryTime`: number, UTC timestamp in milliseconds until the seesion is active
+* `status`: `"OK"` if `address` match the recovered address from `signature`, `mode`, and `hash`, and has `privileges > 0` in the `identity` contract address
+* `identity`: string, the verified identity
+* `signature`: string, checked signature to be used as `x-user-signature` header for accessing `/media`, `/unit`, and `/slot` endpoints
+* `expiryTime`: number, UTC timestamp in milliseconds until the session is active
 
 ### media
 
