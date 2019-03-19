@@ -43,6 +43,8 @@ The Sentry is responsible for all the RESTful APIs and communication.
 
 Furthermore, the Sentry is the point that receives events from users, and it is it's job to impose limits described in the `campaignSpec` (e.g. max 10 events per user) and other sanity checks (e.g. limits per IP). Basically, any event that the sentry puts in the database will be counted by the validator worker.
 
+Multiple Sentry nodes can be spawned at the same time, and they can be across different servers/data centers. This will ensure redundancy and near-100% uptime. Furthermore, even if the OUTPACE worker crashes, as long as the events are recorded, channels will always be able to recover when the worker starts up again.
+
 @TODO nginx, ip restrictions
 
 #### API
