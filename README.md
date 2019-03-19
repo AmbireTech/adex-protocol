@@ -8,7 +8,7 @@ The AdEx protocol facilitates trading of advertising space/time, as well as the 
 
 The rationale for creating the AdEx protocol was to create an open-source, transparent and fraud-proof replacement to the entire existing stack. By introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
 
-The AdEx team also develops an open source dApp built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
+The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
@@ -232,7 +232,7 @@ The channel is created with the following information:
 * `deposit`: total monetary deposit; on Ethereum, this is denoted in `tokenAddr` and `tokenAmount`;
 * `validUntil`: the date until this channel is valid; this is also the period within the publishers can withdraw, so it should be longer than the actual specified campaign length (e.g. 3x longer);
 * `validators`: an array of all the validators who are responsible for signing a new state; one of them should represent the advertiser, and the other - the publisher(s);
-* `spec`: describes all the campaign criteria: e.g. buy as many impressions as possible, the maximum price they're willing to pay for impressions, and campaign duration; this is stored as arbitrary bytes (32); in the dApp, we encode the criteria directly in there, but it can be used to reference a JSON descriptor stored on IPFS.
+* `spec`: describes all the campaign criteria: e.g. buy as many impressions as possible, the maximum price they're willing to pay for impressions, and campaign duration; this is stored as arbitrary bytes (32); in the platform, we encode the criteria directly in there, but it can be used to reference a JSON descriptor stored on IPFS.
 
 The Ethereum implementation of this component is called [`adex-protocol-eth`](https://github.com/AdExNetwork/adex-protocol-eth). While the current running implementation of AdEx is the Ethereum one, we are also experimenting with [Cosmos](https://github.com/AdExNetwork/adex-protocol-cosmos) and [Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate).
 
@@ -403,9 +403,9 @@ It's important to note that **this is not enforced on a blockchain/smart contrac
 
 #### Sign-up process
 
-We intend to allow publishers/advertisers to sign-up to the dApp using any pre-approved token (e.g. DAI, ADX), or with ETH, by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
+We intend to allow publishers/advertisers to sign-up to the platform using any pre-approved token (e.g. DAI, ADX), or with ETH, by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
 
-If there's a suitable way to do it, we intend to allow opening a campaign with USD/EUR by integrating the dApp with a third-party service that allows purchasing DAI with USD/EUR.
+If there's a suitable way to do it, we intend to allow opening a campaign with USD/EUR by integrating the platform with a third-party service that allows purchasing DAI with USD/EUR.
 
 We are also exploring the possibilities of allowing signing up with BTC, by using HTLC-based atomic swaps or Bitcoin SPVs to exchange it for a pre-approved token.
 
@@ -431,11 +431,11 @@ The current spec of the registry is in very early stages, but you can track it a
 
 ![Architecture](/graphs/architecture.svg)
 
-* The box-shaped dApp and SDK are client-side software
+* The box-shaped platform and SDK are client-side software
 * Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](/graphs/real-world.svg))
 * The diamond shape represents another P2P network, in this case Ethereum 
 
-To keep the representation simple, we've omitted some components: for example, the Identity is used by publishers/advertisers to interact with the dApp, and the Core runs on the Ethereum network itself. The Registry is a separate system, designed to help dApp users pick validators.
+To keep the representation simple, we've omitted some components: for example, the Identity is used by publishers/advertisers to interact with the platform, and the Core runs on the Ethereum network itself. The Registry is a separate system, designed to help platform users pick validators.
 
 ### Preventing fraud/Sybil attacks
 
