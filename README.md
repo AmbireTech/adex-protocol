@@ -88,7 +88,7 @@ Because of these constraints, an OUTPACE channel does not need sequences or chal
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
 
-One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side platform and a publisher-side [platforms](#validator-stack). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression/click/etc.), and the publishers are able to withdraw their earnings at any point.
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side and a publisher-side [validators](#validator-stack). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression/click/etc.), and the publishers are able to withdraw their earnings at any point.
 
 The possible states of an OUTPACE channel are:
 
@@ -118,17 +118,17 @@ However, in practice, it's possible to have additional observers who are not val
 
 Each observer must have a publicly accessible HTTPS endpoint for receiving events from the SDK.
 
-#### Platform
+#### Validator stack
 
-Platform refers to the entire [validator stack](#validator-stack), which is a set of software components that all validators/observers need to run.
+"Validator stack" refers to the entire [validator stack](#validator-stack), which is a set of software components that all validators/observers need to run.
 
-To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform".
+To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side validator" and "advertiser-side validator".
 
 ## Flow
 
 The entire flow is as follows:
 
-1. The advertiser (demand side) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack)), and one that represents publishers (publisher-side [platform](#validator-stack)).
+1. The advertiser (demand side) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [validator](#validator-stack)), and one that represents publishers (publisher-side [validator](#validator-stack)).
 2. Validator(s) have to accept that they're nominated for this channel (and prove that they're available) by broadcasting a signed message to the other validator(s).
 3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators.
 4. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators.
@@ -149,19 +149,19 @@ Each campaign has a duration, normally in the range of 2-12 weeks. An OUTPACE ch
 
 ### Closing a campaign
 
-If an advertiser wants to close a campaign, they sign a new state, which distributes the remaining deposit: most of it goes back to the advertiser's wallet, and a small part goes to the publisher platform as a cancellation fee.
+If an advertiser wants to close a campaign, they sign a new state, which distributes the remaining deposit: most of it goes back to the advertiser's wallet, and a small part goes to the publisher validator as a cancellation fee.
 
-The publisher-side platform recognizes this as an intention to close the campaign, and signs the state as well, therefore allowing the advertiser to withdraw their unspent funds. With this, the channel is considered exhausted and no longer represents any demand.
+The publisher-side validator recognizes this as an intention to close the campaign, and signs the state as well, therefore allowing the advertiser to withdraw their unspent funds. With this, the channel is considered exhausted and no longer represents any demand.
 
-While it is possible for a publisher-side platform to refuse to approve the state, they gain nothing from doing so: (1) the advertiser has decided to cancel the campaign, meaning they won't sign any new states with new payments to publishers anyway; (2) after a channel is no longer valid, they still get their unspent deposit back; and (3) the publisher-side platform gets compensated with a cancellation fee.
+While it is possible for a publisher-side validator to refuse to approve the state, they gain nothing from doing so: (1) the advertiser has decided to cancel the campaign, meaning they won't sign any new states with new payments to publishers anyway; (2) after a channel is no longer valid, they still get their unspent deposit back; and (3) the publisher-side validator gets compensated with a cancellation fee.
 
 ### Campaign health
 
 The campaign health is a publisher-specific concept that indicates whether the advertiser is properly paying out after impression events.
 
-Each publisher, with the help of the publisher-side platform, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the paid amount increases sufficiently.
+Each publisher, with the help of the publisher-side validator, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the paid amount increases sufficiently.
 
-The campaign health should not be confused with OUTPACE state sanity: even if a campaign is unhealthy, the publisher-side platform validator will continue signing new states as long as they're valid: because of the unidirectional flow, valid states can only mean more revenue for publishers.
+The campaign health should not be confused with OUTPACE state sanity: even if a campaign is unhealthy, the publisher-side  validator will continue signing new states as long as they're valid: because of the unidirectional flow, valid states can only mean more revenue for publishers.
 
 ### Validator fees
 
@@ -171,11 +171,11 @@ This means that in most cases, no matter if you're a publisher or an advertiser,
 
 Third-party validators may require fees to participate in your channel (campaign). With OUTPACE, there's a convenient way of doing that, by just including an entry in the balances tree. Furthermore, the fees can be ongoing (e.g. per 1k events, or per minute), taking advantage of the micropayments capability of OUTPACE.
 
-In practice, a validator fee paid out proportionally to the distributed funds also works as the cancellation fee: if the cancel the campaign early, the full validator fee will be distributed without any real work done, giving the publisher-side platform an incentive to allow this.
+In practice, a validator fee paid out proportionally to the distributed funds also works as the cancellation fee: if the cancel the campaign early, the full validator fee will be distributed without any real work done, giving the publisher-side validator an incentive to allow this.
 
 ### Validator consensus
 
-In a minimal setup, we have two validators defending opposite interests (advertiser-side platform, publisher-side platform).
+In a minimal setup, we have two validators defending opposite interests (advertiser-side, publisher-side).
 
 This setup, by itself, does not imply any additional trust: each new state has to be approved by both the paying side and the receiving side (essentially, a 2 out of 2 setup). Essentially, the sender signs a new state, which pays more to the receiver, but we require both to sign off, otherwise the sender would be able to arbitrarily manipulate the balances. To learn more, you can read [Understanding payment channels](https://blog.chainside.net/understanding-payment-channels-4ab018be79d4) or [state channels](https://www.jeffcoleman.ca/state-channels/).
 
@@ -185,26 +185,26 @@ We do that because:
 
 * Sometimes we need a third party to resolve conflicts created by natural discrepancies (e.g. an event was received by 1 out of 2 parties, and there's no tiebreaker);
 * Maintaining liveness is critical; in a 2 out of 2 setup, 1 party going down means that the channel stalls;
-* The publisher needs to trust the publisher-side platform, read on to [Trust implications](#trust-implications).
+* The publisher needs to trust the publisher-side validator, read on to [Trust implications](#trust-implications).
 
 ### Trust implications
 
 For a state to be valid, it requires >=2/3 validator signatures. In a setup with the minimum number of validators, 2, this can only mean 2 signatures.
 
-As you many have noticed, we imply that multiple publishers delegate/operate a single publisher-side platform, implying it will act in their interest.
+As you many have noticed, we imply that multiple publishers delegate/operate a single publisher-side validator, implying it will act in their interest.
 
-Generally, even without trusting the platform, the publishers will receive constant guarantees for their revenue.
+Generally, even without trusting the validator, the publishers will receive constant guarantees for their revenue.
 
-However, if the publisher-side platform and the advertiser-side platform both become malicious, they can sign a new state, allowing them to withdraw the channel balance together.
+However, if the publisher-side validator and the advertiser-side validator both become malicious, they can sign a new state, allowing them to withdraw the channel balance together.
 
 This attack is only possible if >2/3 (in this case, all 2 out of 2) validators become malicious, and it wouldn't be a problem in a regular payment channel where the signers are the actual participants.
 
 There are a number of mitigations that we believe are sufficient:
 
-1. The publisher-side platform(s) should be operated by consortiums of the largest publishers;
+1. The publisher-side validator(s) should be operated by consortiums of the largest publishers;
 2. There could be more than 2 validators (this also solves natural discrepancies and liveness issues);
-3. Generally, there's little incentive for an advertiser-side platform to help a publisher-side platform steal a portion of *their own* deposit
-4. Anyone can run publisher-side platforms, so we expect different publishers grouping together to create multiple platforms; in other words, large publishers can run their own publisher-side platforms.
+3. Generally, there's little incentive for an advertiser-side validator to help a publisher-side validator steal a portion of *their own* deposit
+4. Anyone can run publisher-side validators, so we expect different publishers grouping together to create multiple validators; in other words, large publishers can run their own publisher-side validators.
 
 ### Liveness implications
 
@@ -348,11 +348,11 @@ Once again, it's important to note that all those tags collected reside in the u
 
 #### Blacklisting ads
 
-Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do this, it will be saved locally so this ad will never be shown to you, but also reported to all publisher-side platforms the SDK is aware of.
+Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do this, it will be saved locally so this ad will never be shown to you, but also reported to all publisher-side validators the SDK is aware of.
 
-While a publisher-side platform may choose to ignore such an event, it's mostly in the interest of publishers to keep track of the most blacklisted ads and possibly stop serving them altogether.
+While a publisher-side validators may choose to ignore such an event, it's mostly in the interest of publishers to keep track of the most blacklisted ads and possibly stop serving them altogether.
 
-An additional improvement on the SDK would be to allow users to gossip blacklists directly between each other, therefore eliminating the ability of publisher-side platforms to act together and ignore blacklist events. This feature is not trivial, as it requires a reliable sybil resistance mechanism.
+An additional improvement on the SDK would be to allow users to gossip blacklists directly between each other, therefore eliminating the ability of publisher-side validators to act together and ignore blacklist events. This feature is not trivial, as it requires a reliable sybil resistance mechanism.
 
 
 #### Security
