@@ -254,7 +254,7 @@ The market needs to track all on-chain OUTPACE channels and needs to constantly 
 
 Additional privacy can be achieved by having groups of publishers/advertisers run their own instances of the market - that way, campaigns will be visible only within their private group.
 
-The market is currently implemented in the `adex-node` repository. Because of it's aggregation-only role, it can be considered a back-end to [the dApp](https://beta.adex.network).
+The market is currently implemented in the `adex-market` repository. Because of it's aggregation-only role, it can be considered a back-end to [the dApp](https://beta.adex.network).
 
 For a detailed specification, see [market.md](/components/market.md).
 
