@@ -88,7 +88,7 @@ Because of these constraints, an OUTPACE channel does not need sequences or chal
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
 
-One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side platform and a publisher-side [platforms](#validator-stack-platform). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression/click/etc.), and the publishers are able to withdraw their earnings at any point.
+One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side platform and a publisher-side [platforms](#validator-stack). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression/click/etc.), and the publishers are able to withdraw their earnings at any point.
 
 The possible states of an OUTPACE channel are:
 
@@ -120,7 +120,7 @@ Each observer must have a publicly accessible HTTPS endpoint for receiving event
 
 #### Platform
 
-Platform refers to the entire [validator stack](#validator-stack-platform), which is a set of software components that all validators/observers need to run.
+Platform refers to the entire [validator stack](#validator-stack), which is a set of software components that all validators/observers need to run.
 
 To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side platform" and "advertiser-side platform".
 
@@ -128,7 +128,7 @@ To prevent confusion with the normal terms "supply-side platform" (SSP) and "dem
 
 The entire flow is as follows:
 
-1. The advertiser (demand side) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack-platform)), and one that represents publishers (publisher-side [platform](#validator-stack-platform)).
+1. The advertiser (demand side) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [platform](#validator-stack)), and one that represents publishers (publisher-side [platform](#validator-stack)).
 2. Validator(s) have to accept that they're nominated for this channel (and prove that they're available) by broadcasting a signed message to the other validator(s).
 3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators.
 4. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators.
@@ -214,7 +214,7 @@ If this happens, the publishers can immediately stop delivering ads for the give
 
 Should the validator(s) come online again, everything can resume as normal.
 
-The possibility of validators going offline is mitigated by (1) the architecture of [the validator stack](#validator-stack-platform) and (2) the ability of OUTPACE to work with any arbitrary number of validators.
+The possibility of validators going offline is mitigated by (1) the architecture of [the validator stack](#validator-stack) and (2) the ability of OUTPACE to work with any arbitrary number of validators.
 
 
 
@@ -259,7 +259,7 @@ The market is currently implemented in the `adex-market` repository. Because of 
 For a detailed specification, see [market.md](/components/market.md).
 
 
-### Validator stack ("platform")
+### Validator stack
 
 The validator stack is a collective term for all off-chain components responsible of handling events, managing OUTPACE channels and generating analytical reports.
 
@@ -299,7 +299,7 @@ Ultimately, the raw resource the publisher provides is impressions, and the conv
 
 #### Analytical reports
 
-The validators of an OUTPACE channel are usually two instances of the platform: one represents the advertiser, and the other represents multiple publishers.
+The validators of an OUTPACE channel are usually two instances of the validator stack: one represents the advertiser, and the other represents multiple publishers.
 
 This means they receive all the data related to this OUTPACE channel, therefore allowing them to aggregate it into useful reports (via the `adex-reports-worker` component).
 
@@ -444,7 +444,7 @@ One of the main challenges of any digital advertising system is preventing fake 
 There are a few ways to mitigate that in AdEx:
 
 1) Traditional ad tech methods, such as IP whitelists/blacklists;
-2) The SDK has to send each event to each validator, and the platform(s) will keep an internal ledger of IPs events came from and impose a limit;
+2) The SDK has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit;
 3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event;
 4) The SDK allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold;
 5) Publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser.
@@ -459,7 +459,7 @@ We do have a way to improve on-chain capacity as well: our OUTPACE payment chann
 
 ### Autonomous regulation
 
-Ultimately, AdEx is completely censorship resistant since anyone can run their own [Market](#market) and [Platform](#validator-stack-platform) and do whatever they want with them.
+Ultimately, AdEx is completely censorship resistant since anyone can run their own [Market](#market) and [Platform](#validator-stack) and do whatever they want with them.
 
 However, there are plenty of situations where you need control; for example, as a publisher, you may want your website to be free of deceptive ads (malvertising).
 
