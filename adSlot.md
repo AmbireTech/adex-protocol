@@ -7,7 +7,7 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 * `type`: string, the type of the ad slot that will match [Ad Unit] `type`
 * `tags`: an array of [TargetingTag], meant for discovery between publishers/advertisers
 * `owner`: user address from the session
-* `createdOn`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
+* `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
 
 ##### Non spec properties (not added to ipfs and CAN be modified*)
 
@@ -18,7 +18,7 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 * `fallbackMediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `fallbackTargetUrl`: string, a URL to that will be open in case of non active campaigns
 * `archived`: boolean, user can change it - used for filtering in platform UI
-* `modifiedOn`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
+* `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
 
 
 [Ad Unit]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adunit

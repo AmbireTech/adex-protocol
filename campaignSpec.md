@@ -45,7 +45,7 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 * `targeting`: an array of [TargetingTag](TargetingTag), optional
 * `tags`: an array of [TargetingTag](#TargetingTag), meant for discovery between publishers/advertisers
 * `owner`: user address from the session
-* `createdOn`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
+* `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
 
 ##### Non spec properties (not added to ipfs and CAN be modified*)
 
@@ -53,7 +53,7 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 * `title`: string, the name of the unit used in platform UI
 * `description`: string, arbitrary text used in platform UI
 * `archived`: boolean, user can change it - used for filtering in platform UI
-* `modifiedOn`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
+* `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
 
 #### Validator
 
