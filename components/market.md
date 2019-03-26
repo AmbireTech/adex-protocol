@@ -177,7 +177,7 @@ Returns aray with user's [Ad Units][Ad Unit].
 
 #### GET /unit/:id
 
-Returns [Ad Unit] bi it's [ipfs] hash
+Returns [Ad Unit] by it's [ipfs] hash
 
 ### Ad Slots
 

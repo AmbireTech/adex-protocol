@@ -3,12 +3,14 @@
 Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] with the following fields:
 
 ##### Spec properties (added to [ipfs] and can NOT be modified) 
+
 * `type`: string, the type of the ad slot that will match [Ad Unit] `type`
 * `tags`: an array of [TargetingTag], meant for discovery between publishers/advertisers
 * `owner`: user address from the session
 * `createdOn`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
 
 ##### Non spec properties (not added to ipfs and CAN be modified*)
+
 * `ipfs`: string, valid [ipfs] hash of spec props *can NOT be modified. Unit should be 
 * `title`: string, the name of the unit used in platform UI
 * `description`: string, arbitrary text used in platform UI
