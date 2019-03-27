@@ -36,12 +36,24 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 #### AdUnit
 
+##### Spec properties (added to [ipfs] and can NOT be modified) 
+
 * `type`: string, the type of the ad unit; currently, possible values are: `legacy_250x250`, `legacy_468x60`, `legacy_336x280`, `legacy_728x90`, `legacy_120x600`, `legacy_160x600` see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/) and `iab_flex_{adUnitName}` (see [IAB's new ad portfolio](https://www.iab.com/newadportfolio/) and [PDF](https://www.iab.com/wp-content/uploads/2017/08/IABNewAdPortfolio_FINAL_2017.pdf))
 * `mediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
+* `mediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `targetUrl`: string, the advertised URL
 * `targeting`: an array of [TargetingTag](TargetingTag), optional
 * `tags`: an array of [TargetingTag](#TargetingTag), meant for discovery between publishers/advertisers
 * `owner`: user address from the session
+* `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
+
+##### Non spec properties (not added to ipfs and CAN be modified*)
+
+* `ipfs`: string, valid [ipfs] hash of spec props *can NOT be modified. Unit should be accessible by this [ipfs] hash
+* `title`: string, the name of the unit used in platform UI
+* `description`: string, arbitrary text used in platform UI
+* `archived`: boolean, user can change it - used for filtering in platform UI
+* `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
 
 #### Validator
 
