@@ -177,7 +177,7 @@ Returns aray with user's [Ad Units][Ad Unit].
 
 #### GET /unit/:id
 
-Returns [Ad Unit] bi it's [ipfs] hash
+Returns [Ad Unit] by it's [ipfs] hash
 
 ### Ad Slots
 
@@ -193,6 +193,9 @@ Returns:
 Use `?limit` and `?skip` for pagination. 
 
 Returns aray with user's [Ad Slots][Ad Slot].
+
+#### GET /tags
+Returns array of all predefined [TargetingTags][TargetingTag] as array of strings without the `score` prop. This tags are meant for discovery between publishers/advertisers.
 
 ## Internals
 
@@ -271,3 +274,4 @@ It uses third-party APIs to provide extra information that's not available in th
 [auth]: #auth
 [ipfs]: https://ipfs.io/
 [Identity contract]: https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/extra/Identity.sol
+[TargetingTag]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#targetingtag
