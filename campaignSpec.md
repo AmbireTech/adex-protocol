@@ -23,11 +23,8 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
-**NOTE:** currently, we use separate `leader`/`follower` fields for validators rather than using an array of validators; this is because [Validator stack implementation](https://github.com/adexnetwork/adex-validator-stack-js), which this version of the format is intended to work with, only supports 2 validators
-
 * `adUnits`: an array of [AdUnit](#Adunit)
-* `leader`: a Validator, corresponding to `channel.validators[0]`; also called "Advertiser-side Platform"
-* `follower`: a Validator, corresponding to `channel.validators[1]`; also called "Publisher-side Platform"
+* `validators`: an array of Validator objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
 * `targeting`: an array of TargetingTag, optional
