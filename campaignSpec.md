@@ -30,6 +30,7 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 * `targeting`: an array of TargetingTag, optional
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
+* `gracePeriodStart`: Number, a millisecond timestamp of when the campaign should enter a grace period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is recommended to set this at least one month prior to `channel.validUntil * 1000`
 
 #### AdUnit
 
