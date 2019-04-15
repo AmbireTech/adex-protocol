@@ -27,7 +27,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
 * `targeting`: optional, an array of TargetingTag
-* `limits`: Limits object
+* `limits`: Limits object, applies to event submission (POST `/channel/:id/events`)
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is recommended to set this at least one month prior to `channel.validUntil * 1000`
@@ -50,7 +50,11 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 #### Limits
 
+Limits that apply to submitting events
 
+* `authWhitelist`: optional, an array of strings that represent the whitelisted identities that may submit events
+* `allowWithoutAuth`: boolean, whether to allow calls without auth
+* `ipLimits`: whether to apply IP-based throttling to the event submissions without auth
 
 #### AdUnit
 
