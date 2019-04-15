@@ -27,7 +27,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
 * `targeting`: optional, an array of TargetingTag
-* `limits`: Limits object, applies to event submission (POST `/channel/:id/events`)
+* `eventSubmission`: EventSubmission object, applies to event submission (POST `/channel/:id/events`)
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is recommended to set this at least one month prior to `channel.validUntil * 1000`
@@ -48,13 +48,23 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 **NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
 
 
-#### Limits
+#### EventSubmission
 
-Limits that apply to submitting events
+Rules that apply to submitting events
 
-* `authWhitelist`: optional, an array of strings that represent the whitelisted identities that may submit events
-* `allowWithoutAuth`: boolean, whether to allow calls without auth
-* `ipLimits`: whether to apply IP-based throttling to the event submissions without auth
+* `allow`: array of `EventSubmissionRule`; for each POST to `/channel/:id/events`, the first rule that matches will apply
+
+##### EventSubmissionRule
+
+* `uids`: array of used IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
+* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type: "ip", timeframe }`, where `timeframe` is a number; later, `{ type: "uid", timeframe }` will be added
+
+##### Examples
+
+`{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow everyone to submit events, at a rate of 1 event per second per IP
+
+`{ allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow the creator to submit as many events as they like, but everyone else will be restricted to 1 event per second per IP
+
 
 #### AdUnit
 
