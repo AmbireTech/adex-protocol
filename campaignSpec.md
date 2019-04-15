@@ -15,9 +15,9 @@ Because the `campaignSpec` format needs to be able to evolve rapidly, we require
 * `version`: a semver version of the format
 * `body`: the `campaignSpec` body
 
-Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
+Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
-### campaignSpec format: v1.0.0-alpha
+### campaignSpec format: v1.0.0-beta
 
 **NOTE:** this format is unstable, it might change a lot
 
@@ -65,8 +65,5 @@ Example: `{ "version": "1.0.0-alpha",  "body": "..." }`
 * `score`: number, from 0 to 100
 
 **NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
-
-@TODO max events per user? also, how to define a "user"?
-@TODO cancellation fee? may make fund distribution math more complex...; however, paying out the full validator fee is essentially *like* a cancellation fee
 
 [ipfs]: https://ipfs.io/
