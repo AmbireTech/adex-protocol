@@ -4,6 +4,7 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 
 ##### Spec properties (added to [ipfs] and can NOT be modified) 
 
+* `ipfs`: string, valid [ipfs] hash of spec props below
 * `type`: string, the type of the ad slot that will match [Ad Unit] `type`
 * `tags`: an array of [TargetingTag], meant for discovery between publishers/advertisers
 * `owner`: user address from the session
@@ -11,7 +12,6 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 
 ##### Non spec properties (not added to ipfs and CAN be modified*)
 
-* `ipfs`: string, valid [ipfs] hash of spec props *can NOT be modified. Unit should be 
 * `title`: string, the name of the unit used in platform UI
 * `description`: string, arbitrary text used in platform UI
 * `fallbackMediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability. It will be displayed int the ad slot space if there are no active campaigns for that slot
