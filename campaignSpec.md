@@ -12,7 +12,7 @@ Within the validator stack, the `spec` is submitted as part of the POST `/channe
 
 Because the `campaignSpec` format needs to be able to evolve rapidly, we can use a wrapper that also contains the format version.
 
-**Please note,** this wrapper format is not in use as of Q1 2019 (v4.0). If we decide to use it later, we can obsolete the `channel.spec` field and introduce a `channel.campaignSpec`, which contains this wrpaper.
+**Please note,** this wrapper format is not in use as of Q1 2019 (v4.0). If we decide to use it later, we can obsolete the `channel.spec` field and introduce another field which contains this wrpaper.
 
 * `version`: a semver version of the format
 * `body`: the `campaignSpec` body
@@ -20,8 +20,6 @@ Because the `campaignSpec` format needs to be able to evolve rapidly, we can use
 Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 ### campaignSpec format: v1.0.0-beta
-
-**NOTE:** this format is unstable, it might change a lot
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
