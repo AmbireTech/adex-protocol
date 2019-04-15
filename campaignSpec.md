@@ -23,14 +23,34 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
-* `adUnits`: an array of [AdUnit](#Adunit)
 * `validators`: an array of Validator objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
-* `targeting`: an array of TargetingTag, optional
+* `targeting`: optional, an array of TargetingTag
+* `limits`: Limits object
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is recommended to set this at least one month prior to `channel.validUntil * 1000`
+* `adUnits`: optional, an array of [AdUnit](#Adunit)
+
+
+#### Validator
+
+* `addr`: string, the corresponding value in `channel.validators`
+* `url`: string, a HTTPS URL to the validator's sentry
+* `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
+
+#### TargetingTag
+
+* `tag`: string, arbitrary tag name
+* `score`: number, from 0 to 100
+
+**NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
+
+
+#### Limits
+
+
 
 #### AdUnit
 
@@ -52,18 +72,5 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `description`: string, arbitrary text used in platform UI
 * `archived`: boolean, user can change it - used for filtering in platform UI
 * `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
-
-#### Validator
-
-* `addr`: string, the corresponding value in `channel.validators`
-* `url`: string, a HTTPS URL to the validator's sentry
-* `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
-
-#### TargetingTag
-
-* `tag`: string, arbitrary tag name
-* `score`: number, from 0 to 100
-
-**NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
 
 [ipfs]: https://ipfs.io/
