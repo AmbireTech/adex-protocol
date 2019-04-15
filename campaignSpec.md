@@ -4,13 +4,15 @@ The `spec` field within each channel describes the campaign it's associated with
 
 `campaignSpec` refers to the format of describing ad campaigns.
 
-If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's `spec` field would be set to an [IPFS] hash to a JSON blob of [the `campaignSpec` wrapper](#campaignSpec-wrapper).
+If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's on-chain `spec` field would be set to a sha256 hash of the JSON blob of the `channel.spec` field.
 
-Within the validator stack, the `campaignSpec` can be either downloaded from [IPFS] by the watcher or submitted directly to the Sentry.
+Within the validator stack, the `spec` is submitted as part of the POST `/channel` request.
 
 ### campaignSpec wrapper
 
-Because the `campaignSpec` format needs to be able to evolve rapidly, we require that channels point to a wrapper that also contains the format version
+Because the `campaignSpec` format needs to be able to evolve rapidly, we can use a wrapper that also contains the format version.
+
+**Please note,** this wrapper format is not in use as of Q1 2019 (v4.0). If we decide to use it later, we can obsolete the `channel.spec` field and introduce a `channel.campaignSpec`, which contains this wrpaper.
 
 * `version`: a semver version of the format
 * `body`: the `campaignSpec` body
