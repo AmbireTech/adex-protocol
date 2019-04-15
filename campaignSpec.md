@@ -4,13 +4,15 @@ The `spec` field within each channel describes the campaign it's associated with
 
 `campaignSpec` refers to the format of describing ad campaigns.
 
-If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's `spec` field would be set to an [IPFS] hash to a JSON blob of [the `campaignSpec` wrapper](#campaignSpec-wrapper).
+If a channel is associated with a campaign (in practice, all channels created by the AdEx dapp are), it's on-chain `spec` field would be set to a sha256 hash of the JSON blob of the `channel.spec` field.
 
-Within the validator stack, the `campaignSpec` can be either downloaded from [IPFS] by the watcher or submitted directly to the Sentry.
+Within the validator stack, the `spec` is submitted as part of the POST `/channel` request.
 
 ### campaignSpec wrapper
 
-Because the `campaignSpec` format needs to be able to evolve rapidly, we require that channels point to a wrapper that also contains the format version
+Because the `campaignSpec` format needs to be able to evolve rapidly, we can use a wrapper that also contains the format version.
+
+**Please note,** this wrapper format is not in use as of Q1 2019 (v4.0). If we decide to use it later, we can obsolete the `channel.spec` field and introduce another field which contains this wrpaper.
 
 * `version`: a semver version of the format
 * `body`: the `campaignSpec` body
@@ -19,18 +21,50 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 ### campaignSpec format: v1.0.0-beta
 
-**NOTE:** this format is unstable, it might change a lot
-
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
-* `adUnits`: an array of [AdUnit](#Adunit)
 * `validators`: an array of Validator objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
-* `targeting`: an array of TargetingTag, optional
+* `targeting`: optional, an array of TargetingTag
+* `eventSubmission`: EventSubmission object, applies to event submission (POST `/channel/:id/events`)
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is recommended to set this at least one month prior to `channel.validUntil * 1000`
+* `adUnits`: optional, an array of [AdUnit](#Adunit)
+
+
+#### Validator
+
+* `addr`: string, the corresponding value in `channel.validators`
+* `url`: string, a HTTPS URL to the validator's sentry
+* `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
+
+#### TargetingTag
+
+* `tag`: string, arbitrary tag name
+* `score`: number, from 0 to 100
+
+**NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
+
+
+#### EventSubmission
+
+Rules that apply to submitting events
+
+* `allow`: array of `EventSubmissionRule`; for each POST to `/channel/:id/events`, the first rule that matches will apply
+
+##### EventSubmissionRule
+
+* `uids`: array of used IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
+* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type: "ip", timeframe }`, where `timeframe` is a number; later, `{ type: "uid", timeframe }` will be added
+
+##### Examples
+
+`{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow everyone to submit events, at a rate of 1 event per second per IP
+
+`{ allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow the creator to submit as many events as they like, but everyone else will be restricted to 1 event per second per IP
+
 
 #### AdUnit
 
@@ -52,18 +86,5 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `description`: string, arbitrary text used in platform UI
 * `archived`: boolean, user can change it - used for filtering in platform UI
 * `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
-
-#### Validator
-
-* `addr`: string, the corresponding value in `channel.validators`
-* `url`: string, a HTTPS URL to the validator's sentry
-* `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
-
-#### TargetingTag
-
-* `tag`: string, arbitrary tag name
-* `score`: number, from 0 to 100
-
-**NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
 
 [ipfs]: https://ipfs.io/
