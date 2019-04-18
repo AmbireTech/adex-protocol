@@ -27,8 +27,10 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
 * `targeting`: optional, an array of TargetingTag
+* `minTargetingScore`: optional, Number; minimum targeting score
 * `eventSubmission`: EventSubmission object, applies to event submission (POST `/channel/:id/events`)
 * `created`: Number, a millisecond timestamp of when the campaign was created
+* `activeFrom`: optional, Number, a millisecond timestamp representing the time you want this campaign to become active; used by the [`AdViewManager`](https://github.com/AdExNetwork/adex-adview-manager)
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is recommended to set this at least one month prior to `channel.validUntil * 1000`
 * `adUnits`: optional, an array of [AdUnit](#Adunit)
@@ -76,6 +78,7 @@ Rules that apply to submitting events
 * `mediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `targetUrl`: string, the advertised URL
 * `targeting`: an array of [TargetingTag](TargetingTag), optional
+* `minTargetingScore`: optional, Number; minimum targeting score
 * `tags`: an array of [TargetingTag](#TargetingTag), meant for discovery between publishers/advertisers
 * `owner`: user address from the session
 * `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
