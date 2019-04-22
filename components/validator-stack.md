@@ -118,7 +118,7 @@ Other than that, the advertiser may adjust the amount that they want to pay dyna
 
 On every impression, the SDK (running on the publisher's website/app) will pull all active and healthy campaigns from a configurable list of publisher-side platforms.
 
-Then, it will sort them by the price the advertisers are willing to pay (as reported by the publisher-side platforms), take only top N (where N is configurable by the publisher), and run the targeting process between these top N.
+Then, it will sort them by the price the advertisers are willing to pay (as reported by the publisher-side platforms), take only top N (where N is configurable by the publisher, see [`topByPrice`](https://github.com/adexnetwork/adex-adview-manager#options)), and run the targeting process between these top N.
 
 By adjusting N, the publisher can decide the balance between UX (more appropriate ads shown to the users) and revenue.
 
