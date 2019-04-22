@@ -103,10 +103,6 @@ Each message must be individually signed by the validator who's emitting it.
 
 @TODO describe the problem that a few publishers might chose a channel when there's a small amount of funds left, and this will create a race where only the first impression would get paid; we can solve that by paying in advance, but this is impractical since it requires 2 communication hops (1 commit, 1 payment)
 
-### Watcher
-
-@TODO elaborate on the blockchain-agnostic design
-
 ### Reports worker
 
 
