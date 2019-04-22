@@ -6,6 +6,8 @@
 
 #### However, there is an actual reference implementation of the validator stack here: https://github.com/adexnetwork/adex-validator-stack-js
 
+#### As of the v0.4 milestonei (2019-04) of the reference implementation, most of this document is outdated, except Bidding process, which is not part of the validator stack anyway
+
 -----------------------
 
 ## Diagram
