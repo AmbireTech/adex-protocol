@@ -23,6 +23,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
+* `title`: string, used mostly for advertisers own info
 * `validators`: an array of Validator objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
@@ -73,7 +74,7 @@ Rules that apply to submitting events
 ##### Spec properties (added to [ipfs] and can NOT be modified) 
 
 * `ipfs`: string, valid [ipfs] hash of spec props below
-* `type`: string, the type of the ad unit; currently, possible values are: `legacy_250x250`, `legacy_468x60`, `legacy_336x280`, `legacy_728x90`, `legacy_120x600`, `legacy_160x600` see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/) and `iab_flex_{adUnitName}` (see [IAB's new ad portfolio](https://www.iab.com/newadportfolio/) and [PDF](https://www.iab.com/wp-content/uploads/2017/08/IABNewAdPortfolio_FINAL_2017.pdf))
+* `type`: string, the type of the ad unit; currently, possible values are: `legacy_250x250`, `legacy_468x60`, `legacy_336x280`, `legacy_728x90`, `legacy_120x600`, `legacy_160x600,` see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/) and `iab_flex_{adUnitName}` (see [IAB's new ad portfolio](https://www.iab.com/newadportfolio/) and [PDF](https://www.iab.com/wp-content/uploads/2017/08/IABNewAdPortfolio_FINAL_2017.pdf))
 * `mediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
 * `mediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `targetUrl`: string, the advertised URL
