@@ -24,12 +24,12 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
 * `title`: string, used mostly for advertisers own info
-* `validators`: an array of Validator objects; should always be 2 elements, first being the leader, second being the follower
+* `validators`: an array of [Validator](#validator) objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
-* `targeting`: optional, an array of TargetingTag
+* `targeting`: optional, an array of [TargetingTag](#targetingtag)
 * `minTargetingScore`: optional, Number; minimum targeting score
-* `eventSubmission`: EventSubmission object, applies to event submission (POST `/channel/:id/events`)
+* `eventSubmission`: [EventSubmission](#eventsubmission) object, applies to event submission (POST `/channel/:id/events`)
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `activeFrom`: optional, Number, a millisecond timestamp representing the time you want this campaign to become active; used by the [`AdViewManager`](https://github.com/AdExNetwork/adex-adview-manager)
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
@@ -78,7 +78,7 @@ Rules that apply to submitting events
 * `mediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
 * `mediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `targetUrl`: string, the advertised URL
-* `targeting`: an array of [TargetingTag](TargetingTag), optional
+* `targeting`: an array of [TargetingTag](#TargetingTag), optional
 * `minTargetingScore`: optional, Number; minimum targeting score
 * `tags`: an array of [TargetingTag](#TargetingTag), meant for discovery between publishers/advertisers
 * `owner`: user address from the session
