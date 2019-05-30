@@ -39,7 +39,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 #### Validator
 
-* `addr`: string, the corresponding value in `channel.validators`
+* `id`: string, the corresponding value in `channel.validators`
 * `url`: string, a HTTPS URL to the validator's sentry
 * `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
 
@@ -78,9 +78,9 @@ Rules that apply to submitting events
 * `mediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
 * `mediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `targetUrl`: string, the advertised URL
-* `targeting`: an array of [TargetingTag](#TargetingTag), optional
+* `targeting`: an array of [TargetingTag](#TargetingTag)
 * `minTargetingScore`: optional, Number; minimum targeting score
-* `tags`: an array of [TargetingTag](#TargetingTag), meant for discovery between publishers/advertisers
+* `tags`: an array of [TargetingTag](#TargetingTag), optional, meant for discovery between publishers/advertisers
 * `owner`: user address from the session
 * `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
 
