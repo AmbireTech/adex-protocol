@@ -66,6 +66,10 @@ Rules that apply to submitting events
 
 `{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow everyone to submit events, at a rate of 1 event per second per IP
 
+`{ allow: [{ uids: null }] }` - this will allow everyone to submit events with no limit
+
+`{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }, { uids: null, rateLimit: { type: "sid", timeframe: 1000 } }] }` - will apply both an IP limit and a SID limit
+
 `{ allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow the creator to submit as many events as they like, but everyone else will be restricted to 1 event per second per IP
 
 
