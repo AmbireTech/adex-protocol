@@ -12,7 +12,7 @@ The primary job of the market is to allow for advertisers to register their camp
 
 This is accomplished by querying each individual validator about the channel state periodically.
 
-**Please note:** each publisher should rely on their publisher-side platform to track the demand for them. The Market only aggregates the information from vaidators to facilitate discovery.
+**Please note:** each publisher should rely on their publisher-side platform to track the demand for them. The Market only aggregates the information from validators to facilitate discovery.
 
 ## Configuration
 

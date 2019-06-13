@@ -23,12 +23,13 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
-* `validators`: an array of Validator objects; should always be 2 elements, first being the leader, second being the follower
+* `title`: string, used mostly for advertisers own info
+* `validators`: an array of [Validator](#validator) objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
-* `targeting`: optional, an array of TargetingTag
+* `targeting`: optional, an array of [TargetingTag](#targetingtag)
 * `minTargetingScore`: optional, Number; minimum targeting score
-* `eventSubmission`: EventSubmission object, applies to event submission (POST `/channel/:id/events`)
+* `eventSubmission`: [EventSubmission](#eventsubmission) object, applies to event submission (POST `/channel/:id/events`)
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `activeFrom`: optional, Number, a millisecond timestamp representing the time you want this campaign to become active; used by the [`AdViewManager`](https://github.com/AdExNetwork/adex-adview-manager)
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
@@ -38,7 +39,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
 #### Validator
 
-* `addr`: string, the corresponding value in `channel.validators`
+* `id`: string, the corresponding value in `channel.validators`
 * `url`: string, a HTTPS URL to the validator's sentry
 * `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
 
@@ -65,6 +66,10 @@ Rules that apply to submitting events
 
 `{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow everyone to submit events, at a rate of 1 event per second per IP
 
+`{ allow: [{ uids: null }] }` - this will allow everyone to submit events with no limit
+
+`{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }, { uids: null, rateLimit: { type: "sid", timeframe: 1000 } }] }` - will apply both an IP limit and a SID limit
+
 `{ allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow the creator to submit as many events as they like, but everyone else will be restricted to 1 event per second per IP
 
 
@@ -73,13 +78,13 @@ Rules that apply to submitting events
 ##### Spec properties (added to [ipfs] and can NOT be modified) 
 
 * `ipfs`: string, valid [ipfs] hash of spec props below
-* `type`: string, the type of the ad unit; currently, possible values are: `legacy_250x250`, `legacy_468x60`, `legacy_336x280`, `legacy_728x90`, `legacy_120x600`, `legacy_160x600` see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/) and `iab_flex_{adUnitName}` (see [IAB's new ad portfolio](https://www.iab.com/newadportfolio/) and [PDF](https://www.iab.com/wp-content/uploads/2017/08/IABNewAdPortfolio_FINAL_2017.pdf))
+* `type`: string, the type of the ad unit; currently, possible values are: `legacy_300x250`, `legacy_250x250`, `legacy_240x400`, `legacy_336x280`, `legacy_180x150`, `legacy_300x100`, `legacy_720x300`, `legacy_468x60`, `legacy_234x60`, `legacy_88x31`, `legacy_120x90`, `legacy_120x60`, `legacy_120x240`, `legacy_125x125`, `legacy_728x90`, `legacy_160x600`, `legacy_120x600`, `legacy_300x600`, see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/) and `iab_flex_{adUnitName}` (see [IAB's new ad portfolio](https://www.iab.com/newadportfolio/) and [PDF](https://www.iab.com/wp-content/uploads/2017/08/IABNewAdPortfolio_FINAL_2017.pdf))
 * `mediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
 * `mediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `targetUrl`: string, the advertised URL
-* `targeting`: an array of [TargetingTag](TargetingTag), optional
+* `targeting`: an array of [TargetingTag](#TargetingTag)
 * `minTargetingScore`: optional, Number; minimum targeting score
-* `tags`: an array of [TargetingTag](#TargetingTag), meant for discovery between publishers/advertisers
+* `tags`: an array of [TargetingTag](#TargetingTag), optional, meant for discovery between publishers/advertisers
 * `owner`: user address from the session
 * `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
 
