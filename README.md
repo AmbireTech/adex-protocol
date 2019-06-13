@@ -56,6 +56,8 @@ Ad campaigns are traditionally defined as "coordinated series of linked advertis
 
 Campaigns are created with a total budget (e.g. 5000 DAI) and a specification of the desired result: e.g. purchase as many impressions as possible for this ad, with a maximum allowed price per impression and targeting information.
 
+Because campaigns represent a financial commitment on a smart contract, they can be also be seen as smart, automated insertion orders.
+
 The cryptocurrencies that can be used for a campaign depend on what [Core](#core) is used and what it supports: e.g. the Ethereum implementation supports all ERC20 tokens.
 
 In the AdEx protocol, one campaign always maps to one payment channel called **OUTPACE**.
