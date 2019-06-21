@@ -48,7 +48,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `tag`: string, arbitrary tag name
 * `score`: number, from 0 to 100
 
-**NOTE:** the SDK will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
+**NOTE:** the [Adview](https://github.com/adexnetwork/adex-adview-manager) will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
 
 
 #### EventSubmission
@@ -56,6 +56,8 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 Rules that apply to submitting events
 
 * `allow`: array of `EventSubmissionRule`; for each POST to `/channel/:id/events`, the first rule that matches will apply
+
+**NOTE:** submission rules (limits) apply to channels as a whole, rather than individual ad units. This means that, a single campaign will only be counted once per the `rateLimit` window, no matter how many ad units are shown to the user
 
 ##### EventSubmissionRule
 
