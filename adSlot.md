@@ -14,12 +14,11 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 
 * `title`: string, the name of the unit used in platform UI
 * `description`: string, arbitrary text used in platform UI
-* `fallbackMediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability. It will be displayed int the ad slot space if there are no active campaigns for that slot
-* `fallbackMediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
-* `fallbackTargetUrl`: string, a URL to that will be open in case of non active campaigns
+* `fallbackUnit`: string, valid [ipfs] hash for [Ad Unit] object. It will be used as fallback data. It is optional
 * `archived`: boolean, user can change it - used for filtering in platform UI
 * `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
 
 
 [Ad Unit]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adunit
 [TargetingTag]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#targetingtag
+[ipfs]: https://ipfs.io/
