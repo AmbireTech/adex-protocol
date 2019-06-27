@@ -65,6 +65,11 @@ No. However, AdEx advertisers can take advantage of header bidding, which is qui
 
 Header bidding is the process of pulling all the bids in the browser, evaluating them and then sending the preferred bids to the ad exchange. In AdEx, there is no classic ad exchange, but what we do is even more convenient: we pull all information about demand (campaigns, bids) in the browser, and directly select the bid depending on what we know about the user, therefore implementing targeting without revealing the user's profile.
 
+## What is the relationship to OpenRTB?
+[OpenRTB](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md) is an open standard for real-time bidding, and along with [AdCOM](https://github.com/InteractiveAdvertisingBureau/AdCOM), it covers how most components in a modern ad tech supply chain should communicate. Because AdEx also incorporates payments, and does not allow revealing user data, it's different enough to be considered an alternative standard that you can use in place of OpenRTB.
+
+That said, AdEx does not try to reinvent the wheel, and therefore (1) can interoperate with OpenRTB in certain situations and (2) will support using AdCOM formats in near future
+
 ## Do you have a bug bounty? 
 Yes, we do. We offer rewards for security vulnerabilities that coders discover after every major release of the AdEx dApp. [Read more about the AdEx bug bounty.](https://medium.com/the-adex-blog/announcing-the-adex-bug-bounty-a5a6e0621094)
 
