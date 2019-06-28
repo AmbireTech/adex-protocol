@@ -2,28 +2,27 @@
 
 ## Intro
 
-AdEx is an open, trust-minimized protocol & stack for digital advertising that reduces ad fraud, malvertising and protects user privacy. It originated in 2017 as a decentralized ad exchange for digital advertising, and later evolved into a full-stack solution.
+AdEx is an open, trust-minimized protocol & stack for digital advertising that reduces ad fraud, malvertising and protects user privacy. It originated in 2017 as a decentralized ad exchange for digital advertising, and later evolved into the full-stack solution it is today.
 
 The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
-The rationale for creating the AdEx protocol was to create an open-source, transparent and fraud-proof replacement to the entire existing stack. By introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
+The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. By introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
 
-The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at https://beta.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
+The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at https://platform.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
-This document assumes basic familiarity with computer science, blockchain and ad tech.
+This document assumes basic familiarity with computer science, blockchain and adtech.
 
-### Benefits
+### Values
 
-* Transparent reporting for all sides
-* Minimized fees, and no commissions
-* Minimized trust required
-* End users [in control](#the-adex-lounge) of [their data](#sdk)
-* Blockchain-agnostic
-* Token/currency-agnostic
-* Browser/runtime-agnostic
-* Wide variety of use cases, including but not limited to: display advertising, affiliate networks, and even content micropayments
+* **Transparency:** full reporting transparency for publishers and advertisers; they both receive the same reports
+* **No intermediaries:** connect publishers and advertisers as directly as possible, therefore maximizing results and revenues; this also implies minimized fees and no commissions
+* **Data privacy:** ensure the user's data stays private by never collecting it
+* **Censorship resistance:** we empower a free and self-governed ad market with no centralised restrictions on what can and can't be advertised
+* **Ease of use:** modern adtech is complicated. We aim to make it as easy as possible to interact with AdEx
+* **No custody of funds:** users have full control over their own funds
+* **Flexibility:** wide variety of use cases, including but not limited to: display advertising, affiliate networks, and even content micropayments
 
 ### Terminology
 
@@ -256,7 +255,7 @@ The market needs to track all on-chain OUTPACE channels and needs to constantly 
 
 Additional privacy can be achieved by having groups of publishers/advertisers run their own instances of the market - that way, campaigns will be visible only within their private group.
 
-The market is currently implemented in the `adex-market` repository. Because of it's aggregation-only role, it can be considered a back-end to [the dApp](https://beta.adex.network).
+The market is currently implemented in the `adex-market` repository. Because of it's aggregation-only role, it can be considered a back-end to [the Platform](https://platform.adex.network).
 
 For a detailed specification, see [market.md](/components/market.md).
 
@@ -445,7 +444,7 @@ One of the main challenges of any digital advertising system is preventing fake 
 
 There are a few ways to mitigate that in AdEx:
 
-1) Traditional ad tech methods, such as IP whitelists/blacklists;
+1) Traditional adtech methods, such as IP whitelists/blacklists;
 2) The SDK has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit;
 3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event;
 4) The SDK allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold;
