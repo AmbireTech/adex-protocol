@@ -320,7 +320,9 @@ In order to maintain compatibility with the existing AdEx infrastructure (the dA
 
 The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/adex-adview-manager), which is designed for the web.
 
-It's important to note that the AdView is entirely browser-agnostic. It can run as a library (alongside React or any other modern framework) or in an `<iframe>` tag on the publisher's webpage.
+It's important to note that the AdView is entirely browser-agnostic. It can run as a library (alongside React or any other modern framework) or in an `<iframe>` on the publisher's webpage.
+
+There are currently no native mobile implementations, but the AdView can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
 
 The AdView is responsible for:
 
@@ -329,21 +331,23 @@ The AdView is responsible for:
 3. Picking which ad to show depending on the user: this depends on a combination of price and targeting;
 4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad;
 
-Notice a common pattern here: **all sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself. See our article about [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf).
 
-There are currently no native mobile implementations, but the AdView can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
+#### Contextual targeting
 
-#### Learning about the user
+Notice a common pattern here: **sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself. To achieve this, we use [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf).
 
-The AdView builds a profile of the user and learns about them through the publishers and advertisers. Everyone who integrates the AdView has the ability to "tell" the AdView what they know. The incentive for this is built-in: better targeted ads mean higher revenues for publishers and higher ROI for advertisers.
+This works by relying on publishers to feed what they know about the context (e.g. "this page is about bicycles") and potentially the user (e.g. "this user is female") directly into the AdView API. The incentive for this is built-in: better targeted ads mean higher revenues.
 
-This system is based on tags. For example, if a website knows a user belongs to a specific demographic, they'd invoke something like `AdView.addUserTag('ageRange22to37')`. Tags are not specified in the AdEx protocol itself and are entirely defined by network participants.
+This system is based on tags, which are not specified in the AdEx protocol itself and are entirely defined by network participants.
+
+
+#### Behavioral targeting
+
+Because contextual targeting has certain limitations (e.g. no remarketing), there is a possibility to introduce behavioral targeting, using `localStorage` to remember tags for the user. This will not compromise privacy, because the data collected `localStorage` is not exposed to any third parties.
+
+To achieve this, the AdView always has to be loaded from the same domain (e.g. `adex.network`), in order to ensure it always reads/writes to the same `localStorage`. This can be trust-minimized in the future through ENS, IPFS or even just using checksum-based integrity checks.
 
 Advertisers may report tags that allow for remarketing, such as a tag indicating that a user visited their website, or even a tag indicating they've visited a particular page, allowing for dynamic remarketing.
-
-When performing targeting, the advertiser can either match against an aggregate of all reported tags, weighted equally between each reporter, or against tags reported by themselves. In other words, no single reporter can poison the data.
-
-Once again, it's important to note that all those tags collected reside in the user's browser (in `localStorage`) and never get sent to anyone.
 
 
 #### Blacklisting ads
@@ -364,11 +368,9 @@ In case `localStorage` is deleted, the user will receive a new keypair and the s
 
 ### The AdEx Lounge
 
-The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to see what data the AdView has collected about them and possibly modify it to their liking.
+The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to control their ad preferences.
 
-In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to show the user what the AdView has learned about them.
-
-The user may choose to delete some of that data. It should be noted that this data is never uploaded anywhere anyway, and that it only affects targeting.
+In particular, users can opt out of seeings certain kinds of ads.
 
 With OUTPACE channels, it's possible for users to earn monetary rewards as well, so at some point the Lounge may be used to allow for users to withdraw their funds.
 
