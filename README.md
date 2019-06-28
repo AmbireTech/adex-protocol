@@ -41,7 +41,7 @@ When we refer to "users", we mean end users: not of AdEx itself, but of the publ
 
 #### Events
 
-Events, in the context of the SDK or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the web page, etc. Events are usually broadcast as signed messages.
+Events, in the context of the AdView or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the web page, etc. Events are usually broadcast as signed messages.
 
 #### Custom events
 
@@ -109,7 +109,7 @@ In the context of AdEx, this could mean two things:
 
 Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
 
-Each validator must have a keypair and a publicly accessible HTTPS endpoint for receiving events from the SDK.
+Each validator must have a keypair and a publicly accessible HTTPS endpoint for receiving events from the AdView.
 
 #### Observers
 
@@ -117,7 +117,7 @@ The observers are delegated to collect events in relation to a certain campaign.
 
 However, in practice, it's possible to have additional observers who are not validators - for example, a publisher's node might observe all events related to the ad units of the publisher, without necessarily being validators.
 
-Each observer must have a publicly accessible HTTPS endpoint for receiving events from the SDK.
+Each observer must have a publicly accessible HTTPS endpoint for receiving events from the AdView.
 
 #### Validator stack
 
@@ -131,7 +131,7 @@ The entire flow is as follows:
 
 1. The advertiser (demand side) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [validator](#validator-stack)), and one that represents publishers (publisher-side [validator](#validator-stack)).
 2. Validator(s) have to accept that they're nominated for this channel (and prove that they're available) by broadcasting a signed message to the other validator(s).
-3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx SDK](#sdk) will select one of those bids and relay that selection to the validators.
+3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx AdView](#adview) will select one of those bids and relay that selection to the validators.
 4. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators.
 5. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings.
 6. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once.
@@ -313,32 +313,31 @@ The validator stack is, like anything else in the AdEx protocol, modular and rep
 
 Alternative validator stack implementations can be created, and can be useful for optimizing for particular flows/workloads.
 
-In order to maintain compatibility with the existing AdEx infrastructure (the dApp and the SDK), you don't need to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), but you need to implement the same RESTful APIs.
+In order to maintain compatibility with the existing AdEx infrastructure (the dApp and the AdView), you don't need to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), but you need to implement the same RESTful APIs.
 
 
-### SDK
+### AdView
 
-The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/adex-adview), which is designed for the web.
+The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/adex-adview-manager), which is designed for the web.
 
-It's important to note that the SDK is entirely browser-agnostic, and runs in an `<iframe>` tag on the publisher's webpage. It's always loaded from the same domain (`adex.network`), in order to ensure it always reads/writes to the same `localStorage`. This can be trust-minimized in the future through ENS, IPFS or even just using checksum-based integrity checks.
+It's important to note that the AdView is entirely browser-agnostic. It can run as a library (alongside React or any other modern framework) or in an `<iframe>` tag on the publisher's webpage.
 
-The SDK is responsible for:
+The AdView is responsible for:
 
 1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser;
-2. Pulling all possible demand (campaigns, bids) from the market (the `adex-market`);
-3. Picking which ad to show depending on the user: this means running a quick blind auction, and picking an ad depending on a combination of price and targeting;
+2. Pulling all possible demand (campaigns, bids) from the [Market](#market);
+3. Picking which ad to show depending on the user: this depends on a combination of price and targeting;
 4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad;
-5. Learning more about the user, and storing this information in the user's browser.
 
-Notice a common pattern here: **all sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself.
+Notice a common pattern here: **all sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself. See our article about [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf).
 
-There are currently no native mobile implementations, but the adview can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
+There are currently no native mobile implementations, but the AdView can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
 
 #### Learning about the user
 
-The SDK builds a profile of the user and learns about them through the publishers and advertisers. Everyone who integrates the SDK has the ability to "tell" the SDK what they know. The incentive for this is built-in: better targeted ads mean higher revenues for publishers and higher ROI for advertisers.
+The AdView builds a profile of the user and learns about them through the publishers and advertisers. Everyone who integrates the AdView has the ability to "tell" the AdView what they know. The incentive for this is built-in: better targeted ads mean higher revenues for publishers and higher ROI for advertisers.
 
-This system is based on tags. For example, if a website knows a user belongs to a specific demographic, they'd invoke something like `SDK.addUserTag('ageRange22to37')`. Tags are not specified in the AdEx protocol itself and are entirely defined by network participants.
+This system is based on tags. For example, if a website knows a user belongs to a specific demographic, they'd invoke something like `AdView.addUserTag('ageRange22to37')`. Tags are not specified in the AdEx protocol itself and are entirely defined by network participants.
 
 Advertisers may report tags that allow for remarketing, such as a tag indicating that a user visited their website, or even a tag indicating they've visited a particular page, allowing for dynamic remarketing.
 
@@ -349,11 +348,11 @@ Once again, it's important to note that all those tags collected reside in the u
 
 #### Blacklisting ads
 
-Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do this, it will be saved locally so this ad will never be shown to you, but also reported to all publisher-side validators the SDK is aware of.
+Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do this, it will be saved locally so this ad will never be shown to you, but also reported to all publisher-side validators the AdView is aware of.
 
 While a publisher-side validators may choose to ignore such an event, it's mostly in the interest of publishers to keep track of the most blacklisted ads and possibly stop serving them altogether.
 
-An additional improvement on the SDK would be to allow users to gossip blacklists directly between each other, therefore eliminating the ability of publisher-side validators to act together and ignore blacklist events. This feature is not trivial, as it requires a reliable sybil resistance mechanism.
+An additional improvement on the AdView would be to allow users to gossip blacklists directly between each other, therefore eliminating the ability of publisher-side validators to act together and ignore blacklist events. This feature is not trivial, as it requires a reliable sybil resistance mechanism.
 
 
 #### Security
@@ -365,9 +364,9 @@ In case `localStorage` is deleted, the user will receive a new keypair and the s
 
 ### The AdEx Lounge
 
-The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to see what data the SDK has collected about them and possibly modify it to their liking.
+The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to see what data the AdView has collected about them and possibly modify it to their liking.
 
-In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to show the user what the SDK has learned about them.
+In practice, the Lounge is a web application that runs on the same domain as the adview and therefore reads from the same `localStorage`. That allows it to show the user what the AdView has learned about them.
 
 The user may choose to delete some of that data. It should be noted that this data is never uploaded anywhere anyway, and that it only affects targeting.
 
@@ -432,7 +431,7 @@ The current spec of the registry is in very early stages, but you can track it a
 
 ![Architecture](/graphs/architecture.svg)
 
-* The box-shaped platform and SDK are client-side software
+* The box-shaped platform and AdView are client-side software
 * Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](/graphs/real-world.svg))
 * The diamond shape represents another P2P network, in this case Ethereum 
 
@@ -445,10 +444,10 @@ One of the main challenges of any digital advertising system is preventing fake 
 There are a few ways to mitigate that in AdEx:
 
 1) Traditional adtech methods, such as IP whitelists/blacklists;
-2) The SDK has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit;
+2) The AdView has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit;
 3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event;
-4) The SDK allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold;
-5) Publishers integrating the SDK may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser.
+4) The AdView allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold;
+5) Publishers integrating the AdView may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser.
 
 It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives for fraud are significantly reduced.
 
@@ -487,15 +486,11 @@ Please note that the entire balance tree of each channel will be revealed to eve
 
 ### Privacy of the end-user
 
-Privacy of end users is protected by having all of the information that the system learns about them stored only in their own browser by our SDK's `localStorage`. The SDK is designed in a way that it will learn about the user, but keep that information locally and never reveal it to anyone or anything. This is made possible by moving the process of selecting an ad to show to the user's browser, somewhat similar to header bidding. 
+Privacy of end users is protected by not collecting any data at all, at any part of the system. Instead, we leverage [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf).
+
+Furthermore, we have moved the process of selecting an ad to show to the user's browser, somewhat similar to header bidding. This ensures that user data never needs to be exposed/revealed.
 
 A further advantage to this approach is that the user may easily control what kinds of ads they see, without this being revealed to third parties.
-
-While it is possible to derive a rough approximation of what the user preferences are using historical data (events) on which ads were selected for a particular user, this approach still reveals very little, because:
-
-1) Users are only identified by an anonymous ID (pubkey) which is not linked to any identifiable data like name/email/IP;
-2) This approach requires a lot of data being collected by one party; while this is technically possible, the default is that validators only collect events they're interested in (related to campaigns they validate).
-
 
 ### Rewarding end-users for attention
 
