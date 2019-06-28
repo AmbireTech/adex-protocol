@@ -338,7 +338,7 @@ Notice a common pattern here: **sensitive information never leaves the user's br
 
 This works by relying on publishers to feed what they know about the context (e.g. "this page is about bicycles") and potentially the user (e.g. "this user is female") directly into the AdView API. The incentive for this is built-in: better targeted ads mean higher revenues.
 
-This system is based on tags, which are not specified in the AdEx protocol itself and are entirely defined by network participants.
+This system is based on tags, which are not specified in the AdEx protocol itself and are entirely defined by network participants. They could describe anything - interests, demographics, geographics and etc.
 
 
 #### Behavioral targeting
