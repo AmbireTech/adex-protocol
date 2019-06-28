@@ -288,7 +288,7 @@ To do that, we set the `spec` value to a 32-byte IPFS hash of the JSON blob, usi
 
 If you're a dApp builder, it is recommended that you pin this file on your own IPFS nodes. However, this file will also be permenantly stored by the [Market](#market) when it's uploaded to it.
 
-For the JSON blob specification, see [`campaignSpec.md`](/campaignSpec.md).
+For the JSON blob specification, see [`campaignSpec.md`](/campaignSpec.md). It includes detailed description of the campaign, including min/max impression prices, targeting, ad units and etc.; currently, the format is specific to AdEx, but AdCOM might be incorporated in the future.
 
 #### Paying by impression (CPM) or by click (CPC)
 
