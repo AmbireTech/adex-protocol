@@ -2,7 +2,7 @@
 
 ## Intro
 
-AdEx originated in 2017 as a decentralized ad exchange for digital advertising, and subsequently evolved into a full protocol for decentralized digital advertising.
+AdEx is an open, trust-minimized protocol & stack for digital advertising that reduces ad fraud, malvertising and protects user privacy. It originated in 2017 as a decentralized ad exchange for digital advertising, and later evolved into a full-stack solution.
 
 The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
@@ -17,8 +17,8 @@ This document assumes basic familiarity with computer science, blockchain and ad
 ### Benefits
 
 * Transparent reporting for all sides
+* Minimized fees, and no commissions
 * Minimized trust required
-* Minimized fees
 * End users [in control](#the-adex-lounge) of [their data](#sdk)
 * Blockchain-agnostic
 * Token/currency-agnostic
