@@ -4,19 +4,27 @@
 
 #### This document is currently a work in progress.
 
-#### However, there is an actual reference implementation of the validator stack here: https://github.com/adexnetwork/adex-validator-stack-js
+#### However, there is an actual reference implementation of the validator stack here: https://github.com/adexnetwork/adex-validator
 
-#### As of the v0.4 milestonei (2019-04) of the reference implementation, most of this document is outdated, except Bidding process, which is not part of the validator stack anyway
+#### As of the v0.4 milestone (2019-04) of the reference implementation, most of this document is outdated, except Bidding process, which is not part of the validator stack anyway
 
 -----------------------
 
-## Diagram
+## Architecture
 
-@TODO
+The validator stack is split in two discrete parts:
+
+* The Sentry handles HTTP(S) requests from the outside world, and communicates with the underlying database (MongoDB in our reference implementation)
+* The Worker communicates with the Sentry and periodically generates new signed OUTPACE states
+
+A single validator can be a leader or a follower, in the context of an OUTPACE channel. The architecture is the same in both cases, but the Worker's role is different: a leader is solely responsible for producing new states, while the follower is responsible for signing the states provided by the leader, but only if they are valid.
+
 
 ## Redundancy
 
-@TODO there can be multiple sentry nodes
+The Sentry is a stateless microservice, which means it can scale horizontally. This is usually done for performance reasons, but it also provides added redundancy.
+
+
 
 ## Flow
 
@@ -28,7 +36,7 @@
 * create a channel (ethereum, polkadot, whatever)
 * upload campaignSpec to the market, and potentially to validators (IPFS?)
 * each validator would go through these states for a channel: `UNKNOWN`, `CONFIRMED` (on-chain finality), `LIVE` (we pulled campaignSpec and received a `init` msg from other validators) (other states: `EXHAUSTED`, `EXPIRED`, `VIOLATED_CONSTRAINTS`)
-* SDK asks all publisher-side platforms for ACTIVE channels, sorts by price, takes top N; applies targeting on those top N, and signs a message using the user's keypair on which campaign was chosen and at what price
+* AdView asks all publisher-side platforms for ACTIVE channels, sorts by price, takes top N; applies targeting on those top N, and signs a message using the user's keypair on which campaign was chosen and at what price
 
 
 @TODO: negotiating the validators MAY be based on deposit/stake
