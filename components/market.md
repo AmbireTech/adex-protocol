@@ -260,7 +260,7 @@ Channels that are `Ready` or `Active` will be considered by the SDK
 
 ## Explorer
 
-The AdEx Explorer is a user interface directly on top of the Market, designed to provide all the detailed information the Market contains in an accessible way.
+The [AdEx Explorer](https://explorer.adex.network) is a user interface directly on top of the Market, designed to provide all the detailed information the Market contains in an accessible way.
 
 It uses third-party APIs to provide extra information that's not available in the Market, for example:
 
