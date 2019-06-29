@@ -24,7 +24,7 @@ A single validator can be a leader or a follower, in the context of an OUTPACE c
 
 The Sentry is a stateless microservice, which means it can scale horizontally. This is usually done for performance reasons, but it also provides added redundancy.
 
-
+@TODO db abstraction
 
 ## Flow
 
@@ -42,10 +42,6 @@ The Sentry is a stateless microservice, which means it can scale horizontally. T
 @TODO: negotiating the validators MAY be based on deposit/stake
 
 ## Components
-
-### Core client library
-
-@TODO name adex-lib.js ? adex-client.js ?
 
 ### Sentry
 
@@ -89,7 +85,6 @@ OUTPACE generic:
 * `NewState`: proposes a new state
 * `ApproveState`: approves a `NewState`
 * `Heartbeat`: validators send that periodically; once there is a Heartbeat for every validator, the channel is considered `LIVE`
-* `ReportObservedEvents` adex-specific extra flags: IsCampaignUnhealthy (also document campaign's MissedEventsThreshold)
 
 AdEx specific:
 
@@ -98,17 +93,12 @@ AdEx specific:
 Each message must be individually signed by the validator who's emitting it.
 
 
-@TODO describe validator stack events mempool: a sorted set, where `insert` and `find` work via a binary search, we pop items from the beginning (oldest first) to clean it up; each node should keep an internal ledger of who else from the validator set is online - if 1/3 or more is offline, stop showing the ad (stop participating in bidding);  also we should keep from who we observed which event, so that we can see if the events we didn't see were observed by the supermajority; also think of IP guarantees here, since it's the only thing preventing events from being just re-broadcasted; ANOTHER security measure is have the user sign the event for every validator separately
-
-
 ### OUTPACE validator worker
 
 @TODO this is where the signing key is handled; describe how this can work: randomly generated keypair, HSM ?
 
-@TODO configuration parameters `{ batching: { maxEvents, maxTime } }`
+@TODO describe blockchains-specific adapters
 
-@TODO validator stack DB structure, including a table `channels_onchain` which is populated by the blockchain-specific adapter (which consists of a continuous process that populates the table, AND an interface to sign and provide merkle proofs); this is important for having an agnostic system
-@TODO describe internal ledgers in the validator stack: there's one on which events were provably observed by other users; and one for how many fees are claimed (ClaimValidationFee, can be created by a validator to make them claim a fee)
 @TODO validator stack: might need a restriction on the max publishers, or on min spend per publisher; since otherwise it might not be worth it for a publisher to withdraw
 
 @TODO describe the problem that a few publishers might chose a channel when there's a small amount of funds left, and this will create a race where only the first impression would get paid; we can solve that by paying in advance, but this is impractical since it requires 2 communication hops (1 commit, 1 payment)
@@ -118,11 +108,13 @@ Each message must be individually signed by the validator who's emitting it.
 
 ## Bidding process
 
+@TODO move this out of here
+
 Each campaign has a total budget, and a maximum amount that the advertiser is willing to pay per impression.
 
 Other than that, the advertiser may adjust the amount that they want to pay dynamically, during the course of the campaign. They may also adjust the amount for each individual publisher. This is done by sending a validator message to the publisher-side platform.
 
-On every impression, the SDK (running on the publisher's website/app) will pull all active and healthy campaigns from a configurable list of publisher-side platforms.
+On every impression, the AdView (running on the publisher's website/app) will pull all active and healthy campaigns from a configurable list of publisher-side platforms.
 
 Then, it will sort them by the price the advertisers are willing to pay (as reported by the publisher-side platforms), take only top N (where N is configurable by the publisher, see [`topByPrice`](https://github.com/adexnetwork/adex-adview-manager#options)), and run the targeting process between these top N.
 
@@ -132,7 +124,5 @@ By adjusting N, the publisher can decide the balance between UX (more appropriat
 ## DB structure
 
 * Channels
-* States
-* StateTrees
-* Events - ObservedByUs, ObservedByOthers
-* ValidatorEvents
+* Messages
+* EventAggregates
