@@ -105,9 +105,9 @@ For a full explanation, see [OUTPACE](/OUTPACE.md).
 In the context of AdEx, this could mean two things:
 
 1) **OCEAN**/**OUTPACE** validators, responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel; or
-2) The proof-of-stake validators in a Cosmos/Polkadot implementation of AdEx.
+2) The proof-of-stake validators in the Polkadot implementation of the [AdEx Registry](#registry).
 
-Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators".
+Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators" or "Registry validators".
 
 Each validator must have a keypair and a publicly accessible HTTPS endpoint for receiving events from the AdView.
 
@@ -132,15 +132,15 @@ The entire flow is as follows:
 1. The advertiser (demand side) starts a [campaign](#campaigns) with a total budget and certain parameters (ad units, targeting, min/max price per impression/click/etc.); this translates to opening an [OUTPACE channel](#ocean-based-unidirectional-trust-less-payment-channel-outpace); at this point the advertiser delegates two validators: one that represents them (advertiser-side [validator](#validator-stack)), and one that represents publishers (publisher-side [validator](#validator-stack)).
 2. Validator(s) have to accept that they're nominated for this channel (and prove that they're available) by broadcasting a signed message to the other validator(s).
 3. Publishers will query their own validator(s) for available demand (active channels) every time someone opens their website/app; the query will happen on the client side (in the browser/app), much like header bidding; the [AdEx AdView](#adview) will select one of those bids and relay that selection to the validators.
-4. The user will generate events (impressions, clicks, page closed, etc.) and send them to the validators.
+4. The AdView will generate events (impressions, clicks, page closed, etc.) and send them to the validators.
 5. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings.
 6. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once.
 7. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health)).
 
 The benefits of this approach are:
 
-* The only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`);
-* Publishers have a constant guarantee that they can withdraw their latest earnings on-chain;
+* Scalability: the only on-chain transactions are a deposit operation (which creates a campaign and a channel, `channelOpen`) and a withdraw (allowing any party to withdraw earnings, `channelWithdraw`);
+* Publishers can withdraw their latest earnings on-chain at any time;
 * Since **OUTPACE** is one-to-many, a campaign can be executed by multiple publishers;
 * If new states are no longer created (someone is no longer online or is malicious), publishers can immediately stop delivering ads for this campaign (channel);
 * Allows off-chain negotiations: advertisers can bid for impressions in real time;
@@ -288,7 +288,7 @@ To do that, we set the `spec` value to a 32-byte IPFS hash of the JSON blob, usi
 
 If you're a dApp builder, it is recommended that you pin this file on your own IPFS nodes. However, this file will also be permenantly stored by the [Market](#market) when it's uploaded to it.
 
-For the JSON blob specification, see [`campaignSpec.md`](/campaignSpec.md). It includes detailed description of the campaign, including min/max impression prices, targeting, ad units and etc.; currently, the format is specific to AdEx, but AdCOM might be incorporated in the future.
+For the JSON blob specification, see [`campaignSpec.md`](/campaignSpec.md). It includes detailed description of the campaign, including min/max impression prices, targeting, ad units and etc.; currently, the format is specific to AdEx, but [AdCOM](https://github.com/InteractiveAdvertisingBureau/AdCOM) might be incorporated in the future.
 
 #### Paying by impression (CPM) or by click (CPC)
 
@@ -302,7 +302,7 @@ Ultimately, the raw resource the publisher provides is impressions, and the conv
 
 The validators of an OUTPACE channel are usually two instances of the validator stack: one represents the advertiser, and the other represents multiple publishers.
 
-This means they receive all the data related to this OUTPACE channel, therefore allowing them to aggregate it into useful reports (via the `adex-reports-worker` component).
+This means they receive all the data related to this OUTPACE channel, therefore allowing them to aggregate it into useful reports.
 
 This architecture ensures that both parties get their analytical reports by aggregating the data directly from the users, which ensures reporting transparency.
 
