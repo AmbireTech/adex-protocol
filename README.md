@@ -431,7 +431,7 @@ The current spec of the registry is in very early stages, but you can track it a
 
 ### Basic visual representation
 
-![Architecture](/graphs/architecture.svg)
+![Architecture](/graphs/architecture-pretty.png)
 
 * The box-shaped platform and AdView are client-side software
 * Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](/graphs/real-world.svg))
