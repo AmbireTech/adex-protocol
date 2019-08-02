@@ -567,5 +567,6 @@ AdEx Network OÜ is a legal entity with two primary responsibilities:
 
 1) Fund and govern the development of the AdEx Protocol, with an emphasis of keeping it completely open-source, transparent and free of corporate agenda;
 2) Profit from providing any additional services related to the AdEx Protocol, such as consultancy related to integration of the protocol or running a SaaS for rentable AdEx validators.
+3) Fund development of additional services built around the AdEx Protocol; for this purpose, AdEx employs SmartCode, a software development company that also develops [Stremio](https://www.stremio.com/)
 
 Because of the open-source nature of the protocol, we do expect (and encourage) other entities interested in using it to join the development/design over time.
