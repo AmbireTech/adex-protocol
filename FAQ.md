@@ -29,7 +29,7 @@ The ADX token is used for staking if you're running an [AdEx validator](https://
 
 The staked amount will be slashed if your validator misbehaves (i.e. an economic punishment will be applied to the misbehaving validator).
 
-We are currently working on the specification of this, however you can [track the progress here](https://github.com/AdExNetwork/adex-protocol/issues/7).
+We are currently working on the specification of the AdEx Registry, however you can [track the progress here](https://github.com/AdExNetwork/adex-protocol/issues/7).
 
 ## How can I get ADX tokens? 
 If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance and Bittrex for example. 
@@ -70,8 +70,12 @@ Header bidding is the process of pulling all the bids in the browser, evaluating
 
 That said, AdEx does not try to reinvent the wheel, and therefore (1) can interoperate with OpenRTB in certain situations and (2) will support using AdCOM formats in near future
 
-## Do you have a bug bounty? 
-Yes, we do. We offer rewards for security vulnerabilities that coders discover after every major release of the AdEx dApp. [Read more about the AdEx bug bounty.](https://medium.com/the-adex-blog/announcing-the-adex-bug-bounty-a5a6e0621094)
+## Do you have a bug bounty program?
+Yes, we do. We offer rewards for security vulnerabilities that coders discover after every major release of the AdEx Platform. [Read more about the AdEx bug bounty.](https://medium.com/the-adex-blog/announcing-the-adex-bug-bounty-a5a6e0621094)
+
+## What is the AdEx Registry?
+The AdEx Registry is a mechanism to ensure infrastructure uptime by holding participants accountable, through staking/slashing. The Registry uses our native token, ADX.
+
 
 ## Where can I meet the AdEx team? 
 We attend a number of various events around the world. Follow us on social media to see which conferences, meetups or hackathons we are going to (we usually announce at least a couple of weeks in advance of each event). 
