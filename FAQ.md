@@ -40,6 +40,12 @@ The staked amount will be slashed if your validator misbehaves (i.e. an economic
 
 We are currently working on the specification of the AdEx Registry, however you can [track the progress here](https://github.com/AdExNetwork/adex-protocol/issues/7).
 
+## What cryptocurrency does the AdEx platform use?
+We use [DAI](https://makerdao.com/dai/), which is a token that's pegged to the US dollar (1 DAI = 1 USD).
+
+## Why don't you use ADX in the platform?
+Because the ADX token was made specifically for our staking mechanism, and it's value is determined by the free market by trading. We want our users to transact in a price-stable currency such as DAI.
+
 ## How can I get ADX tokens? 
 If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance and Bittrex for example. 
 
