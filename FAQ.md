@@ -14,12 +14,17 @@ The AdEx protocol is intended mainly for display advertising, however its use is
 
 The revenue model could be CPC, CPM, CPA or time-based ad property rentals. This makes the protocol usable for physical world advertising (billboards, point-of-sale advertising, guerilla installations, etc.) as well. 
 
+## What cryptocurrency does the AdEx platform use?
+We use [DAI](https://makerdao.com/dai/), which is a token that's pegged to the US dollar (1 DAI = 1 USD). When using AdEx, you only need DAI, since fees are paid in it too.
+
 ## What fees do I pay to use AdEx?
-We charge absolutely no fees or commissions for using the AdEx platform/protocol. However, you may be required to pay a tiny fee for the validators that you use. 
+We charge absolutely no fees or commissions for using the AdEx platform itself. However, you may be required to pay a tiny fee for the validators that you use.
 
 The way the validator consensus works implies that channel validators have to represent opposite sides; if they don't, the channel should not be used. This means that at one point or another you may end up using a third-party validator. 
 
-Running the validator stack requires computational resources and the third-party validator may require [a small fee](https://github.com/AdExNetwork/adex-protocol#validator-fees). 
+Running the validator stack requires computational resources and the third-party validator may require [a small fee](https://github.com/AdExNetwork/adex-protocol#validator-fees).
+
+Furthermore, you need to pay Ethereum network fees when withdrawing funds or opening campaigns. In the AdEx platform, all fees are paid in DAI.
 
 ## How do I sign up for AdEx?
 You go to the [Platform](https://platform.adex.network) and follow the instructions.
@@ -39,9 +44,6 @@ The ADX token is used for staking if you're running an [AdEx validator](https://
 The staked amount will be slashed if your validator misbehaves (i.e. an economic punishment will be applied to the misbehaving validator).
 
 We are currently working on the specification of the AdEx Registry, however you can [track the progress here](https://github.com/AdExNetwork/adex-protocol/issues/7).
-
-## What cryptocurrency does the AdEx platform use?
-We use [DAI](https://makerdao.com/dai/), which is a token that's pegged to the US dollar (1 DAI = 1 USD).
 
 ## Why don't you use ADX in the platform?
 Because the ADX token was made specifically for our staking mechanism, and it's value is determined by the free market by trading. We want our users to transact in a price-stable currency such as DAI.
@@ -75,6 +77,9 @@ A [validator stack](https://github.com/AdExNetwork/adex-protocol/blob/master/com
 ## What is OUTPACE?
 [OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md) is a unidirectional payment channel based on OCEAN. OUTPACE allows for creating a simple one-to-many payment channel, where each participating party can withdraw their available balance (advertising budget or ad earnings) at any time. The withdrawn amounts are accounted for on-chain.
 
+## How are fees paid in DAI if you're on the Ethereum network?
+On Ethereum, gas fees are paid in ETH. However, we made our own [abstraction](https://github.com/adexnetwork/adex-protocol#identity) that allows fees to be paid in DAI.
+
 ## Does AdEx offer real-time bidding?
 No. However, AdEx advertisers can take advantage of header bidding, which is quickly replacing real-time bidding anyway. 
 
@@ -90,7 +95,6 @@ Yes, we do. We offer rewards for security vulnerabilities that coders discover a
 
 ## What is the AdEx Registry?
 The AdEx Registry is a mechanism to ensure infrastructure uptime by holding participants accountable, through staking/slashing. The Registry uses our native token, ADX.
-
 
 ## Where can I meet the AdEx team? 
 We attend a number of various events around the world. Follow us on social media to see which conferences, meetups or hackathons we are going to (we usually announce at least a couple of weeks in advance of each event). 
