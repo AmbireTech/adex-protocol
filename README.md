@@ -313,7 +313,7 @@ The validator stack is, like anything else in the AdEx protocol, modular and rep
 
 Alternative validator stack implementations can be created, and can be useful for optimizing for particular flows/workloads.
 
-In order to maintain compatibility with the existing AdEx infrastructure (the dApp and the AdView), you don't need to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), but you need to implement the same RESTful APIs.
+In order to maintain compatibility with the existing AdEx infrastructure (the Platform and the AdView), you don't need to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), but you need to implement the same RESTful APIs.
 
 
 ### AdView
@@ -379,9 +379,9 @@ There's no public implementation of the Lounge yet.
 
 ### Identity
 
-The Identity layer is currently specific to our Ethereum implementation and designed to streamline the user experience of the dApp.
+The Identity layer is currently specific to our Ethereum implementation and designed to streamline the user experience of the Platform.
 
-It is a smart contract that allows the users of the dApp (publishers/advertisers) to:
+It is a smart contract that allows the users of the Platform (publishers/advertisers) to:
 
 * Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them
 * Interact with the Ethereum network without needing to have ETH
