@@ -21,8 +21,17 @@ The way the validator consensus works implies that channel validators have to re
 
 Running the validator stack requires computational resources and the third-party validator may require [a small fee](https://github.com/AdExNetwork/adex-protocol#validator-fees). 
 
+## How do I sign up for AdEx?
+You go to the [Platform](https://platform.adex.network) and follow the instructions.
+
+## Do I need a crypto wallet to sign up for AdEx?
+You can also sign up for AdEx with no crypto wallet at all, only by entering an email. This way, an in-browser wallet will be created for you. However, we recommend using a crypto wallet, since the security is much better. If you sign up with an email only, you can always upgrade your account by linking a secure crypto wallet, such as Trezor, Ledger or Metamask.
+
 ## What wallets can I use to create an AdEx advertiser or publisher account? 
-You can sign up for AdEx with Trezor, Ledger or Metamask. 
+You can sign up for AdEx with Trezor, Ledger or Metamask.
+
+## How to integrate AdEx?
+The simplest way is by copy-pasting a HTML snippet that you will be presented on the platform when you create an ad slot. More sophisticated integrations are possible using the [adview-manager](https://github.com/adexnetwork/adex-adview-manager).
 
 ## What is the purpose of the ADX token
 The ADX token is used for staking if you're running an [AdEx validator](https://github.com/adexnetwork/adex-protocol#validator-stack-platform). Staking your ADX will register your validator in a global registry where your visibility will be proportional to your staked amount.
