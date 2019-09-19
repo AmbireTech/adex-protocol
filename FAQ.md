@@ -6,13 +6,15 @@ The AdEx protocol facilitates trading of advertising space/time, as well as the 
 ## What problems does AdEx solve? 
 AdEx addresses some of the most prominent inefficiencies of the contemporary advertising landscape: ad fraud, unclear and misleading campaign reporting, exuberant fees, many middlemen and compromised end user privacy. 
 
-## How does AdEx compare to BAT? 
-The Basic Attention Token (BAT) aims at bringing back the souls lost to ad blockers by rewarding people who opt in to see ads in the Brave browser. We, on the other hand, are focused on improving the existing advertising marketplace and let advertisers and publishers transact with each other, while respecting the end users’ privacy. 
-
 ## What can I use AdEx for? 
 The AdEx protocol is intended mainly for display advertising, however its use is not limited to that. It can be applied to a number of different use cases - for example influencer marketing; content micropayments; affiliate marketing; product placement; and so on.
 
 The revenue model could be CPC, CPM, CPA or time-based ad property rentals. This makes the protocol usable for physical world advertising (billboards, point-of-sale advertising, guerilla installations, etc.) as well. 
+
+## How does AdEx compare to BAT? 
+The Basic Attention Token (BAT) aims at rewarding people who opt in to see ads in the Brave browser.
+
+We, on the other hand, are focused on improving the existing advertising marketplace and let advertisers and publishers transact with each other directly, while respecting privacy of the end users. 
 
 ## What cryptocurrency does the AdEx platform use?
 We use [DAI](https://makerdao.com/dai/), which is a token that's pegged to the US dollar (1 DAI = 1 USD). When using AdEx, you only need DAI, since fees are paid in it too.
