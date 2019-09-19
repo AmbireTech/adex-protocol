@@ -11,11 +11,6 @@ The AdEx protocol is intended mainly for display advertising, however its use is
 
 The revenue model could be CPC, CPM, CPA or time-based ad property rentals. This makes the protocol usable for physical world advertising (billboards, point-of-sale advertising, guerilla installations, etc.) as well. 
 
-## How does AdEx compare to BAT? 
-The Basic Attention Token (BAT) aims at rewarding people who opt in to see ads in the Brave browser.
-
-We, on the other hand, are focused on improving the existing advertising marketplace and let advertisers and publishers transact with each other directly, while respecting privacy of the end users. 
-
 ## What cryptocurrency does the AdEx platform use?
 We use [DAI](https://makerdao.com/dai/), which is a token that's pegged to the US dollar (1 DAI = 1 USD). When using AdEx, you only need DAI, since fees are paid in it too.
 
@@ -91,6 +86,11 @@ Header bidding is the process of pulling all the bids in the browser, evaluating
 [OpenRTB](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md) is an open standard for real-time bidding, and along with [AdCOM](https://github.com/InteractiveAdvertisingBureau/AdCOM), it covers how most components in a modern ad tech supply chain should communicate. Because AdEx also incorporates payments, and does not allow revealing user data, it's different enough to be considered an alternative standard that you can use in place of OpenRTB.
 
 That said, AdEx does not try to reinvent the wheel, and therefore (1) can interoperate with OpenRTB in certain situations and (2) will support using AdCOM formats in near future
+
+## How does AdEx compare to BAT? 
+The Basic Attention Token (BAT) aims at rewarding people who opt in to see ads in the Brave browser.
+
+We, on the other hand, are focused on improving the existing advertising marketplace and let advertisers and publishers transact with each other directly, while respecting privacy of the end users. 
 
 ## Do you have a bug bounty program?
 Yes, we do. We offer rewards for security vulnerabilities that coders discover after every major release of the AdEx Platform. [Read more about the AdEx bug bounty.](https://medium.com/the-adex-blog/announcing-the-adex-bug-bounty-a5a6e0621094)
