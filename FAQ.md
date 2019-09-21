@@ -17,6 +17,11 @@ The revenue model could be CPC, CPM, CPA or time-based ad property rentals. This
 ## What cryptocurrency does the AdEx platform use?
 We use [DAI](https://makerdao.com/dai/), which is a so-called stablecoin: it's pegged to the US dollar, so that 1 DAI = 1 USD. When using AdEx, you only need DAI, since fees are paid in it too. You can read our guide on [how to get DAI](https://medium.com/adex-network-tips-and-tricks/how-to-get-dai-stablecoin-1660e8d76faa).
 
+## Is AdEx an ad network?
+Yes, in the sense that AdEx performs the same role as an ad network: it connects advertisers to publishers.
+
+The difference is that AdEx is more of a technical solution (protocol) that facilitates this. We have no custordy of funds, collect no data, and cannot censor ads. This is why we describe AdEx as a "decentralized advertising network".
+
 ## What fees do I pay to use AdEx?
 We charge absolutely no fees or commissions for using the AdEx Platform itself. However, you may be required to pay a tiny fee for the validators that you use.
 
