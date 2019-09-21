@@ -148,3 +148,19 @@ A [validator stack](https://github.com/AdExNetwork/adex-protocol/blob/master/com
 [OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md) is a unidirectional payment channel based on OCEAN. OUTPACE allows for creating a simple one-to-many payment channel, where each participating party can withdraw their available balance (advertising budget or ad earnings) at any time. The withdrawn amounts are accounted for on-chain.
 
 
+# FAQ - Platform
+
+## Do you have real-time reporting?
+Yes. Each impression/event results in an immediate micropayment to the publisher, and both sides can see this data in real time as it happens.
+
+## What are the supported ad formats?
+Currenly, only display ads: all the classical banner sizes are supported, along with the [IAB new ad portfolio](https://www.iab.com/newadportfolio/). We also support video banners.
+
+## What is the average CPM?
+Check out our [Explorer](https://explorer.adex.network) to see the average CPM per ad slot size, in real time.
+
+## How to get DAI to advertise?
+Check out [our guide](https://medium.com/adex-network-tips-and-tricks/how-to-get-dai-stablecoin-1660e8d76faa).
+
+If you just want to get started and you have a solid use case, we can give you a grant, [contact us](https://join.adex.network/).
+
