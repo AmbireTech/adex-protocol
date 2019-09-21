@@ -17,6 +17,8 @@ The revenue model could be CPC, CPM, CPA or time-based ad property rentals. This
 ## Why does AdEx need a blockchain?
 We use Ethereum for payment channels, a mechanism for micropayments. This allows us to be non-custodial, not rely on payment processors (which also take hefty fees), and securely pay for each impression individually, with no withdraw thresholds.
 
+Per-impression micropayments are also the backbone of our transparency, since they also double as reporting data.
+
 ## What cryptocurrency does the AdEx platform use?
 We use [DAI](https://makerdao.com/dai/), which is a so-called stablecoin: it's pegged to the US dollar, so that 1 DAI = 1 USD. When using AdEx, you only need DAI, since fees are paid in it too. You can read our guide on [how to get DAI](https://medium.com/adex-network-tips-and-tricks/how-to-get-dai-stablecoin-1660e8d76faa).
 
@@ -62,6 +64,9 @@ When we implement this, end users will be presented with the AdEx Lounge - a use
 There are many different types of ad fraud. For example, an ad network may under-report to publishers to generate more revenue. This is something we completely eliminate thanks to our transparent reporting.
 
 Unfortunately, fake clicks/impressions are still possible in any advertising system. However, we provide plenty of ways to mitigate them that you can read about on [our blog](https://medium.com/the-adex-blog/how-adex-prevents-ad-fraud-314637939946) or [spec](https://github.com/adexnetwork/adex-protocol#preventing-fraudsybil-attacks).
+
+## Does AdEx support targeting?
+We use [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf), which is a method of targeting the ads based on the page content (i.e. context). Each publisher can provide use any data they want/have to tune the targeting for their case.
 
 ## How are fees paid in DAI if you're on the Ethereum network?
 On Ethereum, gas fees are paid in ETH. However, we made our own [abstraction](https://github.com/adexnetwork/adex-protocol#identity) that allows fees to be paid in DAI.
