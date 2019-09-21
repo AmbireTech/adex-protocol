@@ -69,6 +69,7 @@ AdEx tries to achieve the same general goal: provide a platform that allows adve
 However, AdEx has a few important distinctions:
 
 * AdEx aims at completely preserving the privacy of the end user, with no personal data collection
+* Minimized fees: fees in AdEx are less than 5%, while Google Ads will only give you [51% or 68%](https://support.google.com/adsense/answer/180195?hl=en) of your actual revenue
 * It is regulated by its users: there is no central authority which controls which ads are allowed to run, or what content is allowed to monetize; the publishers can decide which ads they deem acceptable
 * There are no withdraw thresholds/limitations: you can withdraw any amount at any time; and you get paid in the DAI cryptocurrency
 * Transparent reporting: statistical data is sent directly to the publisher and advertiser
@@ -82,7 +83,7 @@ Another prominent difference is that AdEx uses DAI for payments, which is price-
 
 Those are two completely different approaches, and we believe both can coexist.
 
-It's worth noting that AdEx provides the technical ability to pay users for their attention, but it's up to the publishers whether they do it, and how.
+It's worth noting that AdEx provides the technical ability to pay users for their attention, but it's up to the publishers whether they will do it, and how.
 
 ## Do you have a bug bounty program?
 Yes, we do. We offer rewards for security vulnerabilities that coders discover after every major release of the AdEx Platform. [Read more about the AdEx bug bounty.](https://medium.com/the-adex-blog/announcing-the-adex-bug-bounty-a5a6e0621094)
