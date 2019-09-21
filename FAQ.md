@@ -6,6 +6,9 @@ The underlying technology is called the AdEx protocol, which facilitates trading
 ## What problems does AdEx solve? 
 AdEx addresses some of the most prominent inefficiencies of the contemporary advertising landscape: ad fraud, unclear and misleading campaign reporting, exuberant fees, many middlemen and compromised end user privacy. 
 
+## Can I use AdEx?
+If you're a publisher/advertiser, we've created a web application where you can monetize your website or advertise your product, called the [AdEx Platform](https://platform.adex.network).
+
 ## What can I use AdEx for? 
 The AdEx protocol is intended mainly for display advertising, however its use is not limited to that. It can be applied to a number of different use cases - for example influencer marketing; content micropayments; affiliate marketing; product placement; and so on.
 
