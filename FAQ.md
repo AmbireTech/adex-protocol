@@ -164,3 +164,11 @@ Check out [our guide](https://medium.com/adex-network-tips-and-tricks/how-to-get
 
 If you just want to get started and you have a solid use case, we can give you a grant, [contact us](https://join.adex.network/).
 
+## How do I know I would get good quality ads or publishers?
+No matter if you're a publisher or an advertiser, you have full control over the ads displayed on your website or the publishers you advertise on, thanks to whitelisting/blacklisting features that you can enable.
+
+## Do you impose any ad restrictions?
+There are no restrictions, neither for publishers, nor for advertisers. You set your own restrictions: e.g. you can disallow certain content from being advertised on your website. Or likewise, you can stop your ads from showing on certain websites.
+
+## What to do with the DAI I earned as a publisher?
+You can always withdraw your DAI and exchange it for USD/EUR/other fiat currency. Furthermore, there are many ways you can [spend your DAI](https://github.com/makerdao/awesome-makerdao#spend-your-dai) or [hold your DAI](https://github.com/makerdao/awesome-makerdao#hold-your-dai).
