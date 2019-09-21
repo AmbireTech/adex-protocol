@@ -133,12 +133,18 @@ The AdEx Registry is a mechanism to ensure infrastructure uptime by holding part
 
 ## What are validators and validator stacks? 
 [OCEAN](https://github.com/AdExNetwork/adex-protocol#off-chain-event-aggregation-ocean)/[OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md) validators are responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel. Validators receive data from the AdEx SDK. 
-
 A majority of validators is required in order to achieve a valid signed state. 
 
 A [validator stack](https://github.com/AdExNetwork/adex-protocol/blob/master/components/validator-stack.md) is a collective term for all off-chain components responsible of handling events, managing OUTPACE channels and generating analytical reports.
 
-## What are custom events? 
+## Why would I run my own validator?
+Running your own validator means that you will profit from fees for every campaign that uses it.
+
+However, unless you're very familiar with the AdEx protocol and confident in your technical skills to keep a validator redundantly online, you will be better off staking, which will still give you a fraction of someone else's profit.
+
+As of mid 2019, the Registry is still in development, so you cannot stake yet.
+
+## What are custom events?
 [Custom events](https://github.com/AdExNetwork/adex-protocol#custom-events) are events defined by the advertiser or by the publisher. For example: an advertiser who is an online retailer may wish to set a purchase of a product as a conversion goal, rather than pay for clicks or impression; setting this as a conversion is a custom event.
 
 ## What is OCEAN?
