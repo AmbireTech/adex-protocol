@@ -14,6 +14,9 @@ The AdEx protocol is intended mainly for display advertising, however its use is
 
 The revenue model could be CPC, CPM, CPA or time-based ad property rentals. This makes the protocol usable for physical world advertising (billboards, point-of-sale advertising, guerilla installations, etc.) as well. 
 
+## Why does AdEx need a blockchain?
+We use Ethereum for payment channels, a mechanism for micropayments. This allows us to be non-custodial, not rely on payment processors (which also take hefty fees), and securely pay for each impression individually, with no withdraw thresholds.
+
 ## What cryptocurrency does the AdEx platform use?
 We use [DAI](https://makerdao.com/dai/), which is a so-called stablecoin: it's pegged to the US dollar, so that 1 DAI = 1 USD. When using AdEx, you only need DAI, since fees are paid in it too. You can read our guide on [how to get DAI](https://medium.com/adex-network-tips-and-tricks/how-to-get-dai-stablecoin-1660e8d76faa).
 
