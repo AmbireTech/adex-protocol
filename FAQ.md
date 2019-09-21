@@ -50,6 +50,11 @@ In the future, we may introduce behavioral targeting, while still preserving pri
 
 When we implement this, end users will be presented with the AdEx Lounge - a user-facing part of AdEx that will allow them to see what type of data has the AdView collected about them and modify it. Once again, it's important to note that all of the targeting data resides in the user's browser and never get sent to anyone as an additional layer of privacy. The end result of this is minimizing the possibility of user data/metadata sales to third parties; of exploiting information about consumer purchasing habits; etc.
 
+## How does AdEx solve ad fraud?
+There are many different types of ad fraud. For example, an ad network may under-report to publishers to generate more revenue. This is something we completely eliminate thanks to our transparent reporting.
+
+Unfortunately, fake clicks/impressions are still possible in any advertising system. However, we provide plenty of ways to mitigate them that you can read about on [our blog](https://medium.com/the-adex-blog/how-adex-prevents-ad-fraud-314637939946) or [spec](https://github.com/adexnetwork/adex-protocol#preventing-fraudsybil-attacks).
+
 ## How are fees paid in DAI if you're on the Ethereum network?
 On Ethereum, gas fees are paid in ETH. However, we made our own [abstraction](https://github.com/adexnetwork/adex-protocol#identity) that allows fees to be paid in DAI.
 
