@@ -63,10 +63,26 @@ Header bidding is the process of pulling all the bids in the browser, evaluating
 
 That said, AdEx does not try to reinvent the wheel, and therefore (1) can interoperate with OpenRTB in certain situations and (2) will support using AdCOM formats in near future
 
-## How does AdEx compare to BAT? 
-The Basic Attention Token (BAT) aims at rewarding people who opt in to see ads in the Brave browser.
+## How does AdEx compare to Google Ads?
+AdEx tries to achieve the same general goal: provide a platform that allows advertisers to place ads and publishers to monetize their content.
 
-We, on the other hand, are focused on improving the existing advertising marketplace and let advertisers and publishers transact with each other directly, while respecting privacy of the end users. 
+However, AdEx has a few important distinctions:
+
+* AdEx aims at completely preserving the privacy of the end user, with no personal data collection
+* It is regulated by its users: there is no central authority which controls which ads are allowed to run, or what content is allowed to monetize; the publishers can decide which ads they deem acceptable
+* There are no withdraw thresholds/limitations: you can withdraw any amount at any time; and you get paid in the DAI cryptocurrency
+* Transparent reporting: statistical data is sent directly to the publisher and advertiser
+
+## How does AdEx compare to BAT?
+AdEx is focused on improving the digital advertising landscape by introducing a drop-in solution that works similarly to existing ones (e.g. Google Ads), but with privacy preservation and minimized fees.
+
+The Basic Attention Token (BAT) takes a different approach: users of the Brave browser (which blocks all ads) get rewarded for seeing whitelisted ads. Once this happens, they can choose to reward the publishers, and/or withdraw the token. As of 2019, BAT only works within the Brave browser and withdraws are not live yet.
+
+Another prominent difference is that AdEx uses DAI for payments, which is price-stable (pegged to 1 USD).
+
+Those are two completely different approaches, and we believe both can coexist.
+
+It's worth noting that AdEx provides the technical ability to pay users for their attention, but it's up to the publishers whether they do it, and how.
 
 ## Do you have a bug bounty program?
 Yes, we do. We offer rewards for security vulnerabilities that coders discover after every major release of the AdEx Platform. [Read more about the AdEx bug bounty.](https://medium.com/the-adex-blog/announcing-the-adex-bug-bounty-a5a6e0621094)
@@ -88,8 +104,7 @@ We are currently working on the specification of the AdEx Registry, however you 
 Because the ADX token was made specifically for our staking mechanism, and it's value is determined by the free market by trading. We want our users to transact in a price-stable currency such as DAI.
 
 ## How can I get ADX tokens? 
-If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance and Bittrex. 
-
+If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance and Bittrex.
 
 
 # FAQ - Technical
