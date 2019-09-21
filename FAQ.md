@@ -1,7 +1,7 @@
-## What is AdEx? 
-[AdEx](https://www.adex.network/) originated in 2017 as a decentralized ad exchange for digital advertising, and subsequently evolved into a full protocol for decentralized digital advertising.
+## What is AdEx?
+[AdEx](https://www.adex.network) is a new-generation solution aiming to address and correct some of the most prominent inefficiencies of the online advertising industry: user privacy misuse, ad fraud, lack of transparency in reporting, etc.
 
-The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
+The underlying technology is called the AdEx protocol, which facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain-based payment channels.
 
 ## What problems does AdEx solve? 
 AdEx addresses some of the most prominent inefficiencies of the contemporary advertising landscape: ad fraud, unclear and misleading campaign reporting, exuberant fees, many middlemen and compromised end user privacy. 
