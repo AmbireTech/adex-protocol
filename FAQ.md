@@ -32,10 +32,10 @@ You go to the [Platform](https://platform.adex.network) and follow the instructi
 ## Do I need a crypto wallet to sign up for AdEx?
 You can also sign up for AdEx with no crypto wallet at all, only by entering an email. This way, an in-browser wallet will be created for you. However, we recommend using a crypto wallet, since the security is much better. If you sign up with an email only, you can always upgrade your account by linking a secure crypto wallet, such as Trezor, Ledger or Metamask.
 
-## What wallets can I use to create an AdEx advertiser or publisher account? 
+## What wallets can I use to create an AdEx account?
 You can sign up for AdEx with Trezor, Ledger or Metamask.
 
-## How to integrate AdEx?
+## How to integrate AdEx on my website?
 The simplest way is by copy-pasting a HTML snippet that you will be presented on the platform when you create an ad slot. More sophisticated integrations are possible using the [adview-manager](https://github.com/adexnetwork/adex-adview-manager).
 
 ## What is the purpose of the ADX token
@@ -97,4 +97,5 @@ Yes, we do. We offer rewards for security vulnerabilities that coders discover a
 The AdEx Registry is a mechanism to ensure infrastructure uptime by holding participants accountable, through staking/slashing. The Registry uses our native token, ADX.
 
 ## Where can I meet the AdEx team? 
-We attend a number of various events around the world. Follow us on social media to see which conferences, meetups or hackathons we are going to (we usually announce at least a couple of weeks in advance of each event). 
+We attend a number of various events around the world. Follow us on social media to see which conferences, meetups or hackathons we are going to (we usually announce at least a couple of weeks in advance of each event).
+
