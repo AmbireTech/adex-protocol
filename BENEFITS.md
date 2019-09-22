@@ -50,6 +50,18 @@ The end result of this is minimizing the possibility of user data/metadata sales
 
 This also makes AdEx compliant to GDPR and other similar data protection regulations, unlike [other solutions](https://www.bbc.com/news/technology-46944696).
 
+## Publishers can withdraw at any time, non-custodial
+
+There are no minimum thresholds to withdraw, and each individual impression is paid for immediately. As soon as you earn *any* revenue, it's instantly yours - no need to wait for payouts. We achieve this thanks to blockchain-based payment channels, which allow very cheap, direct micropayments for each impression/click.
+
+All funds, including campaign budgets, are securely locked up on a [blockchain-based smart contract](https://github.com/adexnetwork/adex-protocol-eth) - at no point does AdEx (or anyone else) have custody of your funds.
+
+## Censorship resistance and control
+
+In AdEx, there are no restrictions, neither for publishers, nor for advertisers. You can run any ads, and monetize your website no matter what it is.
+
+However, you can set your own restrictions: for example, you can disallow certain content from being advertised on your website. Or likewise, you can stop your ads from showing on certain websites.
+
 
 ## Wide variety of use cases
 
