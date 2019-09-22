@@ -31,11 +31,14 @@ This translates to smaller advertising budgets going to supply-side platforms (S
 
 More often than not, providers and middlemen are open and upfront about the fees they charge, however this is not always the case. 
 
-With AdEx, advertisers currently benefit from commission-free advertising. This means that 100% of their advertising budgets go to the actual campaigns - and to publishers. However, small [validator fees](https://github.com/AdExNetwork/adex-protocol#validator-fees) may be required to cover the computational resources required for running [campaign validators](https://github.com/AdExNetwork/adex-protocol#validator-stack-platform). 
+With AdEx, advertisers currently benefit from commission-free advertising. This means that 100% of their advertising budgets go to the actual campaigns - and to publishers. However, small [validator fees](https://github.com/AdExNetwork/adex-protocol#validator-fees) may be required to cover the computational resources required for running [campaign validators](https://github.com/AdExNetwork/adex-protocol#validator-stack-platform).
+
+As a result, publishers get much better revenues, and advertisers spend their budgets much more efficiently.
+
 
 ## End users in control of their data, privacy protection
 
-Unlike other ad serving providers, AdEx gives users full control of their data.
+Unlike other ad serving providers, AdEx gives users full control of their data, and fully protects their privacy.
 
 All of the information that AdEx uses for user targeting is collected through [the AdEx AdView](https://github.com/AdExNetwork/adex-protocol#adview) into the user’s local storage. This information never leaves the device of the user, and they are able to clear it at any time. 
 
@@ -43,7 +46,10 @@ In the future, we will introduce the [AdEx Lounge](https://github.com/AdExNetwor
 
 Once again, it's important to note that all of the targeting data resides in the user's browser and never get sent to anyone as an additional layer of privacy. 
 
-The end result of this is minimizing the possibility of user data/metadata sales to third parties; exploiting information about consumer purchasing habits, etc. 
+The end result of this is minimizing the possibility of user data/metadata sales to third parties; exploiting information about consumer purchasing habits, etc.
+
+This also makes AdEx compliant to GDPR and other similar data protection regulations, unlike [other solutions](https://www.bbc.com/news/technology-46944696).
+
 
 ## Wide variety of use cases
 
