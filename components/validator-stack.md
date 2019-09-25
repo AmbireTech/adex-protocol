@@ -85,6 +85,7 @@ OUTPACE generic:
 * `NewState`: proposes a new state
 * `ApproveState`: approves a `NewState`
 * `Heartbeat`: validators send that periodically; once there is a Heartbeat for every validator, the channel is considered `LIVE`
+* `RejectState`: sent back to a validator that proposed an invalid `NewState`
 
 AdEx specific:
 
