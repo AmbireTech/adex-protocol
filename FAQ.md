@@ -60,6 +60,10 @@ In the future, we may introduce behavioral targeting, while still preserving pri
 
 When we implement this, end users will be presented with the AdEx Lounge - a user-facing part of AdEx that will allow them to see what type of data has the AdView collected about them and modify it. Once again, it's important to note that all of the targeting data resides in the user's browser and never get sent to anyone as an additional layer of privacy. The end result of this is minimizing the possibility of user data/metadata sales to third parties; of exploiting information about consumer purchasing habits; etc.
 
+## Does AdEx comply with Do Not Track
+
+AdEx ads completely adhere to [EFF's Do Not Track policy](https://www.eff.org/dnt-policy). There is no tracking of any kind (cookies, supercookies or fingerprints) and there are no logs. The validators do receive an IP/UserAgent and may log this, but they will not retain any of that information (unless anonymized and aggregated) for more than 10 days.
+
 ## How does AdEx solve ad fraud?
 There are many different types of ad fraud. For example, an ad network may under-report to publishers to generate more revenue. This is something we completely eliminate thanks to our transparent reporting.
 
