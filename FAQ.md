@@ -19,6 +19,9 @@ We use Ethereum for payment channels, a mechanism for micropayments. This allows
 
 Per-impression micropayments are also the backbone of our transparency, since they also double as reporting data.
 
+## What are payment channels?
+Payment channels are a mechanism to execute payments instantly and with very low fees, by not executing each payment on the blockchain. Instead, the balances between the participants are guaranteed in a way that can be settled on the blockchain at any time, therefore benefitting from the underlying security.
+
 ## What cryptocurrency does the AdEx platform use?
 We use [DAI](https://makerdao.com/dai/), which is a so-called stablecoin: it's pegged to the US dollar, so that 1 DAI = 1 USD. When using AdEx, you only need DAI, since fees are paid in it too. You can read our guide on [how to get DAI](https://medium.com/adex-network-tips-and-tricks/how-to-get-dai-stablecoin-1660e8d76faa).
 
@@ -61,8 +64,10 @@ In the future, we may introduce behavioral targeting, while still preserving pri
 When we implement this, end users will be presented with the AdEx Lounge - a user-facing part of AdEx that will allow them to see what type of data has the AdView collected about them and modify it. Once again, it's important to note that all of the targeting data resides in the user's browser and never get sent to anyone as an additional layer of privacy. The end result of this is minimizing the possibility of user data/metadata sales to third parties; of exploiting information about consumer purchasing habits; etc.
 
 ## Does AdEx comply with Do Not Track
-
 AdEx ads completely adhere to [EFF's Do Not Track policy](https://www.eff.org/dnt-policy). There is no tracking of any kind (cookies, supercookies or fingerprints) and there are no logs. The validators do receive an IP/UserAgent and may log this, but they will not retain any of that information (unless anonymized and aggregated) for more than 10 days.
+
+## Do payment channels help privacy?
+Payment channels help the privacy of publishers and advertisers. In a single payment channel, all participants can see the transactions between themselves, ensuring transparency, but no external parties can access this data.
 
 ## How does AdEx solve ad fraud?
 There are many different types of ad fraud. For example, an ad network may under-report to publishers to generate more revenue. This is something we completely eliminate thanks to our transparent reporting.
