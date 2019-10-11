@@ -66,8 +66,8 @@ When we implement this, end users will be presented with the AdEx Lounge - a use
 ## Does AdEx comply with Do Not Track
 AdEx ads completely adhere to [EFF's Do Not Track policy](https://www.eff.org/dnt-policy). There is no tracking of any kind (cookies, supercookies or fingerprints) and there are no logs. The validators do receive an IP/UserAgent and may log this, but they will not retain any of that information (unless anonymized and aggregated) for more than 10 days.
 
-## Do payment channels help privacy?
-Payment channels help the privacy of publishers and advertisers. In a single payment channel, all participants can see the transactions between themselves, ensuring transparency, but no external parties can access this data.
+## Do payment channels help preserve privacy?
+Payment channels help preserve the privacy of publishers and advertisers. In a single payment channel, all participants can see the transactions between themselves, ensuring transparency, but no external parties can access this data.
 
 ## How does AdEx solve ad fraud?
 There are many different types of ad fraud. For example, an ad network may under-report to publishers to generate more revenue. This is something we completely eliminate thanks to our transparent reporting.
