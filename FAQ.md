@@ -165,6 +165,9 @@ As of mid 2019, the Registry is still in development, so you cannot stake yet.
 
 # FAQ - Platform
 
+## When I sign up, do I specify whether I'm a publisher or an advertiser?
+No. Once you sign up, you can use AdEx as a publisher and/or as an advertiser.
+
 ## Do you have real-time reporting?
 Yes. Each impression/event results in an immediate micropayment to the publisher, and both sides can see this data in real time as it happens.
 
