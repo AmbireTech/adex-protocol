@@ -18,7 +18,7 @@ This document assumes basic familiarity with computer science, blockchain and ad
 
 * **Transparency:** full reporting transparency for publishers and advertisers; they both receive the same reports
 * **No intermediaries:** connect publishers and advertisers as directly as possible, therefore maximizing results and revenues; this also implies minimized fees and no commissions
-* **Data privacy:** ensure the user's data stays private by never collecting it
+* **Privacy:** ensure the user's data stays private by never collecting it
 * **No custody of funds:** users have full control over their own funds; you can withdraw any amount at any point, no thresholds
 * **Censorship resistance:** we empower a free and self-governed ad market with no centralised restrictions on what can and can't be advertised
 * **Ease of use:** modern adtech is complicated. We aim to make it as easy as possible to interact with AdEx
