@@ -563,7 +563,7 @@ The way we envision the model working is by using the OUTPACE channels to pay re
 
 ### Role of AdEx Network OÜ
 
-AdEx Network OÜ is a legal entity with two primary responsibilities:
+[AdEx Network OÜ](https://www.teatmik.ee/en/personlegal/14288387-AdEx-Network-O%C3%9C) is a legal entity with two primary responsibilities:
 
 1) Fund and govern the development of the AdEx Protocol, with an emphasis of keeping it completely open-source, transparent and free of corporate agenda;
 2) Profit from providing any additional services related to the AdEx Protocol, such as consultancy related to integration of the protocol or running a SaaS for rentable AdEx validators.
