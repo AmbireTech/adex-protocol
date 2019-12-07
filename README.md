@@ -8,7 +8,7 @@ The AdEx protocol facilitates trading of advertising space/time, as well as the 
 
 The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
 
-The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at https://platform.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-dapp))
+The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at https://platform.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-platform))
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
@@ -400,7 +400,7 @@ While OUTPACE can work with any Ethereum token that implements the ERC20 standar
 
 This is why we came up with a set of pre-approved tokens. For now, we've decided on DAI and ADX, but we can easily allow more.
 
-It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [adex-dapp](https://github.com/AdExNetwork/adex-dapp).
+It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [adex-platform](https://github.com/AdExNetwork/adex-platform).
 
 
 #### Sign-up process
