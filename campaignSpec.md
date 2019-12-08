@@ -27,6 +27,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `validators`: an array of [Validator](#validator) objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
+* `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for other events (not IMPRESSION); e.g. `{ CLICK: { min: "0", max: "1000" } }`
 * `targeting`: optional, an array of [TargetingTag](#targetingtag)
 * `minTargetingScore`: optional, Number; minimum targeting score
 * `eventSubmission`: [EventSubmission](#eventsubmission) object, applies to event submission (POST `/channel/:id/events`)
