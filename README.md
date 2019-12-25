@@ -422,6 +422,8 @@ This is accomplished by having each validator who wants to be on the Registry st
 
 This system differs from token curated registries in that there is no approval/rejection game, and anyone with a sufficient minimal stake can be registered. Furthermore, there are specific conditions which will punish misbehavior, related to the particular mechanics of OUTPACE and the validator stack.
 
+**NOTE:** if a validator chooses so, they may allow users to "nominate" them: stake tokens in the validator's name, therefore receiving a pro rata share of their fee earnings, but also inheriting their slash risk. We call this "staking pools".
+
 Because challenges may require verifying validator `NewState` and `ApproveState` messages on-chain, the Registry needs high transaction throughput. Therefore, we have decided to build it as a [Substrate](https://github.com/paritytech/substrate) chain, and possibly make it part of the [Polkadot network](https://polkadot.network/).
 
 The current spec of the registry is in very early stages, but you can track it at: https://github.com/AdExNetwork/adex-protocol/issues/7
