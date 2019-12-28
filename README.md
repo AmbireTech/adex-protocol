@@ -102,12 +102,7 @@ For a full explanation, see [OUTPACE](/OUTPACE.md).
 
 #### Validators
 
-In the context of AdEx, this could mean two things:
-
-1) **OCEAN**/**OUTPACE** validators, responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is defined by the OUTPACE channel; or
-2) The proof-of-stake validators in the Polkadot implementation of the [AdEx Registry](#registry).
-
-Throughout the protocol docs, "validators", "AdEx validators" and "OUTPACE validators" would mean the former. To refer to the latter, we would use the term "PoS validators" or "Registry validators".
+Validators are responsible for tracking ad impressions/clicks and signing the state. The validator set (can also be called a committee) is individually defined by each **OUTPACE** channel. Since each ad campaign is an OUTPACE channel, it has it's own validator set.
 
 Each validator must have a keypair and a publicly accessible HTTPS endpoint for receiving events from the AdView.
 
