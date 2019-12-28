@@ -132,17 +132,27 @@ We attend a number of various events around the world. Follow us on social media
 # FAQ - ADX
 
 ## What is the purpose of the ADX token
-The ADX token is used for staking if you're running an [AdEx validator](https://github.com/adexnetwork/adex-protocol#validator-stack-platform). Staking your ADX will register your validator in a global registry where your visibility will be proportional to your staked amount.
+The ADX token is used for staking if you're running or want to nominate an [AdEx validator](https://github.com/adexnetwork/adex-protocol#validator-stack-platform). Staking ADX can nominate a validator in a global registry where it's visibility will be proportional to it's total staked amount.
 
 The staked amount will be slashed if your validator misbehaves (i.e. an economic punishment will be applied to the misbehaving validator).
 
 We are currently working on the specification of the AdEx Registry, however you can [track the progress here](https://github.com/AdExNetwork/adex-protocol/issues/7).
 
+## How can I stake ADX
+Please read our [release announcement and guide](https://www.adex.network/blog/adx-staking-is-here).
+
+## What will I earn from staking ADX?
+Stakers earn a portion of the validator fees. For more details on how to calculate the projected reward, [read our guide](https://www.adex.network/blog/adx-staking-is-here).
+
+It's important to note that unlike in other staking systems, there is no inflation - no new ADX are minted.
+
+The validator fees, and therefore the staking rewards, are in DAI or other stablecoins.
+
 ## Why don't you use ADX in the platform?
 Because the ADX token was made specifically for our staking mechanism, and it's value is determined by the free market by trading. We want our users to transact in a price-stable currency such as DAI.
 
 ## How can I get ADX tokens? 
-If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance and Bittrex.
+If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance, Bittrex and Upbit.
 
 
 # FAQ - Technical
