@@ -74,6 +74,11 @@ AdEx ads completely adhere to [EFF's Do Not Track policy](https://www.eff.org/dn
 ## Do payment channels help preserve privacy?
 Payment channels help preserve the privacy of publishers and advertisers. In a single payment channel, all participants can see the transactions between themselves, ensuring transparency, but no external parties can access this data.
 
+## Does blockchain help preserve privacy?
+No - the blockchain is public and immutable. However, payments between advertisers and publishers are on payment channels, which makes the more private (as well as faster and cheaper). Furthermore, no information about who the payment parties are is exposed on the blockchain.
+
+As for the end users themselves - none of their actions or information is written in the blockchain.
+
 ## How does AdEx solve ad fraud?
 There are many different types of ad fraud. For example, an ad network may under-report to publishers to generate more revenue. This is something we completely eliminate thanks to our transparent reporting.
 
