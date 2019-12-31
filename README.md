@@ -378,13 +378,15 @@ The Identity layer is currently specific to our Ethereum implementation and desi
 
 It is a smart contract that allows the users of the Platform (publishers/advertisers) to:
 
-* Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them
-* Interact with the Ethereum network without needing to have ETH
+* Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them (essentially a multisig)
+* Interact with the Ethereum network without needing to have ETH: fees can be paid in DAI or another ERC20 token
 * Allow certain actions to be scheduled/performed automatically without needing them to be online, for example withdrawing funds from OUTPACE channels
 
 This solves many UX hurdles that are typical for blockchain-related applications.
 
-Some of these concepts are known to the Ethereum community as "meta tx" or "gas abstractions".
+In the Platform, we also allow the so-called "Quick accounts": you can sign up with an email/passphrase, and the Platform will generate and store a keypair for you, encrypted with your passphrase. Because this is suboptiomal for security, those accounts are limited (by the Market) in terms of DAI they can earn. However, thanks to the Identity layer, those accounts can be easily secured by de-authorizing the temporary keypair and authorizing a proper wallet such as Metamask/Trezor.
+
+Some of these concepts are sometimes refered to as "smart wallets", "meta tx" or "gas abstractions".
 
 The Identity component is implemented in the adex-protocol-eth repository.
 
