@@ -43,6 +43,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `id`: string, the corresponding value in `channel.validators`
 * `url`: string, a HTTPS URL to the validator's sentry
 * `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
+* `feeAddr`: string, an address where the fee would be received; optional - if it's not provided, `id` will be used
 
 #### TargetingTag
 
