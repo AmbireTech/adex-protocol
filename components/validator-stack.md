@@ -36,7 +36,7 @@ The Sentry is a stateless microservice, which means it can scale horizontally. T
 * create a channel (ethereum, polkadot, whatever)
 * upload campaignSpec to the market, and potentially to validators (IPFS?)
 * each validator would go through these states for a channel: `UNKNOWN`, `CONFIRMED` (on-chain finality), `LIVE` (we pulled campaignSpec and received a `init` msg from other validators) (other states: `EXHAUSTED`, `EXPIRED`, `VIOLATED_CONSTRAINTS`)
-* AdView asks all publisher-side platforms for ACTIVE channels, sorts by price, takes top N; applies targeting on those top N, and signs a message using the user's keypair on which campaign was chosen and at what price
+* AdView asks all publisher-side platforms for ACTIVE channels, sorts by targeting score, takes top N, then sorts by price and takes top M - then randomly chooses an ad from the remaining, and signs a message using the user's keypair on which campaign was chosen and at what price
 
 
 @TODO: negotiating the validators MAY be based on deposit/stake
@@ -117,9 +117,9 @@ Other than that, the advertiser may adjust the amount that they want to pay dyna
 
 On every impression, the AdView (running on the publisher's website/app) will pull all active and healthy campaigns from a configurable list of publisher-side platforms.
 
-Then, it will sort them by the price the advertisers are willing to pay (as reported by the publisher-side platforms), take only top N (where N is configurable by the publisher, see [`topByPrice`](https://github.com/adexnetwork/adex-adview-manager#options)), and run the targeting process between these top N.
+Then, it will sort all ad units by targeting score and only leave the best N matches. Then, it will sort the remaining group by the price the advertisers are willing to pay, take only top M (both N and M is configurable by the publisher, see [`topByPrice`](https://github.com/adexnetwork/adex-adview-manager#options)).
 
-By adjusting N, the publisher can decide the balance between UX (more appropriate ads shown to the users) and revenue.
+By adjusting N/M, the publisher can decide the balance between UX (more appropriate ads shown to the users) and revenue.
 
 
 ## DB structure
