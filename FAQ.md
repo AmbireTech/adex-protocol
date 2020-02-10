@@ -210,3 +210,8 @@ There are no restrictions, neither for publishers, nor for advertisers. You set 
 
 ## What to do with the DAI I earned as a publisher?
 You can always withdraw your DAI and exchange it for USD/EUR/other fiat currency. Furthermore, there are many ways you can [spend your DAI](https://github.com/makerdao/awesome-makerdao#spend-your-dai) or [hold your DAI](https://github.com/makerdao/awesome-makerdao#hold-your-dai).
+
+## Why are there impressions, but no revenue?
+It's possible that there may be a low number of impressions that haven't generated revenue yet - especially if you're a new publisher.
+
+We use micropayments, which means that every impression is paid, but sometimes the incurred payment from a specific campaign is not sufficient to cover the Ethereum network costs, and is therefore not counted. Do not worry - as you earn more, the revenue will show up.
