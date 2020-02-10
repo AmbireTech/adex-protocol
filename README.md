@@ -380,7 +380,7 @@ It is a smart contract that allows the users of the Platform (publishers/adverti
 
 * Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them (essentially a multisig)
 * Interact with the Ethereum network without needing to have ETH: fees can be paid in DAI or another ERC20 token
-* Allow certain actions to be scheduled/performed automatically without needing them to be online, for example withdrawing funds from OUTPACE channels
+* Allow certain actions to be scheduled/performed automatically without needing them to be online, for example withdrawing funds from OUTPACE channels (called "sweeping" to distinct it from actual withdrawing)
 
 This solves many UX hurdles that are typical for blockchain-related applications.
 
