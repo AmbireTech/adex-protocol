@@ -62,7 +62,7 @@ If a validator receives a state where one of the constraints (2-5) is violated, 
 ### On-chain
 
 * `channelOpen(channel)`: open an OUTPACE channel
-* `channelWithdraw(channel, state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`
+* `channelWithdraw(channel, state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`; can be called multiple times, and will always withdraw the difference between what you previously withdrew and the `amount`; this difference is called "outstanding amount"
 * `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot
 
 The on-chain accounting that has to be done is:
@@ -79,4 +79,21 @@ Secondly, we need to ensure that it's not possible for anyone to withdraw more t
 
 Finally, we track how much each account has withdrawn in total: if a new balance leaf appears in the tree giving them a higher balance, and they've already withdrawn some, they should only be able to withdraw the difference.
 
+### In practice / user experience
+
+In practice, advertisers open a channel every time they open a campaign - campaigns and channels are mapped 1:1. In terms of user experience, you simply have to choose the campaign deposit and parameters, sign a transaction, and the campaign/channel will be open.
+
+Publishers may earn from multiple campaigns, meaning that to withdraw/spend all their funds, `channelWithdraw` has to be called for each one. The process of calling `channelWithdraw` for all channels is called "sweeping". Thanks to the fact that AdEx accounts [are smart contracts](./README.md#identity), many calls can be made in one transaction, allowing to sweep all earned funds without having to ask the user to sign multiple transactions.
+
+Furthermore, we have a mechanism called "routine authorizations", where you can authorize a relayer to sweep channels for you.
+
+#### Dust amounts
+
+Sometimes, you may have earned an amount from a channel that is smaller than the cost of calling `channelWithdraw`. In this case, this revenue is not counted, because it represents a net negative if you were to spend it.
+
+This problem is similar to Bitcoin dust.
+
+It is also the reason for impressions [not always resulting in revenue](./FAQ.md#why-are-there-impressions-but-no-revenue).
+
+However, because there's a limit to the max amount of channels you can earn from, and the cost of doing a `channelWithdraw` is relatively small, this problem only manifests itself with really low earnings (under 3.5 DAI per week). 
 
