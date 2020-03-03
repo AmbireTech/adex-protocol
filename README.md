@@ -313,7 +313,7 @@ In order to maintain compatibility with the existing AdEx infrastructure (the Pl
 
 ### AdView
 
-The primary implementation is [`adex-adview`](https://github.com/AdExNetwork/adex-adview-manager), which is designed for the web.
+The primary implementation is [`adex-adview-manager`](https://github.com/AdExNetwork/adex-adview-manager), which is designed for the web.
 
 It's important to note that the AdView is entirely browser-agnostic. It can run as a library (alongside React or any other modern framework) or in an `<iframe>` on the publisher's webpage.
 
@@ -321,11 +321,13 @@ There are currently no native mobile implementations, but the AdView can be easi
 
 The AdView is responsible for:
 
-1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser;
-2. Pulling all possible demand (campaigns, bids) from the [Market](#market);
-3. Picking which ad to show depending on the user: this depends on a combination of price and targeting;
-4. Generating events (impressions, clicks), signing them with the keypair, and sending them to all validators and observers of the given ad;
+1. Pulling all possible demand (campaigns, bids) from the [Market](#market);
+2. Picking which ad to show depending on the user: this depends on a combination of price and targeting (header bidding and contextual targeting);
+3. Generating events (impressions as per [IAB's guidelines](https://www.iab.com/wp-content/uploads/2015/06/Ad-Impression-Measurment-Guideline-US.pdf), clicks) and sending them to all validators and observers of the given ad;
 
+Later on, if needed, it will also be responsible for:
+
+1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser;
 
 #### Contextual targeting
 
