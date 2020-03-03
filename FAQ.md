@@ -215,3 +215,6 @@ You can always withdraw your DAI and exchange it for USD/EUR/other fiat currency
 It's possible that there may be a low number of impressions that haven't generated revenue yet - especially if you're a new publisher.
 
 We use micropayments, which means that every impression is paid, but sometimes the incurred payment from a specific campaign is not sufficient to cover the Ethereum network costs, and is therefore not counted. Do not worry - as you earn more, the revenue will show up.
+
+## Why is my average CPM different than the average on the Explorer?
+Your average CPM depends on targeting and other criteria set by yourself and the advertisers you're being matched with. As such, it may be higher or lower than the average of the entire network. Simply put, if the demand is higher for your particular audience, your CPM will be higher and vice-versa.
