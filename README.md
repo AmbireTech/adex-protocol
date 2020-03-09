@@ -446,10 +446,10 @@ One of the main challenges of any digital advertising system is preventing fake 
 
 There are a few ways to mitigate that in AdEx:
 
-1) Traditional adtech methods, such as IP whitelists/blacklists;
-2) The AdView has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit;
-3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event;
-4) The AdView allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold;
+1) Traditional adtech methods, such as IP whitelists/blacklists, as well as verifying publishers by their domain name
+2) The AdView has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit
+3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
+4) The AdView allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold
 5) Publishers integrating the AdView may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser.
 
 It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives for fraud are significantly reduced.
