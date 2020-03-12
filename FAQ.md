@@ -171,7 +171,7 @@ Running your own validator means that you will profit from fees for every campai
 
 However, unless you're very familiar with the AdEx protocol and confident in your technical skills to keep a validator redundantly online, you will be better off staking, which will still give you a fraction of someone else's profit.
 
-As of mid 2019, the Registry is still in development, so you cannot stake yet.
+As of 2020, you can stake for existing validators on our [staking portal](https://staking.adex.network).
 
 ## What are custom events?
 [Custom events](https://github.com/AdExNetwork/adex-protocol#custom-events) are events defined by the advertiser or by the publisher. For example: an advertiser who is an online retailer may wish to set a purchase of a product as a conversion goal, rather than pay for clicks or impression; setting this as a conversion is a custom event.
@@ -181,7 +181,6 @@ As of mid 2019, the Registry is still in development, so you cannot stake yet.
 
 ## What is OUTPACE?
 [OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md) is a unidirectional payment channel based on OCEAN. OUTPACE allows for creating a simple one-to-many payment channel, where each participating party can withdraw their available balance (advertising budget or ad earnings) at any time. The withdrawn amounts are accounted for on-chain.
-
 
 # FAQ - Platform
 
