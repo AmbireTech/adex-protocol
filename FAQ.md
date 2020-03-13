@@ -207,7 +207,7 @@ No matter if you're a publisher or an advertiser, you have full control over the
 ## Do you impose any ad restrictions?
 There are no restrictions, neither for publishers, nor for advertisers. You set your own restrictions: e.g. you can disallow certain content from being advertised on your website. Or likewise, you can stop your ads from showing on certain websites.
 
-However, we require that publishers pass through an automatic verification to prove they own the domain/website. Furthermore, to protect the interest and funds of advertisers, we may exclude certain publishers from our instance of the ad [market](https://github.com/adexnetwork/adex-market) if we have a solid reason to believe the traffic is fraudulent. Once a publisher is restricted, they can still access their account and withdraw their funds, but they will no longer receive any impressions.
+However, we require that publishers pass through an automatic verification to prove they own the domain/website. Furthermore, to protect the interest and funds of advertisers, we may exclude certain publishers from our instance of the ad [market](https://github.com/adexnetwork/adex-market) if we an indication that the traffic is fraudulent. Once a publisher is restricted, they can still access their account and withdraw their funds, but they will no longer receive any impressions.
 
 ## What to do with the DAI I earned as a publisher?
 You can always withdraw your DAI and exchange it for USD/EUR/other fiat currency. Furthermore, there are many ways you can [spend your DAI](https://github.com/makerdao/awesome-makerdao#spend-your-dai) or [hold your DAI](https://github.com/makerdao/awesome-makerdao#hold-your-dai).
