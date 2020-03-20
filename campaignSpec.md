@@ -27,7 +27,6 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `validators`: an array of [Validator](#validator) objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
-* `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for other events (not IMPRESSION); e.g. `{ CLICK: { min: "0", max: "1000" } }`
 * `targeting`: optional, an array of [TargetingTag](#targetingtag)
 * `minTargetingScore`: optional, Number; minimum targeting score
 * `eventSubmission`: [EventSubmission](#eventsubmission) object, applies to event submission (POST `/channel/:id/events`)
@@ -36,7 +35,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is strongly recommended to set this at least one month prior to `channel.validUntil * 1000`, to allow enough time for earnings to be claimed by everyone
 * `adUnits`: optional, an array of [AdUnit](#Adunit)
-
+* `paymentSpec`: optional, an object of [Payment Spec](#paymentspec) 
 
 #### Validator
 
@@ -100,3 +99,25 @@ Rules that apply to submitting events
 * `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
 
 [ipfs]: https://ipfs.io/
+
+#### PaymentSpec
+
+##### Spec properties (can be modified) 
+
+* `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for other events (not IMPRESSION); e.g. `{ CLICK: { min: "0", max: "1000" } }`
+* `priceMultiplicationRules`: an array of map `{ multiplier OR amount, evType, publisher, osType, country }`; the `multiplier/amount` is mandatory and `multiplier` is a float, all the others are optional and are arrays of possible values to match. 
+
+    **Examples**
+
+    A rule to multiply impressions from the US by 1.2 - `[{ multiplier: 1.2, evType: ['IMPRESSION'], country: ['US'] }]`
+
+    A rule that sets a fixed amount for impressions from the US - `[{ amount: 1, evType: ['IMPRESSION'], country: ['US'] }]` 
+
+
+* `priceDynamicAdjustment`: `bool` Enable dynamic price adjustment. The implementation detail is [here](#dynamic-price-adjustment)
+
+##### Dynamic Price Adjustment
+
+Generate price steps from min/max price defined in `pricingBounds`; this can happen either based on a fixed step (e.g 0.01/1000) or by dividing the min/max difference by some number (e.g. 30 to produce 30 steps), or by some combination every hour, retrieve the total from the campaign for the last hour, hourlyVolume; calculate the (deposit - totalPaidOut) / hoursUntilWithdrawPeriodStart as targetHourlyVolume; if `hourlyVolume` > `targetHourlyVolume`, step the price down, and vice versa. 
+
+We will start with the avg between min and max.
