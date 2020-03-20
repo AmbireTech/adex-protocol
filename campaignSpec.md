@@ -27,6 +27,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `validators`: an array of [Validator](#validator) objects; should always be 2 elements, first being the leader, second being the follower
 * `maxPerImpression`: BigNumStr, a maximum payment per impression
 * `minPerImpression`: BigNumStr, minimum payment offered per impression
+* `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for other events (not IMPRESSION); e.g. `{ CLICK: { min: "0", max: "1000" } }`
 * `targeting`: optional, an array of [TargetingTag](#targetingtag)
 * `minTargetingScore`: optional, Number; minimum targeting score
 * `eventSubmission`: [EventSubmission](#eventsubmission) object, applies to event submission (POST `/channel/:id/events`)
@@ -35,7 +36,8 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is strongly recommended to set this at least one month prior to `channel.validUntil * 1000`, to allow enough time for earnings to be claimed by everyone
 * `adUnits`: optional, an array of [AdUnit](#Adunit)
-* `payment`: optional, an object of [Payment Spec](#paymentspec) 
+* `priceMultiplicationRules`: optional, an array of [PriceMultiplicationRules](#pricemultiplicationrules)
+* `priceDynamicAdjustment`: `bool` Enable dynamic price adjustment. The implementation detail is [here](#dynamic-price-adjustment)
 
 #### Validator
 
@@ -62,7 +64,7 @@ Rules that apply to submitting events
 
 ##### EventSubmissionRule
 
-* `uids`: array of used IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
+* `uids`: array of user IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
 * `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type: "ip", timeframe }`, where `timeframe` is a number; later, `{ type: "uid", timeframe }` will be added
 
 ##### Examples
@@ -75,6 +77,21 @@ Rules that apply to submitting events
 
 `{ allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow the creator to submit as many events as they like, but everyone else will be restricted to 1 event per second per IP
 
+#### PriceMultiplicationRules
+
+The `multiplier/amount` is mandatory and `multiplier` is a float, all the others are optional and are arrays of possible values to match. 
+
+* `multiplier / amount`: number, multiplier or fixed amount
+* `evType`: an array of event types e.g. `['IMPRESSION']`
+* `publisher`: an array of publisher ids e.g. `['0x...']`
+* `osType`: an array of mobile/desktop operating system types e.g. `['Android', 'macosx']`
+* `country`: an array of country of request origin e.g `['US', 'UK']`
+
+##### Examples
+
+`{ multiplier: 1.2, evType: ['IMPRESSION'], country: ['US'] }` - A rule to multiply impressions from the US by 1.2
+
+`{ amount: 1, evType: ['IMPRESSION'], country: ['US'] }` - A rule that sets a fixed amount for impressions from the US
 
 #### AdUnit
 
@@ -100,24 +117,7 @@ Rules that apply to submitting events
 
 [ipfs]: https://ipfs.io/
 
-#### PaymentSpec
-
-##### Spec properties (can be modified) 
-
-* `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for other events (not IMPRESSION); e.g. `{ CLICK: { min: "0", max: "1000" } }`
-* `priceMultiplicationRules`: an array of map `{ multiplier OR amount, evType, publisher, osType, country }`; the `multiplier/amount` is mandatory and `multiplier` is a float, all the others are optional and are arrays of possible values to match. 
-
-    **Examples**
-
-    A rule to multiply impressions from the US by 1.2 - `[{ multiplier: 1.2, evType: ['IMPRESSION'], country: ['US'] }]`
-
-    A rule that sets a fixed amount for impressions from the US - `[{ amount: 1, evType: ['IMPRESSION'], country: ['US'] }]` 
-
-
-* `priceDynamicAdjustment`: `bool` Enable dynamic price adjustment. The implementation detail is [here](#dynamic-price-adjustment)
 
 ##### Dynamic Price Adjustment
 
-Generate price steps from min/max price defined in `pricingBounds`; this can happen either based on a fixed step (e.g 0.01/1000) or by dividing the min/max difference by some number (e.g. 30 to produce 30 steps), or by some combination every hour, retrieve the total from the campaign for the last hour, hourlyVolume; calculate the (deposit - totalPaidOut) / hoursUntilWithdrawPeriodStart as targetHourlyVolume; if `hourlyVolume` > `targetHourlyVolume`, step the price down, and vice versa. 
-
-We will start with the avg between min and max.
+Generate price steps from min/max price defined in `pricingBounds`; this can happen either based on a fixed step (e.g 0.01/1000) or by dividing the min/max difference by some number (e.g. 30 to produce 30 steps), or by some combination every hour, retrieve the total from the campaign for the last hour, hourlyVolume; calculate the (deposit - totalPaidOut) / hoursUntilWithdrawPeriodStart as targetHourlyVolume; if `hourlyVolume` > `targetHourlyVolume`, step the price down, and vice versa.
