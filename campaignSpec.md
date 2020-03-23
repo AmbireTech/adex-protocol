@@ -79,19 +79,25 @@ Rules that apply to submitting events
 
 #### PriceMultiplicationRules
 
-The `multiplier/amount` is mandatory and `multiplier` is a float, `amount` is a BigNumber, all the others are optional and are arrays of possible values to match. 
+The `multiplier/amount` is mandatory and `multiplier` is a float, `amount` is a BigNumber. All the others are optional and are arrays of possible values to match where not providing it means "match everything" e.g. not providing a publisher (or publisher: []) means "match any publisher".
 
 * `multiplier / amount`: multiplier or amount in float & BigNumber format respectively
-* `evType`: an array of event types e.g. `['IMPRESSION']`
-* `publisher`: an array of publisher ids e.g. `['0x...']`
-* `osType`: an array of mobile/desktop operating system types e.g. `['Android', 'macosx']`
-* `country`: an array of country of request origin e.g `['US', 'UK']`
+* `evType`: an (optional) array of event types e.g. `['IMPRESSION']` or `[]` (match any event)
+* `publisher`: an (optional) array of publisher ids e.g. `['0x2992f6C41E0718eeeDd49D98D648C789668cA66d']`
+* `osType`: an (optional) array of mobile/desktop operating system types e.g. `['Android', 'macosx']`
+* `country`: an (optional) array of country of request origin e.g `['US', 'UK']`
 
 ##### Examples
 
-`{ multiplier: 1.2, evType: ['IMPRESSION'], country: ['US'] }` - A rule to multiply impressions from the US by 1.2
+`{ multiplier: 1.2, evType: ['IMPRESSION'], country: ['US'] }` - A rule to multiply only impression event from the US by 1.2
 
-`{ amount: 1, evType: ['IMPRESSION'], country: ['US'] }` - A rule that sets a fixed amount for impressions from the US
+`{ amount: '10000', evType: ['IMPRESSION'], country: ['US'] }` - A rule that sets a fixed amount for only impression event from the US
+
+`{ amount: '10000', evType: ['CLICK'], country: ['US'], publisher: ['0x', '0y'], osType: ['Android'] }` - A rule that sets a fixed amount for only click events from the US created by publisher `0x`, `0y` and from `Android` devices
+
+`{ amount: '10000', evType: [], country: ['US'], publisher: [] }` - A rule that sets a fixed amount for all event types (i.e. impressions, click) from publishers in the `US`
+
+`{ amount: '1' }` - A rule that sets a fixed amount for any event / country / osType / publisher
 
 #### AdUnit
 
@@ -119,5 +125,7 @@ The `multiplier/amount` is mandatory and `multiplier` is a float, `amount` is a 
 
 
 ##### Dynamic Price Adjustment
+
+*WARNING:* this is supported yet
 
 Generate price steps from min/max price defined in `pricingBounds`; this can happen either based on a fixed step (e.g 0.01/1000) or by dividing the min/max difference by some number (e.g. 30 to produce 30 steps), or by some combination every hour, retrieve the total from the campaign for the last hour, hourlyVolume; calculate the (deposit - totalPaidOut) / hoursUntilWithdrawPeriodStart as targetHourlyVolume; if `hourlyVolume` > `targetHourlyVolume`, step the price down, and vice versa.
