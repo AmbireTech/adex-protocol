@@ -79,9 +79,9 @@ Rules that apply to submitting events
 
 #### PriceMultiplicationRules
 
-The `multiplier/amount` is mandatory and `multiplier` is a float, all the others are optional and are arrays of possible values to match. 
+The `multiplier/amount` is mandatory and `multiplier` is a float, `amount` is a BigNumber, all the others are optional and are arrays of possible values to match. 
 
-* `multiplier / amount`: number, multiplier or fixed amount
+* `multiplier / amount`: multiplier or amount in float & BigNumber format respectively
 * `evType`: an array of event types e.g. `['IMPRESSION']`
 * `publisher`: an array of publisher ids e.g. `['0x...']`
 * `osType`: an array of mobile/desktop operating system types e.g. `['Android', 'macosx']`
