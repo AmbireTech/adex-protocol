@@ -79,9 +79,9 @@ Rules that apply to submitting events
 
 #### PriceMultiplicationRules
 
-The `multiplier/amount` is mandatory and `multiplier` is a float, `amount` is a BigNumber. All the others are optional and are arrays of possible values to match where not providing it means "match everything" e.g. not providing a publisher means "match any publisher".
+One of `multiplier` or `amount` is mandatory and `multiplier` is a float, `amount` is a BigNumber. All the others are optional and are arrays of possible values to match where not providing it means "match everything" e.g. not providing a publisher means "match any publisher".
 
-In cases where an event matches more than one rule if any of the rules is a fixed `amount` rule, we apply the first fixed `amount` rule and ignore the rest, but if all the rules are `multipliers` we apply them all to the event's `pricingBounds.min` price.
+In cases where an event matches more than one rule if any of the rules is a fixed `amount` rule, we apply the first fixed `amount` rule and ignore the rest, but if all the matching rules are `multiplier` we apply them all to the event's `pricingBounds.min` price.
 
 * `multiplier / amount`: multiplier or amount in float & BigNumber format respectively
 * `evType`: an (optional) array of event types e.g. `['IMPRESSION']`
