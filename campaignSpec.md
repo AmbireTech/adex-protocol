@@ -79,12 +79,12 @@ Rules that apply to submitting events
 
 #### PriceMultiplicationRules
 
-The `multiplier/amount` is mandatory and `multiplier` is a float, `amount` is a BigNumber. All the others are optional and are arrays of possible values to match where not providing it means "match everything" e.g. not providing a publisher (or publisher: []) means "match any publisher".
+The `multiplier/amount` is mandatory and `multiplier` is a float, `amount` is a BigNumber. All the others are optional and are arrays of possible values to match where not providing it means "match everything" e.g. not providing a publisher means "match any publisher".
 
 In cases where an event matches more than one rule if any of the rules is a fixed `amount` rule, we apply the first fixed `amount` rule and ignore the rest, but if all the rules are `multipliers` we apply them all to the event's `pricingBounds.min` price.
 
 * `multiplier / amount`: multiplier or amount in float & BigNumber format respectively
-* `evType`: an (optional) array of event types e.g. `['IMPRESSION']` or `[]` (match any event)
+* `evType`: an (optional) array of event types e.g. `['IMPRESSION']`
 * `publisher`: an (optional) array of publisher ids e.g. `['0x2992f6C41E0718eeeDd49D98D648C789668cA66d']`
 * `osType`: an (optional) array of mobile/desktop operating system types e.g. `['Android', 'macosx']`
 * `country`: an (optional) array of country of request origin e.g `['US', 'UK']`
@@ -97,7 +97,7 @@ In cases where an event matches more than one rule if any of the rules is a fixe
 
 `{ amount: '10000', evType: ['CLICK'], country: ['US'], publisher: ['0x', '0y'], osType: ['Android'] }` - A rule that sets a fixed amount for only click events from the US created by publisher `0x`, `0y` and from `Android` devices
 
-`{ amount: '10000', evType: [], country: ['US'], publisher: [] }` - A rule that sets a fixed amount for all event types (i.e. impressions, click) from publishers in the `US`
+`{ amount: '10000', country: ['US'] }` - A rule that sets a fixed amount for all event types (i.e. impressions, click) from publishers in the `US`
 
 `{ amount: '1' }` - A rule that sets a fixed amount for any event / country / osType / publisher
 
