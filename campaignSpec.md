@@ -128,6 +128,6 @@ In cases where an event matches more than one rule if any of the rules is a fixe
 
 ##### Dynamic Price Adjustment
 
-*WARNING:* this is supported yet
+*WARNING:* this is **not** supported yet
 
 Generate price steps from min/max price defined in `pricingBounds`; this can happen either based on a fixed step (e.g 0.01/1000) or by dividing the min/max difference by some number (e.g. 30 to produce 30 steps), or by some combination every hour, retrieve the total from the campaign for the last hour, hourlyVolume; calculate the (deposit - totalPaidOut) / hoursUntilWithdrawPeriodStart as targetHourlyVolume; if `hourlyVolume` > `targetHourlyVolume`, step the price down, and vice versa.
