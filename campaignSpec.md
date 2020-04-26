@@ -19,15 +19,15 @@ Because the `campaignSpec` format needs to be able to evolve rapidly, we can use
 
 Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
-### campaignSpec format: v1.0.0-beta
+### campaignSpec format: v1.0.0-beta2
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
 * `title`: string, used mostly for advertisers own info
 * `validators`: an array of [Validator](#validator) objects; should always be 2 elements, first being the leader, second being the follower
-* `maxPerImpression`: BigNumStr, a maximum payment per impression
-* `minPerImpression`: BigNumStr, minimum payment offered per impression
-* `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for other events (not IMPRESSION); e.g. `{ CLICK: { min: "0", max: "1000" } }`
+* `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for events; e.g. `{ CLICK: { min: "0", max: "1000" } }`
+* `maxPerImpression`: BigNumStr, a maximum payment per impression; **OBSOLETE**, only used if `pricingBounds` is missing an `IMPRESSION` entry
+* `minPerImpression`: BigNumStr, minimum payment offered per impression; **OBSOLETE**, only used if `pricingBounds` is missing an `IMPRESSION` entry
 * `targeting`: optional, an array of [TargetingTag](#targetingtag)
 * `minTargetingScore`: optional, Number; minimum targeting score
 * `eventSubmission`: [EventSubmission](#eventsubmission) object, applies to event submission (POST `/channel/:id/events`)
