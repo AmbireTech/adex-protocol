@@ -13,12 +13,11 @@ graph {
 	market[label="Market"];
 	market -- sentry;
 	ethereum[label="the Ethereum network", shape="diamond"];
-	watcher -- ethereum;
 	platform[label="Platform",shape="box"];
 	platform -- market;
 	platform -- sentry;
 	platform -- ethereum;
-	SDK[shape="box"];
-	SDK -- sentry;
-	SDK -- market;
+	sentry -- ethereum;
+	AdView[shape="box"];
+	AdView -- market;
 }
