@@ -17,7 +17,7 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 * `fallbackUnit`: string, valid [ipfs] hash for [Ad Unit] object. It will be used as fallback data. It is optional
 * `archived`: boolean, user can change it - used for filtering in platform UI
 * `modified`: number, UTC timestamp in milliseconds, changed every time modifiable property is changed
-* `minPerImpression`: Object with string keys for `depositAsset` and BigNumStr fot the minimum payment accepted per impression
+* `minPerImpression`: Object with string keys for `depositAsset` and BigNumStr for the minimum payment accepted per impression
 
 
 [Ad Unit]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adunit
