@@ -222,3 +222,6 @@ We use micropayments, which means that every impression is paid, but sometimes t
 
 ## Why is my average CPM different than the average on the Explorer?
 Your average CPM depends on targeting and other criteria set by yourself and the advertisers you're being matched with. As such, it may be higher or lower than the average of the entire network. Simply put, if the demand is higher for your particular audience, your CPM will be higher and vice-versa.
+
+## What are you doing about ad blockers?
+We do not try to circumvent ad blockers, because we believe that users who intentionally use ad blockers are unlikely to convert anyway. However, in the long term, we believe that ad blockers will adopt more whitelisting [policies](https://acceptableads.com/) in order to be sustainable, and are positioned to be a part of this by providing privacy-preserving, unobtrusive ads.
