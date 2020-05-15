@@ -194,7 +194,9 @@ No. Once you sign up, you can use AdEx as a publisher and/or as an advertiser.
 Yes. Each impression/event results in an immediate micropayment to the publisher, and both sides can see this data in real time as it happens.
 
 ## What are the supported ad formats?
-Currenly, only display ads: all the classical banner sizes are supported, along with the [IAB new ad portfolio](https://www.iab.com/newadportfolio/). We also support video banners.
+Currenly, only display ads: all the classical banner sizes are supported, along with the [IAB new ad portfolio](https://www.iab.com/newadportfolio/).
+
+Support for other formats such as native ads is planned. If you have any suggestions or proposals related to more engaging ad formats, please do not hesitate to [contact us](https://www.adex.network).
 
 ## What is the average CPM?
 Check out our [Explorer](https://explorer.adex.network) to see the average CPM per ad slot size, in real time.
