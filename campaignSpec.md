@@ -65,7 +65,10 @@ Rules that apply to submitting events
 ##### EventSubmissionRule
 
 * `uids`: array of user IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
-* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type: "ip", timeframe }`, where `timeframe` is a number; there's also, `{ type: "sid", timeframe }`, which limits the rate for the user ID
+* `evTypes`: array of event types that this rule applies to; leave `null` for applying to all events
+* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type, timeframe }`, where `timeframe` is a number of milliseconds; `type` can be `"ip"` or `"sid"`
+   * the `"ip"` type limits by the user IP; it won't allow multiple events to be submitted with one request
+   * the `"sid"` type limits by the user ID; it won't allow any event submissions if the request is not authenticated
 
 ##### Examples
 
