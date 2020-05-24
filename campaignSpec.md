@@ -67,8 +67,12 @@ Rules that apply to submitting events
 * `uids`: array of user IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
 * `evTypes`: array of event types that this rule applies to; leave `null` for applying to all events
 * `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type, timeframe }`, where `timeframe` is a number of milliseconds; `type` can be `"ip"` or `"uid"`
-   * the `"ip"` type limits by the user IP; it won't allow multiple events to be submitted with one request
+   * the `"ip"` type limits by the user's IP
    * the `"uid"` type limits by the user ID; it won't allow any event submissions if the request is not authenticated
+
+If a rate limit applies, only one event can be submitted with one request.
+
+To enable the creator to submit as many events as they like (and submit multiple at once), add a rule that matches them that has no `rateLimit`: `{ uids: [channel.creator] }`.
 
 ##### Examples
 
