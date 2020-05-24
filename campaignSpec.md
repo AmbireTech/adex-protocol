@@ -65,7 +65,16 @@ Rules that apply to submitting events
 ##### EventSubmissionRule
 
 * `uids`: array of user IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
-* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type: "ip", timeframe }`, where `timeframe` is a number; there's also, `{ type: "sid", timeframe }`, which limits the rate for the user ID
+* `evTypes`: array of event types that this rule applies to; leave `null` for applying to all events
+* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type, timeframe }`, where `timeframe` is a number of milliseconds; `type` can be `"ip"` or `"uid"`
+   * the `"ip"` type limits by the user's IP
+   * the `"uid"` type limits by the user ID; it won't allow any event submissions if the request is not authenticated
+   * **TODO:** `"pow"` type, AIP26
+   * **TODO:** `"captcha"` type, AIP29, together with `{ evTypes: ["CLICK"] }`
+
+If a rate limit applies, only one event can be submitted with one request.
+
+To enable the creator to submit as many events as they like (and submit multiple at once), add a rule that matches them that has no `rateLimit`: `{ uids: [channel.creator] }`.
 
 ##### Examples
 
@@ -73,7 +82,7 @@ Rules that apply to submitting events
 
 `{ allow: [{ uids: null }] }` - this will allow everyone to submit events with no limit
 
-`{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }, { uids: null, rateLimit: { type: "sid", timeframe: 1000 } }] }` - will apply both an IP limit and a SID limit
+`{ allow: [{ uids: null, rateLimit: { type: "ip", timeframe: 1000 } }, { uids: null, rateLimit: { type: "uid", timeframe: 1000 } }] }` - will apply both an IP limit and a SID limit
 
 `{ allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow the creator to submit as many events as they like, but everyone else will be restricted to 1 event per second per IP
 
