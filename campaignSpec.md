@@ -65,7 +65,7 @@ Rules that apply to submitting events
 ##### EventSubmissionRule
 
 * `uids`: array of user IDs that this rule applies to; leave `null` for applying to everyone (note that subsequent rules in `allow` won't match); set to `[null]` to apply to requests without authentication
-* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type: "ip", timeframe }`, where `timeframe` is a number; later, `{ type: "uid", timeframe }` will be added
+* `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type: "ip", timeframe }`, where `timeframe` is a number; there's also, `{ type: "sid", timeframe }`, which limits the rate for the user ID
 
 ##### Examples
 
