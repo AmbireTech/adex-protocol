@@ -69,6 +69,8 @@ Rules that apply to submitting events
 * `rateLimit`: optional, object describing the rate limit to apply; for, this takes `{ type, timeframe }`, where `timeframe` is a number of milliseconds; `type` can be `"ip"` or `"uid"`
    * the `"ip"` type limits by the user's IP
    * the `"uid"` type limits by the user ID; it won't allow any event submissions if the request is not authenticated
+   * **TODO:** `"pow"` type, AIP26
+   * **TODO:** `"captcha"` type, AIP29, together with `{ evTypes: ["CLICK"] }`
 
 If a rate limit applies, only one event can be submitted with one request.
 
