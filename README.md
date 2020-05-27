@@ -386,7 +386,7 @@ It is a smart contract that allows the users of the Platform (publishers/adverti
 
 This solves many UX hurdles that are typical for blockchain-related applications.
 
-In the Platform, we also allow the so-called "Quick accounts": you can sign up with an email/passphrase, and the Platform will generate and store a keypair for you, encrypted with your passphrase. Because this is suboptiomal for security, those accounts are limited (by the Market) in terms of DAI they can earn. However, thanks to the Identity layer, those accounts can be easily secured by de-authorizing the temporary keypair and authorizing a proper wallet such as Metamask/Trezor.
+In the Platform, we also allow the so-called "Quick accounts": you can sign up with an email/passphrase, and the Platform will generate and store a keypair for you, encrypted with your passphrase. Because this is suboptiomal for security, those accounts may be limited (by the Market) in terms of DAI they can earn. However, thanks to the Identity layer, those accounts can be easily secured by de-authorizing the temporary keypair and authorizing a proper wallet such as Metamask/Trezor.
 
 Some of these concepts are sometimes refered to as "smart wallets", "meta tx" or "gas abstractions".
 
