@@ -193,6 +193,8 @@ Do not forget that there are other criteria for filtering campaigns as well, suc
 
 If we return `NO_UNITS_FOR_TARGETING` in `issues`, we should also return the first M (configurable) rules that excluded units from targeting.
 
+In the market implementation, all the targeting input variables are set in `routes/units-for-slot.js`.
+
 ### Performance
 
 Performance may turn out to be critical since we will have to apply all campaign rules and `adSlot.rules` for each ad unit separately, because of the `adUnitId` variable. If this is an issue, we can drop the variables, but it's unlikely that it will help, since most campaigns have a few (one or two) ad units of a particular type - and we first filter ad units by type before applying targeting.
@@ -227,9 +229,7 @@ It's necessary to implement it in the validator, so it can determine the payout 
 
 All the global variables will be set. The price will be clamped to the min/max as defined by `pricingBounds`. If `show` is set to false at any point, we'll return a custom HTTP error code.
 
-See https://github.com/AdExNetwork/adex-validator/issues/275
-
-**TODO:** consider allowing each event to be submitted with the expected payout for it, as a safety feature - if there's a mismatch, then this probably means there's a significant difference in the input variables between the market and the validator.
+In the validator, all the targeting input variables are set in `services/sentry/lib/getPayout`.
 
 ### Dynamically updating `targetingRules`
 
