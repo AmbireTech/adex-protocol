@@ -189,26 +189,20 @@ Do not forget that there are other criteria for filtering campaigns as well, suc
 
 If we return `NO_UNITS_FOR_TARGETING` in `issues`, we should also return the first M (configurable) rules that excluded units from targeting.
 
-Despite not having Profile-specific variables, we will still send a `pid` (anonymized profile ID) and `pcp` (profile custom preferences, `boolean`) as query parameters, so that we can internally know what % of users use the profile.
-
-**NOTE:** the supermarket no longer needs a special mode in which it doesn't apply targeting, since it will always apply targeting, but the rules which depend on sensitive (AdEx profile) data will simply be ignored, and they will be applied on the client side (AdView).
-
 ### Performance
 
 Performance may turn out to be critical since we will have to apply all campaign rules and `adSlot.rules` for each ad unit separately, because of the `adUnitId` variable. If this is an issue, we can drop the variables, but it's unlikely that it will help, since most campaigns have a few (one or two) ad units of a particular type - and we first filter ad units by type before applying targeting.
 
-## Implementation in the AdView
+## Implementation in the AdView and bidding algorithm
 
-The AdView changes will be implemented together with the implementation of the /units-for-slot (essentially a complete rewrite):
+The steps that the AdView goes through to select an ad are:
 
 - retrieve campaigns from the supermarket (`/units-for-slot`) - those will already be filtered to return only the active and healthy ones containing an adUnit with the correct adUnit type
 - targeting rules will be applied
 - the adUnits will already have a calculated impression price for them, returned by /units-for-slot; apply all the targeting rules with the additional `adView.` variables; sort all units and pick one with the highest impression price; if there are multiple with the same price, we'll apply random selection
 - we will not apply `adSlot.rules`; those will be applied by /units-for-slot; the reason for this is that we don't want to allow publishers to read `adView.` variables, since that way they can "read" those variables by finding out if ads collapsed or not, therefore exposing private user information
 - /units-for-slot will also return info about the adSlot and the fallback adUnit, so we don't need to retrieve those separately
-- needs to collect data on what ads were shown (to apply freq capping rules, i.e. adView.secondsSinceCampaignImpression`)
-- needs to collect data what categories of sites were visited the most (as part of the AdEx Profile - we will either use data to match targeting rules against it, or to hint the user into choosing their preferred categories in the Profile UI)
-- we can use this opportunity to implement the [Profile API](https://github.com/AdExNetwork/adex-adview-manager/issues/51).
+- keeps a log of what ads were shown (to apply freq capping rules, i.e. `adView.secondsSinceCampaignImpression`)
 
 ### Sticky slots and adjusted impression price
 
