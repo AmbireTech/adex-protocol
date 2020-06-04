@@ -152,7 +152,9 @@ All of this means that ad units will no longer require entering targeting tags, 
 
 **NOTE:** as you may be able to tell, the UI only allows a tiny fraction of what's possible with the new targeting system. This gives us room to introduce new targeting features based on user demand, while keeping the UI simple.
 
-**TODO:** figure out how to select publishers who are not publically listed (by address/username?), therefore allowing AdEx to be used as a PMP
+### Default excluded categories
+
+By defualt, some categories will be pre-added to the excluded list. Currently the only such category is Incentivized (IAB25-7), but more may be added in the future.
 
 ### Publisher UX
 
@@ -165,11 +167,13 @@ When creating ad slots, publishers should be able to configure a few things:
 
 All of those configurations will be implemented via `adSlot.rules`
 
+
 ## Auto-categorization
 
 Auto-categorization is a responsibility of the Market and is based on various APIs.
 
 Furthermore, we'll have a manual override (`webshrinkerCategoryOverrides` in `websites`) so that we can manually categorize certain websites that were not sufficiently well categorized by the APIs we use.
+
 
 There's also a custom way of detecting incentive traffic websites (faucets, autosurfers, etc.).
 
