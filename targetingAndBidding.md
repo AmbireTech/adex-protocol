@@ -167,19 +167,17 @@ All of those configurations will be implemented via `adSlot.rules`
 
 ## Auto-categorization
 
-Auto-categorization is a responsibility of the Market and is based on Alexa for publishers (records in the `websites` collection) and on Google Images for advertisers (in the `adUnit` collection).
+Auto-categorization is a responsibility of the Market and is based on various APIs.
 
-Furthermore, we'll have a manual override (`forcedCategories` in `websites`) so that we can manually categorize certain websites that were not sufficiently well categorized by Alexa.
+Furthermore, we'll have a manual override (`webshrinkerCategoryOverrides` in `websites`) so that we can manually categorize certain websites that were not sufficiently well categorized by the APIs we use.
 
-Further down the line, we'll develop a custom way of detecting incentive traffic websites (faucets, autosurfers, etc.). Simple string detections such as "faucet" or "earn money" may be sufficient.
-
-Adding another API besides Alexa (possibly something by Google) for determining website categories would be great, as Alexa is not very good at that.
+There's also a custom way of detecting incentive traffic websites (faucets, autosurfers, etc.).
 
 For advertisers, Google Vision will be used for suggeting categories when opening campaigns, except if adult content is detected, in which case the ad will only match such publishers by default. Allowing this to be unset will require manually allowing it to the advertiser (through setting a flag in their `identityDeployData.meta`). This logic will be enforced on the Platform, but for further security, we can enforce it on the Market too.
 
 We can categorize the advertisers' websites too, to obtain further data about that advertiser.
 
-For the categories, we will use the IAB taxonomy: it even has IAB25-7 (Incentivized), with one addition to it: IAB13-ADX1 (Cryptocurrency), because there's no such category in IAB's taxonomy (closest is IAB13-11, stocks).
+For the categories, we use the IAB taxonomy: it even has IAB25-7 (Incentivized), with one addition to it: IAB13-ADX1 (Cryptocurrency), because there's no such category in IAB's taxonomy (closest is IAB13-11, stocks).
 
 ## Implementation in /units-for-slot (Supermarket or Market)
 
@@ -328,18 +326,6 @@ It's possible to have nondeterministic execution because of floating point math 
 However, those differences should be rare and at worst, they'll result in a small percentage of impressions being overpaid/underpaid. Also, in theory different numbers might be seen across the two validators for each campaign, but this is already happening due to the asynchronous nature of networks, and is accounted for using the campaign health system.
 
 Finally, if the campaign has rules which intentionally create differences (not sure how one would do this, maybe leveraging FP arithmetic; but let's say we had a variable for ms and the rule is `{ onlyShowAd: { eq: [{ mod: [{get: 'millisecondsSinceEpoch', 2}] }, 1] } }`), then the campaign may quickly become unhealthy and stop executing - which protects the publishers.
-
-## Security
-
-AdView: it's very important to disallow changing the price from rules that read `adView`-scoped variables, as those are not accessible on the validator. Allowing this enables tricking the AdView into thinking an impression pays more, when it actually doesn't.
-
-This mechanism can be implemented in two ways, second one is recommended:
-* run through the rules once without defining the `adView`-scoped input variables; then, save/freeze the output `price.{eventType}` (this will be it's final value) and re-run all the rules that resulted in `UndefinedVar`, with all the input variables
-* return the final impression price for each adUnit from the supermarket, and rely on this; has to be on adUnit level since targeting rules can be influenced by the adUnit; this works because the supermarket has the same variables that the validator has.
-
-Another general security consideration is that advertisers may extract more "value" from their impressions by setting `eventSubmission` rate limits to higher timeframes. This will be corrected by https://github.com/AdExNetwork/adex-adview-manager/issues/66
-
-While not directly related to the targeting improvement, it would be good for security to have a JSON size limit for the campaigns spec enforced at a validator and market level. Serde already has a [recursion limit](https://github.com/serde-rs/json/issues/334).
 
 ## Private marketplaces (PMPs)
 
