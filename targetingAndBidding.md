@@ -334,3 +334,11 @@ PMPs are partially built in: thanks to the flexibility of targeting rules and th
 
 To ensure campaigns are not revealed in other places of the platform or in JSON responses from the market, we can introduce a `private` flag for both to indicate not to return them in standard responses (e.g. `/campaigns?all`). The same flag can be used for ad slots to stop the publisher from showing in public lists (currently there is no such list; the campaign stats reveals publishers but only the ones that displayed the campaign).
 
+## Alternative pricing models
+
+By default, AdEx uses a CPM model: targeting rules set `price.IMPRESSION`, and this price is used in auctions.
+
+However, a price for any event can be set, including clicks, leads, acquisitions or other user actions, so all sorts of models are theoretically possible: CPC, CPL, CPA. To allow such campaigns to bid fairly against CPM campaigns, we have to [estimate](https://github.com/AdExNetwork/adex-market/issues/126) the CPM of such a campaign.
+
+Also, since the bidding system takes into account [how long the ad appears for](#sticky-slots-and-adjusted-impression-price), you get some advantages from the proposed [cost-pre-hour](https://aboutus.ft.com/en-gb/announcements/financial-times-rolls-out-cost-per-hour-advertising-metric/) model. A real cost-per-hour model is possible too, by modifying the AdView in such a way that it will send a "time tick" event.
+
