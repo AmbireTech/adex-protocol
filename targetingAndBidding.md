@@ -21,7 +21,7 @@ To achieve this, and other use cases (see "Use cases"), while ensuring future fl
 
 The targeting is **set on a campaign level** (unlike the previous system, which was on ad unit level). The reason is that this is the common behavior on most networks, is more intuitive, easier to implement, and we can still refine targeting based on the ad unit itself thanks to the rule system.
 
-Since it also allows targeting to affect the offered impression price, it also changes the way the bidding system works. Unlike the previous system, there's no "targeting score", but a higher price may be offered through targeting rules. **This means the bidding algorithm is simply to apply all targeting rules, and show the ad that pays highest for the impression.**
+Since it also allows targeting to affect the offered impression price, it also changes the way the bidding system works. Unlike the previous system, there's no "targeting score", but a higher price may be offered through targeting rules. **This means the bidding algorithm is simply to apply all targeting rules, and show the ad that pays highest for the impression (first price auction).**
 
 **This rule-based system is sufficiently flexible to comprehensively describe what audience should be matched and how it should be priced, therefore eliminating the need for implementing various features separately.**
 
@@ -204,11 +204,16 @@ Performance may turn out to be critical since we will have to apply all campaign
 The steps that the AdView goes through to select an ad are:
 
 - retrieve campaigns from the supermarket (`/units-for-slot`) - those will already be filtered to return only the active and healthy ones containing an adUnit with the correct adUnit type
-- targeting rules will be applied
-- the adUnits will already have a calculated impression price for them, returned by /units-for-slot; apply all the targeting rules with the additional `adView.` variables; sort all units and pick one with the highest impression price; if there are multiple with the same price, we'll apply random selection
+- targeting rules will be applied; they were already applied in `/units-for-slot`, but in the AdView we have more variables available
+- the ad units will already have a calculated impression price for them, returned by /units-for-slot; apply all the targeting rules with the additional `adView.` variables; sort all units and pick one with the highest impression price; if there are multiple with the same price, we'll apply random selection
 - we will not apply `adSlot.rules`; those will be applied by /units-for-slot; the reason for this is that we don't want to allow publishers to read `adView.` variables, since that way they can "read" those variables by finding out if ads collapsed or not, therefore exposing private user information
 - /units-for-slot will also return info about the adSlot and the fallback adUnit, so we don't need to retrieve those separately
 - keeps a log of what ads were shown (to apply freq capping rules, i.e. `adView.secondsSinceCampaignImpression`)
+
+**NOTE:** Rules that use `adView.*` variables cannot influence the price because they're only applied on the AdView. The validators have the final say on the price, as they administer the payment channels. This is why we use the `price` calculated by the Market, which has access to the same variables as the validators.
+
+**NOTE:** Second-price auctions cannot be applied here, because the validators only know the price that the winning campaign is willing to pay, as other campaigns may be managed by different validators.
+
 
 ### Sticky slots and adjusted impression price
 
