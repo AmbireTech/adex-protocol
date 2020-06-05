@@ -11,15 +11,15 @@ This system spans across almost all components: AdView, Market, Validator.
 It's designed with the following goals:
 * Ability to "strict match" (e.g. "Only News websites") while combining it with other requirements (e.g. "only tier 1 traffic" or "exclude tier 3 traffic")
 * Clarity: targeting rules are easy to understand (e.g. "only audiences from tier 2 traffic, in News websites")
-* Ability to combine different requirements logically (e.g. "is a young male or a middle aged female") (see previous plan: #10)
+* Ability to combine different requirements logically (e.g. "is a young male or a middle aged female")
 * Ability to strictly exclude certain audiences (e.g. "no incentive traffic" or "exclude those publishers")
 * Ability to set a different impression price based on publisher, location, OS, etc.
 * Ability to set a frequency cap, e.g. "only show this ad once per 24 hours to a user"
 * Ability to modify the targeting on the fly, after the campaign has been created, also allowing the campaign to be paused
 
-To achieve this, and other use cases (see "Use cases"), while ensuring future flexibility and overall simplicity, we use a system based on logical rules. The `campaignSpec` will define all rules under `spec.targetingRules`, and each rule can use various input variables (e.g. `publisherId`, `country`) to affect the output variables (whether to show the ad, price). Using a validator event, the creator may change the rules dynamically during the campaign's lifetime (to learn how, read the Validator section).
+To achieve this, and other use cases (see ["Use cases"](#use-cases)), while ensuring future flexibility and overall simplicity, we use a system based on logical rules. The `campaignSpec` will define all rules under `spec.targetingRules`, and each rule can use various input variables (e.g. `publisherId`, `country`) to affect the output variables (whether to show the ad, price). Using a validator event, the creator may change the rules dynamically during the campaign's lifetime (to learn how, read the Validator section).
 
-The targeting is **set on a campaign level** (unlike the previous system, which was on ad unit level). The reason is that this is the common behavior on most networks, is more intuitive, easier to implement, and we can still refine targeting based on the ad unit itself thanks to the rule system.
+The targeting is **set on a campaign level** (unlike the previous system, which was on ad unit level). The reason is that this is the common behavior on most networks, is more intuitive, easier to implement, and we can still specify targeting based on the ad unit itself thanks to the rule system.
 
 Since it also allows targeting to affect the offered impression price, it also changes the way the bidding system works. Unlike the previous system, there's no "targeting score", but a higher price may be offered through targeting rules. **This means the bidding algorithm is simply to apply all targeting rules, and show the ad that pays highest for the impression (first price auction).**
 
@@ -107,8 +107,6 @@ Example in `campaignSpec` JSON:
    "targetingRules": [{ "onlyShowIf": { "nin": [{ "get": "adSlot.categories" }, "Incentive"]  } }]
 }
 ```
-
-**Affected components:** AdView, Supermarket, Validator. The Validators are affected because the targeting can influence the price, so the validator must apply the targeting rules to calculate the price (replacing #6).
 
 **Error handling/unmatched rules:** Rules that result in an `UndefinedVar` error will be ignored and won't affect output variables. The reason is that some variables will not be accessible on the Market/Validator (e.g. [AdEx Profile](#15) settings/preferences), but they will be accessible on the AdView. The Supermarket will be able to match as many rules as possible, therefore narrowing down the campaign list, and the AdView will handle the rest.
 
