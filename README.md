@@ -555,11 +555,9 @@ We believe that AdEx still offers benefits for those cases, mostly revolving aro
 
 There is a project that uses this model for ads right now, called [Harberger ads](https://devpost.com/software/harberger-ads).
 
-In AdEx, it is possible to use the Harberger tax ownership model. However, due to the dynamic nature of digital advertising, it's not practical for certain entities (advertisers) to fully own an ad space.
+In AdEx, it is possible to use the Harberger tax ownership model. However, due to the dynamic nature of digital advertising, it's not practical for advertisers to fully buy and own ad spaces.
 
 The way we envision the model working is by using the OUTPACE channels to pay rent, but paying rent on display time rather than on physical time ("time tick" event).
-
-**To be explored further.**
 
 
 ### Role of AdEx Network OÜ

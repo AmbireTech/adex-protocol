@@ -92,21 +92,6 @@ Allows filtering returned validators by status (active, offline).
 Returns all validators with that Ethereum address. It should usually return one validator.
 
 
-### users
-
-#### POST /user
-
-Allows publishers/advertisers to register by providing a signed message. This will work even if you're using an [Identity contract]: in this case you need to provide a signed message which recovers an address that has at least `Transactions` privilege level at time of submission.
-
-Registration is not mandatory. The only purpose here is to signal your intent to be displayed as an advertiser/publisher in the Explorer.
-
-#### GET /user/list
-
-Lists registered users 
-
-`?hasInteracted` - adresses that have interacted with channels (opened or withdrew from channels)
-
-
 ### stats
 
 #### GET /stats

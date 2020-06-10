@@ -19,7 +19,7 @@ Because the `campaignSpec` format needs to be able to evolve rapidly, we can use
 
 Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 
-### campaignSpec format: v1.0.0-beta2
+### campaignSpec format: v1.0.0
 
 **NOTE:** all monetary values are represented as a string that represents a decimal BigNumber in the channel asset unit (BigNumString)
 
@@ -28,16 +28,15 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `pricingBounds`: a map of `evType` -> `Bounds`, where `Bounds` is an object that has `min`/`max`, both of them BigNumStr; defines the min/max prices for events; e.g. `{ CLICK: { min: "0", max: "1000" } }`
 * `maxPerImpression`: BigNumStr, a maximum payment per impression; **OBSOLETE**, only used if `pricingBounds` is missing an `IMPRESSION` entry
 * `minPerImpression`: BigNumStr, minimum payment offered per impression; **OBSOLETE**, only used if `pricingBounds` is missing an `IMPRESSION` entry
-* `targeting`: optional, an array of [TargetingTag](#targetingtag)
-* `minTargetingScore`: optional, Number; minimum targeting score
+* `targeting`: **obsolete**
+* `minTargetingScore`: **obsolete**
+* `targetingRules`: array of [targeting DSL](./targetingAndBidding.md#targeting-dsl) rules; see [Targeting and bidding](./targetingAndBidding.md) for more details
 * `eventSubmission`: [EventSubmission](#eventsubmission) object, applies to event submission (POST `/channel/:id/events`)
 * `created`: Number, a millisecond timestamp of when the campaign was created
 * `activeFrom`: optional, Number, a millisecond timestamp representing the time you want this campaign to become active; used by the [`AdViewManager`](https://github.com/AdExNetwork/adex-adview-manager)
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is strongly recommended to set this at least one month prior to `channel.validUntil * 1000`, to allow enough time for earnings to be claimed by everyone
 * `adUnits`: optional, an array of [AdUnit](#Adunit)
-* `priceMultiplicationRules`: optional, an array of [PriceMultiplicationRules](#pricemultiplicationrules)
-* `priceDynamicAdjustment`: `bool` Enable dynamic price adjustment. The implementation detail is [here](#dynamic-price-adjustment)
 
 #### Validator
 
@@ -45,14 +44,6 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `url`: string, a HTTPS URL to the validator's sentry
 * `fee`: BigNumStr, the total fee that will be paid out to this validator when they distribute the whole remaining channel deposit
 * `feeAddr`: string, an address where the fee would be received; optional - if it's not provided, `id` will be used
-
-#### TargetingTag
-
-* `tag`: string, arbitrary tag name
-* `score`: number, from 0 to 100
-
-**NOTE:** the [Adview](https://github.com/adexnetwork/adex-adview-manager) will use this by intersecting it with the user's `TargetingTag` array, multiplying the scores of all `TargetingTag`s with the same `tag`, and summing all the products. For example, if a certain `AdUnit` has `[{tag: 'location_US', score: 5}, { tag: 'location_UK', score: 8 }]`, and the user has `[{ tag: 'location_UK', score: 100 }]`, the end result will be 800.
-
 
 #### EventSubmission
 
@@ -95,9 +86,8 @@ To enable the creator to submit as many events as they like (and submit multiple
 * `mediaUrl`: string, a URL to the resource (usually PNG); must use the `ipfs://` protocol, to guarantee data immutability
 * `mediaMime`: string, MIME type of the media, possible values at the moment are: `image/jpeg`, `image/png`
 * `targetUrl`: string, the advertised URL
-* `targeting`: an array of [TargetingTag](#TargetingTag)
-* `minTargetingScore`: optional, Number; minimum targeting score
-* `tags`: an array of [TargetingTag](#TargetingTag), optional, meant for discovery between publishers/advertisers
+* `targeting`: **obsolete**
+* `tags`: **obsolete**
 * `owner`: user address from the session
 * `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
 
@@ -110,9 +100,3 @@ To enable the creator to submit as many events as they like (and submit multiple
 
 [ipfs]: https://ipfs.io/
 
-
-##### Dynamic Price Adjustment
-
-*WARNING:* this is **not** supported yet
-
-Generate price steps from min/max price defined in `pricingBounds`; this can happen either based on a fixed step (e.g 0.01/1000) or by dividing the min/max difference by some number (e.g. 30 to produce 30 steps), or by some combination every hour, retrieve the total from the campaign for the last hour, hourlyVolume; calculate the (deposit - totalPaidOut) / hoursUntilWithdrawPeriodStart as targetHourlyVolume; if `hourlyVolume` > `targetHourlyVolume`, step the price down, and vice versa.
