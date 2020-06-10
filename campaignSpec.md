@@ -77,18 +77,6 @@ To enable the creator to submit as many events as they like (and submit multiple
 
 `{ allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }` - this will allow the creator to submit as many events as they like, but everyone else will be restricted to 1 event per second per IP
 
-##### Examples
-
-`{ multiplier: 1.2, evType: ['IMPRESSION'], country: ['US'] }` - A rule to multiply only impression event from the US by 1.2
-
-`{ amount: '10000', evType: ['IMPRESSION'], country: ['US'] }` - A rule that sets a fixed amount for only impression event from the US
-
-`{ amount: '10000', evType: ['CLICK'], country: ['US'], publisher: ['0x', '0y'], osType: ['Android'] }` - A rule that sets a fixed amount for only click events from the US created by publisher `0x`, `0y` and from `Android` devices
-
-`{ amount: '10000', country: ['US'] }` - A rule that sets a fixed amount for all event types (i.e. impressions, click) from publishers in the `US`
-
-`{ amount: '1' }` - A rule that sets a fixed amount for any event / country / osType / publisher
-
 #### AdUnit
 
 ##### Spec properties (added to [ipfs] and can NOT be modified) 
