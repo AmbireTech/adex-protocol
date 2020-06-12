@@ -94,6 +94,9 @@ The rules are defined as JavaScript objects/in JSON, and are lisp-inspired: obje
    ] }
 ] } }
 
+// only show in high ranking websites; note that a rank of 0 means "no rank"
+{ onlyShowIf: { between: [{ get: 'adSlot.alexaRank' }, 1, 100000] } }
+
 // multiple rules can be applied at a time
 
 // adSlot.rules for a publisher, to set a min CPM of 0.24
