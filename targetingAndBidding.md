@@ -111,7 +111,7 @@ Example in `campaignSpec` JSON:
 }
 ```
 
-**Error handling/unmatched rules:** Rules that result in an `UndefinedVar` error will be ignored and won't affect output variables. The reason is that some variables will not be accessible on the Market/Validator (e.g. [AdEx Profile](#15) settings/preferences), but they will be accessible on the AdView. The Supermarket will be able to match as many rules as possible, therefore narrowing down the campaign list, and the AdView will handle the rest.
+**Error handling/unmatched rules:** Rules that result in an `UndefinedVar` error will be ignored and won't affect output variables. The reason is that some variables will not be accessible on the Market/Validator (e.g. [AdEx Profile](#15) settings/preferences), but they will be accessible on the AdView. The Market will be able to match as many rules as possible, therefore narrowing down the campaign list, and the AdView will handle the rest.
 
 That way we can optimize data transfer, while still preserving user privacy, by partially applying targeting server-side and then applying the rest (that depends on sensitive data) client side.
 
@@ -127,7 +127,7 @@ As such, there are specific things which are out-of-scope:
 * Limiting spam/manipulation attempts: this is handled by `EventSubmissionRules`, which are enforced in the Validator
 * Preventing other manipulation attempts, such as excessive clicks or events that come from the wrong referrer; this is handled by additional fraud protection mechanisms
 
-Targeting, however, is enforced on every component involved in the supply chain (AdView, Supermarket, Validator).
+Targeting, however, is enforced on every component involved in the supply chain (AdView, Market, Validator).
 
 
 ## Implementation in the Platform and UX
@@ -184,11 +184,11 @@ We can categorize the advertisers' websites too, to obtain further data about th
 
 For the categories, we use the IAB taxonomy: it even has IAB25-7 (Incentivized), with one addition to it: IAB13-ADX1 (Cryptocurrency), because there's no such category in IAB's taxonomy (closest is IAB13-11, stocks).
 
-## Implementation in /units-for-slot (Supermarket or Market)
+## Implementation in /units-for-slot (Market)
 
-The supermarket must apply all the rules that do not result in an error, and use that to filter campaigns, sort them by price, and return top N (where N is a supermarket configuration). This logic is shared with the AdView (old impl in `adview-manager` crate), but executed with less input variables.
+The Market must apply all the rules that do not result in an error, and use that to filter campaigns, sort them by price, and return top N (where N is a configuration). This logic is shared with the AdView (old impl in `adview-manager` crate), but executed with less input variables.
 
-The supermarket should also apply `adSlot.rules` to additionally filter results based on publisher requirements (e.g. min CPM). This replaces the previous filtering by min CPM, and the issue should be renamed from `NO_UNITS_FOR_MINCPM` to `NO_UNITS_FOR_ADSLOTRULES`.
+The Market should also apply `adSlot.rules` to additionally filter results based on publisher requirements (e.g. min CPM). This replaces the previous filtering by min CPM, and the issue should be renamed from `NO_UNITS_FOR_MINCPM` to `NO_UNITS_FOR_ADSLOTRULES`.
 
 Do not forget that there are other criteria for filtering campaigns as well, such as ad unit type, as well as platform policies (limits of earning, limits of number of campaigns a publisher can earn from, etc.). In fact, those should be applied before applying targeting.
 
@@ -204,7 +204,7 @@ Performance may turn out to be critical since we will have to apply all campaign
 
 The steps that the AdView goes through to select an ad are:
 
-- retrieve campaigns from the supermarket (`/units-for-slot`) - those will already be filtered to return only the active and healthy ones containing an adUnit with the correct adUnit type
+- retrieve campaigns from the Market (`/units-for-slot`) - those will already be filtered to return only the active and healthy ones containing an adUnit with the correct adUnit type
 - targeting rules will be applied; they were already applied in `/units-for-slot`, but in the AdView we have more variables available
 - the ad units will already have a calculated impression price for them, returned by /units-for-slot; apply all the targeting rules with the additional `adView.` variables; sort all units and pick one with the highest impression price; if there are multiple with the same price, we'll apply random selection
 - we will not apply `adSlot.rules`; those will be applied by /units-for-slot; the reason for this is that we don't want to allow publishers to read `adView.` variables, since that way they can "read" those variables by finding out if ads collapsed or not, therefore exposing private user information
@@ -289,7 +289,7 @@ When taking the final price, we always apply `pricingBounds` by [clamping](https
 
 * AdView scope, accessible only on the AdView
   * `adView.secondsSinceCampaignImpression` - seconds since this campaign last registered an impression for the publisher
-  * `adView.hasCustomPreferences` -  whether we have custom preferences set through the profile; while this one may be passed to the supermarket as a query param, we won't use it there to maintain a consistent (with the validator) set of input variables, and consistent scope naming (`adView.`)
+  * `adView.hasCustomPreferences` -  whether we have custom preferences set through the profile; while this one may be passed to the Market as a query param, we won't use it there to maintain a consistent (with the validator) set of input variables, and consistent scope naming (`adView.`)
   * `adView.navigatorLanguage` - the `navigator.language` on the client side; cannot be a market variable, because it's not accessible server-side (there is a header, but there's also caching)
 * Global scope, accessible everywhere
    * adSlotId
@@ -312,7 +312,7 @@ When taking the final price, we always apply `pricingBounds` by [clamping](https
    * eventMinPrice
    * eventMaxPrice
    * publisherEarnedFromCampaign
-* adSlot scope, accessible on Supermarket and AdView:
+* adSlot scope, accessible on Market and AdView:
    * categories
    * hostname
    * alexaRank
@@ -333,7 +333,7 @@ Finally, if the campaign has rules which intentionally create differences (not s
 
 ## Private marketplaces (PMPs)
 
-PMPs are partially built in: thanks to the flexibility of targeting rules and the ability for ad slots to contain rules themselves (`adSlot.rules`), publishers can choose to only work with particular advertisers and vice versa. The supermarket will only return the campaigns if the rules permit it, which means that private campaigns will effectively stay hidden.
+PMPs are partially built in: thanks to the flexibility of targeting rules and the ability for ad slots to contain rules themselves (`adSlot.rules`), publishers can choose to only work with particular advertisers and vice versa. The Market will only return the campaigns if the rules permit it, which means that private campaigns will effectively stay hidden.
 
 To ensure campaigns are not revealed in other places of the platform or in JSON responses from the market, we can introduce a `private` flag for both to indicate not to return them in standard responses (e.g. `/campaigns?all`). The same flag can be used for ad slots to stop the publisher from showing in public lists (currently there is no such list; the campaign stats reveals publishers but only the ones that displayed the campaign).
 
