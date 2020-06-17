@@ -215,14 +215,6 @@ The steps that the AdView goes through to select an ad are:
 
 **NOTE:** Second-price auctions cannot be applied here, because the validators only know the price that the winning campaign is willing to pay, as other campaigns may be managed by different validators.
 
-### Bidding algorithm in practice
-
-As previously mentioned, the AdView always chooses the campaign that pays the highest.
-
-However, in practice most campaigns have frequency capping rules, which ensures they won't win the auction if they've won recently, which leads to proper ad rotation: every few minutes, a different ad is displayed.
-
-The "every few minutes" part comes from the "impression stickiness" rule, which is that a certain ad slot will only run one auction for a specific amount of time, and then stick with the result of that auction for this time. This solves a few problems: first, it ensures impressions are priced fairly even if the publisher page is often refreshed and second, load on the Market is reduced.
-
 ### Sticky slots and adjusted impression price
 
 Before AIP31, we randomized the bidding process to avoid showing the same ads every time. Since we can use proper bidding and frequency capping now, this means campaign will be shown only once for a specific period of time.
@@ -234,6 +226,16 @@ However, the previous behavior meant that an ad may be shown multiple times for 
 Another underlying problem is that campaigns with different `eventSubmission` `rateLimit.timeframe`  essentially have different earnings-over-time values of their impression. **To solve this, the AdView should sort by `price/max(1, seconds)`**.
 
 https://github.com/AdExNetwork/adex-adview-manager/issues/63
+
+### Bidding algorithm in practice
+
+As previously mentioned, the AdView always chooses the campaign that pays the highest.
+
+However, in practice most campaigns have frequency capping rules, which ensures they won't win the auction if they've won recently, which leads to proper ad rotation: every few minutes, a different ad is displayed.
+
+The "every few minutes" part comes from the "impression stickiness" rule, which is that a certain ad slot will only run one auction for a specific amount of time, and then stick with the result of that auction for this time. This solves a few problems: first, it ensures impressions are priced fairly even if the publisher page is often refreshed and second, load on the Market is reduced.
+
+Here's how these things interact: most campaigns will have frequency capping set to 15 minutes. This, combined with a stickiness of 2 minutes, means that no matter how many times an ad slot is refreshed, it will go through roughly 15/2 (rounded up to 8) campaigns for 15 minutes (assuming that many match this ad slot).
 
 
 ## Implementation in the Validator
