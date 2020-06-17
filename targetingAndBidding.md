@@ -215,6 +215,13 @@ The steps that the AdView goes through to select an ad are:
 
 **NOTE:** Second-price auctions cannot be applied here, because the validators only know the price that the winning campaign is willing to pay, as other campaigns may be managed by different validators.
 
+### Bidding algorithm in practice
+
+As previously mentioned, the AdView always chooses the campaign that pays the highest.
+
+However, in practice most campaigns have frequency capping rules, which ensures they won't win the auction if they've won recently, which leads to proper ad rotation: every few minutes, a different ad is displayed.
+
+The "every few minutes" part comes from the "impression stickiness" rule, which is that a certain ad slot will only run one auction for a specific amount of time, and then stick with the result of that auction for this time. This solves a few problems: first, it ensures impressions are priced fairly even if the publisher page is often refreshed and second, load on the Market is reduced.
 
 ### Sticky slots and adjusted impression price
 
