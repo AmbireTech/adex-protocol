@@ -109,17 +109,11 @@ Each message must be individually signed by the validator who's emitting it.
 
 ## Bidding process
 
-@TODO move this out of here
+This is described fully in [targeting and bidding](/targetingAndBidding.md). This paragraph only describes the validator's role in it.
 
-Each campaign has a total budget, and a maximum amount that the advertiser is willing to pay per impression.
+Each campaign has a total budget, and the minimum/maximum amounts that the advertiser is willing to pay per impression.
 
-Other than that, the advertiser may adjust the amount that they want to pay dynamically, during the course of the campaign. They may also adjust the amount for each individual publisher. This is done by sending a validator message to the publisher-side platform.
-
-On every impression, the AdView (running on the publisher's website/app) will pull all active and healthy campaigns from a configurable list of publisher-side platforms.
-
-Then, it will sort all ad units by targeting score and only leave the best N matches. Then, it will sort the remaining group by the price the advertisers are willing to pay, take only top M (both N and M is configurable by the publisher, see [`topByPrice`](https://github.com/adexnetwork/adex-adview-manager#options)).
-
-By adjusting N/M, the publisher can decide the balance between UX (more appropriate ads shown to the users) and revenue.
+Other than that, the advertiser may adjust the amount that they want to pay dynamically, as well as targeting rules, during the course of the campaign. They may also adjust the amount for each individual publisher through the targeting rules. This is done by sending a validator message (`UPDATE_TARGETING`) to both validators.
 
 
 ## DB structure
