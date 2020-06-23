@@ -143,7 +143,7 @@ The staked amount will be slashed if your validator misbehaves (i.e. an economic
 
 We are currently working on the specification of the AdEx Registry, however you can [track the progress here](https://github.com/AdExNetwork/adex-protocol/issues/7).
 
-## How can I stake ADX
+## How can I stake ADX?
 Please read our [release announcement and guide](https://www.adex.network/blog/adx-staking-is-here).
 
 ## What will I earn from staking ADX?
@@ -186,6 +186,11 @@ As of 2020, you can stake for existing validators on our [staking portal](https:
 
 ## What is OUTPACE?
 [OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md) is a unidirectional payment channel based on OCEAN. OUTPACE allows for creating a simple one-to-many payment channel, where each participating party can withdraw their available balance (advertising budget or ad earnings) at any time. The withdrawn amounts are accounted for on-chain.
+
+## Can AdEx work with other stablecoins?
+Absolutely! The underlying protocol supports any token - the UI, however, only supports DAI as of mid-2020, but migrating to another stablecoin or allowing multiple is possible.
+
+Keep in mind, even if the base currency is a specific stablecoin (e.g. DAI), we still allow topping up your account with multiple cryptocurrencies and fiat.
 
 # FAQ - Platform
 
