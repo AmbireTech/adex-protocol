@@ -25,6 +25,8 @@ Payment channels are a mechanism to execute payments instantly and with very low
 ## What cryptocurrency does the AdEx platform use?
 We use [DAI](https://makerdao.com/dai/), which is a so-called stablecoin: it's pegged to the US dollar, so that 1 DAI = 1 USD. When using AdEx, you only need DAI, since fees are paid in it too. You can read our guide on [how to get DAI](https://medium.com/adex-network-tips-and-tricks/how-to-get-dai-stablecoin-1660e8d76faa).
 
+You can also deposit Bitcoin and other cryptocurrencies, as well as fiat (EUR, GBP).
+
 ## Why not use the Lightning Network?
 AdEx uses it's own payment channel network called OUTPACE. The LN is the most established payment channel network, but it uses a hub-and-spoke architecture, which has certain usability issues for our specific use case: for example, publishers need to deposit funds to be able to receive funds (open a channel) and [channel rebalancing](https://blog.muun.com/rebalancing-in-the-lightning-network/) has to be performed often, among other things.
 
@@ -203,6 +205,8 @@ Check out our [Explorer](https://explorer.adex.network) to see the average CPM p
 
 ## How to get DAI to advertise?
 Check out [our guide](https://medium.com/adex-network-tips-and-tricks/how-to-get-dai-stablecoin-1660e8d76faa).
+
+You can also deposit Bitcoin and other cryptocurrencies, as well as fiat (EUR, GBP).
 
 If you just want to get started and you have a solid use case, we can give you a grant, [contact us](https://join.adex.network/).
 
