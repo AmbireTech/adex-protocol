@@ -88,6 +88,7 @@ To enable the creator to submit as many events as they like (and submit multiple
 * `targetUrl`: string, the advertised URL
 * `targeting`: **obsolete**
 * `tags`: **obsolete**
+* `categories`: categories of that ad unit, based on the `targetUrl` and the media; array of strings, following the IAB taxonomy
 * `owner`: user address from the session
 * `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
 
