@@ -9,6 +9,7 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 * `tags`: an array of [TargetingTag], meant for discovery between publishers/advertisers
 * `owner`: user address from the session
 * `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
+* `rules`: array of [targeting DSL rules] which can only infuence the `show` output variable; see [Targeting and bidding] for more details
 
 ##### Non spec properties (not added to ipfs and CAN be modified*)
 
@@ -22,4 +23,6 @@ Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] 
 
 [Ad Unit]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#adunit
 [TargetingTag]: https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md#targetingtag
+[targeting DSL rules]: https://github.com/AdExNetwork/adex-protocol/blob/master/targetingAndBidding.md#targeting-dsl
+[Targeting and bidding]: https://github.com/AdExNetwork/adex-protocol/blob/master/targetingAndBidding.md
 [ipfs]: https://ipfs.io/
