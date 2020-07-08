@@ -141,7 +141,7 @@ In the Platform, the rule-based system will be hidden behind a simple UI for set
 
 This UI will be a step in the "new campaign" dialog, but can also we used when the campaign is already created to modify the targeting on the fly.
 
-There will be a checkbox "Limit average daily spending" which will limit average daily spending to total budget divided by the campaign duration in days. Internally, this will use do `{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }`, or ensure the spend is always under `campaignSecondsActive/campaignSecondsDuration * campaignBudget`.
+There will be a checkbox "Limit average daily spending" which will limit average daily spending to total budget divided by the campaign duration in days. Internally, this will use do `{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { div: [{ mul: [{ get: 'campaignSecondsActive' }, { get: 'campaignBudget' }] }, { get: 'campaignSecondsDuration' }] }] } }`, or ensure the spend is always under `campaignSecondsActive/campaignSecondsDuration * campaignBudget`.
 
 Later on, we can add another checkbox "Show campaign to recommended traffic for [lower CPM]". This will show the campaign to other traffic besides your set targeting, determined by us, for a much lower CPM. For example, if you only selected 5 publishers and tier 1 countries, we will also show this campaign to a set of other pre-determined publishers, for a lower CPM.
 
@@ -329,6 +329,12 @@ When taking the final price, we always apply `pricingBounds` by [clamping](https
 The validator may know the hostname because of the referrer, but that variable is under `adSlot` scope (`adSlot.hostname`). We could set another variable (e.g. `validator.referrerHostname`) for extra protection, but it's better to rely on external fraud detection systems to block the publishers who cause discrepancies.
 
 **TODO**: page context: categories determined by the page context
+
+### BigNumber casts
+
+If different numerical types are passed to a function that takes numbers (e.g. `mul`), it will always cast both to BigNumber. BigNumbers have no decimals (they're integers) so some rules need to be adapted with this in mind.
+
+For example, `{ div: [{ mul: [{ get: 'campaignSecondsActive' }, { get: 'campaignBudget' }] }, { get: 'campaignSecondsDuration' }] }` needs to be used for `campaignSecondsActive/campaignSecondsDuration * campaignBudget`, otherwise `campaignSecondsActive/campaignSecondsDuration` will result to a number between 0 and 1, which will always be cast to 0 since the BigNumber cast floors.
 
 ### Determinism
 
