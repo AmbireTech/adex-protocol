@@ -417,11 +417,11 @@ The Registry is an autonomous system designed to provide a list of publically ac
 
 The ultimate goal of the Registry is provide exposure for everyone who wants to be a public validator, and also to hold these validators accountable if they misbehave.
 
-This is accomplished by having each validator who wants to be on the Registry stake ADX tokens. If they misbehave, a portion of those tokens will be burned. This makes validators with more stake more trustworthy, as they have more skin in the game. The reason ADX is the only token allowed for staking is that ideally, staking for the registry would be the token's primary use case, as this implies a large part of the token supply would be staked and locked up, therefore making it more expensive to perform a Sybil attack.
+This is accomplished by having each validator who wants to be on the Registry stake ADX tokens. If they misbehave, a portion of those tokens will be burned. This makes validators with higher stake more trustworthy, as they have more skin in the game. The reason ADX is the only token allowed for staking is that ideally, staking for the registry would be the token's primary use case, as this implies a large part of the token supply would be staked and locked up, therefore making it more expensive to perform a Sybil attack.
 
 This system differs from token curated registries in that there is no approval/rejection game, and anyone with a sufficient minimal stake can be registered. Furthermore, there are specific conditions which will punish misbehavior, related to the particular mechanics of OUTPACE and the validator stack.
 
-**NOTE:** if a validator chooses so, they may allow users to "nominate" them: stake tokens in the validator's name, therefore receiving a pro rata share of their fee earnings, but also inheriting their slash risk. We call this "staking pools". This is the case with the current [staking portal](https://staking.adex.network/).
+**NOTE:** if a validator chooses so, they may allow users to "nominate" them: stake tokens in the validator's name, therefore receiving a pro rata share of their fee earnings, but also inheriting their slash risk. We call this "staking pools". This is the case with the current [staking portal](https://staking.adex.network/). A validator may choose to run a pool and distribute their earnings in order to increase the ADX staked against their name.
 
 Because challenges may require verifying validator `NewState` and `ApproveState` messages on-chain, the Registry needs high transaction throughput. Therefore, we have decided to build it as a [Substrate](https://github.com/paritytech/substrate) chain, and possibly make it part of the [Polkadot network](https://polkadot.network/).
 
