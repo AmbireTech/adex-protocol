@@ -87,7 +87,7 @@ Publishers may earn from multiple campaigns, meaning that to withdraw/spend all 
 
 Furthermore, we have a mechanism called "routine authorizations", where you can authorize a relayer to sweep channels for you.
 
-#### Dust amounts
+#### Dust amounts, also called "potential revenue"
 
 Sometimes, you may have earned an amount from a channel that is smaller than the cost of calling `channelWithdraw`. In this case, this revenue is not counted, because it represents a net negative if you were to spend it.
 
