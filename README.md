@@ -390,7 +390,7 @@ In the Platform, we also allow the so-called "Quick accounts": you can sign up w
 
 Some of these concepts are sometimes refered to as "smart wallets", "meta tx" or "gas abstractions".
 
-The Identity component is implemented in the adex-protocol-eth repository.
+The Identity component is implemented in the [adex-protocol-eth repository](https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/Identity.sol).
 
 
 #### Pre-approved tokens
