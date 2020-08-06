@@ -153,11 +153,20 @@ It's important to note that unlike in other staking systems, there is no inflati
 
 The validator fees, and therefore the staking rewards, are in DAI or other stablecoins.
 
+Starting August 2020, there are an additional 7 million ADX distributed to stakers as an additional incentive, [read more here](https://www.adex.network/blog/new-token-economics-and-staking/).
+
 ## Why don't you use ADX in the platform?
 Because the ADX token was made specifically for our staking mechanism, and it's value is determined by the free market by trading. We want our users to transact in a price-stable currency such as DAI.
 
 ## How can I get ADX tokens? 
 If you haven’t acquired ADX tokens during our token generation campaign, you may do so at a number of exchanges such as Binance, Bittrex and Upbit.
+
+## During the ADX token upgrade, is there a deadline to migrate my tokens?
+The ADX token is undergoing an [upgrade](https://www.adex.network/blog/token-upgrade-defi-features/) in August 2020. In this process, there won't be a deadline for upgrading your ADX if you hold them on your own wallet, but some exchanges may stop accepting the old token. Stay tuned for more updates.
+
+## During the ADX token upgrade, are there any newly minted tokens?
+Yes, 7 million ADX are minted to be disributed proportionally among stakers. None of those are allocated to the team.
+
 
 
 # FAQ - Technical
@@ -191,6 +200,9 @@ As of 2020, you can stake for existing validators on our [staking portal](https:
 Absolutely! The underlying protocol supports any token - the UI, however, only supports DAI as of mid-2020, but migrating to another stablecoin or allowing multiple is possible.
 
 Keep in mind, even if the base currency is a specific stablecoin (e.g. DAI), we still allow topping up your account with multiple cryptocurrencies and fiat.
+
+## In the staking portal, how are rewards distributed?
+Rewards are currently distributed through an OUTPACE channel controlled solely by the validator that's responsible for the given pool. Later on, Polkadot parachains may be used to control distribution on certain pools.
 
 # FAQ - Platform
 
