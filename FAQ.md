@@ -149,11 +149,11 @@ Please read our [release announcement and guide](https://www.adex.network/blog/a
 ## What will I earn from staking ADX?
 Stakers earn a portion of the validator fees. For more details on how to calculate the projected reward, [read our guide](https://www.adex.network/blog/adx-staking-is-here).
 
-It's important to note that unlike in other staking systems, there is no inflation - no new ADX are minted.
-
 The validator fees, and therefore the staking rewards, are in DAI or other stablecoins.
 
-Starting August 2020, there are an additional 7 million ADX distributed to stakers as an additional incentive, [read more here](https://www.adex.network/blog/new-token-economics-and-staking/).
+Starting August 2020, there are an additional 7 million ADX distributed to stakers as an additional incentive, [read more here](https://www.adex.network/blog/new-token-economics-and-staking/). This post also describes how to calculate the APY.
+
+The APY is heavily dependant on total amount of ADX staked - as of writing, it is around 386% with 7.05 million ADX staked.
 
 ## Why don't you use ADX in the platform?
 Because the ADX token was made specifically for our staking mechanism, and it's value is determined by the free market by trading. We want our users to transact in a price-stable currency such as DAI.
