@@ -492,7 +492,7 @@ Furthermore, we have moved the process of selecting an ad to show to the user's 
 
 A further advantage to this approach is that the user can easily control what kinds of ads they see, without this being revealed to third parties.
 
-
+To ensure that infrastructure providers such as the Market and validators have no ability to collect data, AdView sends no identifiable user data when interacting with them. Furthermore, each ad campaign can be handled by different validators to ensure that the validator operators cannot perform side-channel attacks. Finally, validators are required to implement the [EFF's Do not track policy](https://github.com/AdExNetwork/adex-validator/blob/135de40575a9e136ad1f4140c5b31c23031518c3/.well-known/dnt-policy.txt).
 
 ### Rewarding end-users for attention
 
