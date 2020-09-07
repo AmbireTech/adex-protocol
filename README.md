@@ -473,7 +473,7 @@ Further down the line, reputation systems could be developed to make it easier f
 
 ### Privacy of publishers/advertisers
 
-There's nothing in AdEx requiring advertisers/publishers to identify with anything other than a cryptographic identity. Information that might reveal more (e.g. ad unit info, web addresses, creatives) is kept off-chain and and revealed between parties only with explicit consent.
+There's nothing in AdEx requiring advertisers/publishers to identify themselves with anything other than a cryptographic identity. Information that might reveal more (e.g. ad unit info, web addresses, creatives) is kept off-chain and and revealed between parties only with explicit consent.
 
 Furthermore, the full event history is distributed across validators/observers. Each validator will only collect the full event history for the channels they're validating.
 
@@ -488,9 +488,11 @@ Please note that the entire balance tree of each channel will be revealed to eve
 
 Privacy of end users is protected by not collecting any data at all, at any part of the system. Instead, we leverage [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf).
 
-Furthermore, we have moved the process of selecting an ad to show to the user's browser, somewhat similar to header bidding. This ensures that user data never needs to be exposed/revealed.
+Furthermore, we have moved the process of selecting an ad to show to the user's browser, which is essentially equivalent header bidding but with stronger privacy guarantees. This ensures that user data never needs to be exposed/revealed.
 
-A further advantage to this approach is that the user may easily control what kinds of ads they see, without this being revealed to third parties.
+A further advantage to this approach is that the user can easily control what kinds of ads they see, without this being revealed to third parties.
+
+
 
 ### Rewarding end-users for attention
 
