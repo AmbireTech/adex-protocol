@@ -411,7 +411,7 @@ If there's a suitable way to do it, we intend to allow opening a campaign with U
 We are also exploring the possibilities of allowing signing up with BTC, by using HTLC-based atomic swaps or Bitcoin SPVs to exchange it for a pre-approved token.
 
 
-### Registry and staking
+### Staking (Registry)
 
 The Registry is an autonomous system designed to provide a list of publically accessible validators that you can nominate for your campaign.
 
@@ -421,9 +421,21 @@ This is accomplished by having each validator who wants to be on the Registry st
 
 This system differs from token curated registries in that there is no approval/rejection game, and anyone with a sufficient minimal stake can be registered. Furthermore, there are specific conditions which will punish misbehavior, related to the particular mechanics of OUTPACE and the validator stack.
 
-**NOTE:** if a validator chooses so, they may allow users to "nominate" them: stake tokens in the validator's name (delegate), therefore receiving a pro rata share of their fee earnings, but also inheriting their slash risk. We call this "staking pools". This is the case with the current [staking portal](https://staking.adex.network/). A validator may choose to run a pool and distribute their earnings in order to increase the ADX staked against their name.
-
 Because challenges may require verifying validator `NewState` and `ApproveState` messages on-chain, the Registry needs high transaction throughput. Therefore, we have decided to build it as a [Substrate](https://github.com/paritytech/substrate) chain, and possibly make it part of the [Polkadot network](https://polkadot.network/).
+
+#### Nomination
+
+If a validator chooses so, they may allow users to "nominate" them: stake tokens in the validator's name (delegate), therefore receiving a pro rata share of their fee earnings, but also inheriting their slash risk. We call this "staking pools". This is the case with the current [staking portal](https://staking.adex.network/). A validator may choose to run a pool and distribute their earnings in order to increase the ADX staked against their name.
+
+If you're interested in staking ADX as a token holder, you can [learn more here](https://www.adex.network/staking/).
+
+#### Incentivized staking
+
+As of 2020, there's an [incentivized staking campaign](https://www.adex.network/blog/new-token-economics-and-staking/) running which generates over 50% annual percentage yield.
+
+You can also stake through Binance and Huobi.
+
+
 
 ## Appendix
 
