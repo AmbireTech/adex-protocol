@@ -37,7 +37,7 @@ window.onload = function () {
         const adexProtocol = reader.result;
         var converter = new showdown.Converter();
         html = converter.makeHtml(adexProtocol);
-        root.innerHTML += html;
+        root.innerHTML += `<div class='content'>${html}</div>`;
         console.log(html);
       };
       reader.readAsText(blob);
