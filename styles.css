@@ -144,7 +144,7 @@ a {
   height: 1580px;
   width: 100%;
   background: url(/assets/front-page.png) no-repeat;
-  background-color: green;
+  background-color: #1a75bc;
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -154,13 +154,14 @@ a {
 }
 
 .logo > h1 {
-  margin-bottom: 75px;
+  font-size: 60px;
+  margin-bottom: 100px;
   color: white;
 }
 
 .logo > h2 {
   text-transform: uppercase;
-  font-size: medium;
+  font-size: 40px;
   font-weight: 300;
   letter-spacing: 10px;
   color: white;
@@ -168,7 +169,8 @@ a {
 
 .logo > h3 {
   margin: 20px;
-  font-size: medium;
+  margin-bottom: 75px;
+  font-size: 30px;
   font-weight: 200;
   letter-spacing: 5px;
   color: white;
@@ -203,6 +205,28 @@ a {
     clear: "both";
   }
 }
+
+.break-page {
+  page-break-before: always;
+  margin: 75px -100px;
+  width: 100%;
+  height: 50px;
+  background: #1a75bc 40px center;
+  background-image: url("./assets/icon.svg"),
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0) 80%,
+      rgba(255, 255, 255, 1) 30%
+    );
+  background-repeat: no-repeat;
+  background-size: 35px 35px, 100%;
+}
+
+/* @media screen {
+  .break-page {
+    display: none;
+  }
+} */
 
 @page {
   margin: 2cm;
