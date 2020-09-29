@@ -141,7 +141,7 @@ a {
 }
 
 .logo {
-  height: 1590px;
+  height: 1580px;
   width: 100%;
   background: url(/assets/front-page.png) no-repeat;
   background-color: green;
@@ -195,11 +195,27 @@ a {
     -webkit-print-color-adjust: exact;
   }
   .logo {
-    min-height: 750px;
+    min-height: 100vh;
+    padding: 0px !important;
+  }
+  .content {
+    padding: 100px;
+    clear: "both";
   }
 }
 
 @page {
-  size: letter;
-  margin: 100px;
+  margin: 2cm;
+
+  @top-center {
+    content: element(pageHeader);
+  }
+
+  @bottom-center {
+    content: element(pageFooter);
+  }
+}
+
+@page :first {
+  margin: 0;
 }
