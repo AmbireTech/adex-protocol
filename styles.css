@@ -97,12 +97,15 @@ a {
 
 #whitepaper,
 .container {
-  max-width: 210mm;
+  /* max-width: 563px; */
 }
 
 #root {
-  padding: 100px;
   width: 100%;
+}
+
+.container #root {
+  padding: 100px;
 }
 
 #root img {
@@ -111,8 +114,10 @@ a {
 
 .btn-light {
   color: #333;
+  font-weight: 600;
   background-color: #fafafa;
   border-color: #ddd;
+  text-transform: uppercase;
 }
 
 .header-elements-inline {
@@ -126,25 +131,26 @@ a {
   flex-wrap: nowrap;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .wmin-md-400 {
     min-width: 400px !important;
   }
-}
+} */
 .btn {
   border-radius: 0;
 }
 
 .logo {
-  height: 297mm;
-  width: 210mm;
+  height: 1590px;
+  width: 100%;
   background: url(/assets/front-page.png) no-repeat;
+  background-color: green;
   background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding: 30px;
+  /* padding: 30px; */
 }
 
 .logo > h1 {
@@ -185,13 +191,15 @@ a {
 @media print {
   html,
   body {
-    height: initial !important;
-    overflow: initial !important;
+    overflow-y: visible !important;
     -webkit-print-color-adjust: exact;
+  }
+  .logo {
+    min-height: 750px;
   }
 }
 
 @page {
-  size: auto;
-  margin: 20mm;
+  size: letter;
+  margin: 100px;
 }

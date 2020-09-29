@@ -11,16 +11,20 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./lib/print.min.css" />
     <script src="index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://parall.ax/parallax/js/jspdf.js"></script>
+    <script src="./lib/print.min.js"></script>
   </head>
 
   <body>
     <div class="container d-flex justify-content-center mt-50 mb-50">
       <div class="row">
         <div class="col-md-12 text-right mb-3">
-          <button class="btn btn-secondary" id="download">download pdf</button>
+          <button class="btn btn-light" id="download">download pdf</button>
         </div>
         <div class="col-md-12">
           <div class="card" id="whitepaper">
@@ -29,7 +33,7 @@
               <h2>Whitepaper</h2>
               <h3>By Ivo Georgiev, Dimo Stoyanov, Vanina Ivanova</h3>
             </div>
-            <div id="root"></div>
+            <div id="root" style="page-break-after: always; clear: both"></div>
             <!-- PLACEHOLDER FOR THE ADEX PROTOCOL -->
           </div>
         </div>
