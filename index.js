@@ -36,9 +36,14 @@ window.onload = function () {
       reader.onload = function () {
         const adexProtocol = reader.result;
         var converter = new showdown.Converter();
+        converter.setOption("ghCompatibleHeaderId", true);
         html = converter.makeHtml(adexProtocol);
         root.innerHTML += `<div class='content'>${html}</div>`;
-        console.log(html);
+        const pages = window.document.getElementsByClassName("break-page");
+        for (let i = 0; i < pages.length; i++) {
+          const page = pages[i];
+          page.innerHTML += i + 1;
+        }
       };
       reader.readAsText(blob);
     });

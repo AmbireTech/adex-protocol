@@ -92,7 +92,12 @@ h6 {
 }
 
 a {
-  text-decoration: none !important;
+  color: #1a75bc;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #333;
 }
 
 #whitepaper,
@@ -220,6 +225,12 @@ a {
     );
   background-repeat: no-repeat;
   background-size: 35px 35px, 100%;
+  color: white;
+  padding-right: 175px;
+  font-size: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /* @media screen {
