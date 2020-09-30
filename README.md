@@ -1,3 +1,62 @@
+- [AdEx Protocol](#adex-protocol)
+	- [Intro](#intro)
+		- [Values](#values)
+		- [Terminology](#terminology)
+			- [Supply side](#supply-side)
+			- [Demand side](#demand-side)
+			- [Users](#users)
+			- [Events](#events)
+			- [Custom events](#custom-events)
+			- [Campaigns](#campaigns)
+			- [Layer 2](#layer-2)
+			- [Off-chain event aggregation (OCEAN)](#off-chain-event-aggregation-ocean)
+			- [Ocean-based unidirectional trust-less payment channel (OUTPACE)](#ocean-based-unidirectional-trust-less-payment-channel-outpace)
+			- [Validators](#validators)
+			- [Observers](#observers)
+			- [Validator stack](#validator-stack)
+	- [Flow](#flow)
+		- [Closing a campaign](#closing-a-campaign)
+		- [Campaign health](#campaign-health)
+		- [Validator fees](#validator-fees)
+		- [Validator consensus](#validator-consensus)
+		- [Trust implications](#trust-implications)
+		- [Liveness implications](#liveness-implications)
+	- [Components](#components)
+		- [Core](#core)
+		- [Market](#market)
+		- [Validator stack](#validator-stack-1)
+			- [campaignSpec](#campaignspec)
+			- [Paying by impression (CPM) or by click (CPC)](#paying-by-impression-cpm-or-by-click-cpc)
+			- [Analytical reports](#analytical-reports)
+			- [Alternative implementations](#alternative-implementations)
+		- [AdView](#adview)
+			- [Contextual targeting](#contextual-targeting)
+			- [Behavioral targeting](#behavioral-targeting)
+			- [Blacklisting ads](#blacklisting-ads)
+			- [Security](#security)
+		- [The AdEx Lounge](#the-adex-lounge)
+		- [Identity](#identity)
+			- [Pre-approved tokens](#pre-approved-tokens)
+			- [Sign-up process](#sign-up-process)
+		- [Staking (Registry)](#staking-registry)
+			- [Nomination](#nomination)
+			- [Incentivized staking](#incentivized-staking)
+	- [Appendix](#appendix)
+		- [Basic visual representation](#basic-visual-representation)
+		- [Preventing fraud/Sybil attacks](#preventing-fraudsybil-attacks)
+		- [Scalability](#scalability)
+		- [Autonomous regulation](#autonomous-regulation)
+		- [Privacy of publishers/advertisers](#privacy-of-publishersadvertisers)
+		- [Privacy of the end-user](#privacy-of-the-end-user)
+		- [Rewarding end-users for attention](#rewarding-end-users-for-attention)
+		- [End-users paying for content](#end-users-paying-for-content)
+		- [Real-time bidding / Header Bidding](#real-time-bidding--header-bidding)
+		- [Oracle-based advertising](#oracle-based-advertising)
+		- [Harberger tax ownership model](#harberger-tax-ownership-model)
+		- [Role of AdEx Network OÜ](#role-of-adex-network-oü)
+
+<div class='break-page'></div>
+
 # AdEx Protocol
 
 ## Intro
@@ -39,6 +98,8 @@ Throughout these documents, "demand side", "advertiser", "advertisers" or "buyer
 
 When we refer to "users", we mean end users: not of AdEx itself, but of the publishers. In other words, the users who see the ads, but might not even be aware of AdEx's existence.
 
+<div class='break-page'></div>
+
 #### Events
 
 Events, in the context of the AdView or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the web page, etc. Events are usually broadcast as signed messages.
@@ -48,6 +109,7 @@ Events, in the context of the AdView or the off-chain event aggregation, mean an
 Custom events usually refer to events that are publisher-defined. For example, if you're a publisher with an e-commerce website, you might choose to send an event for product purchases.
 
 A potential use case is using AdEx for affiliate networks, where publishers get a share of the revenue on every purchase of a product.
+
 
 #### Campaigns
 
@@ -87,7 +149,9 @@ The state transition function enforces a few simple rules for each next state: (
 
 Because of these constraints, an OUTPACE channel does not need sequences or challenge periods.
 
-The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
+The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered 
+
+<div class='break-page'></div>
 
 One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side and a publisher-side [validators](#validator-stack). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression/click/etc.), and the publishers are able to withdraw their earnings at any point.
 
@@ -120,6 +184,8 @@ Each observer must have a publicly accessible HTTPS endpoint for receiving event
 
 To prevent confusion with the normal terms "supply-side platform" (SSP) and "demand-side platform" (DSP), we will use "publisher-side validator" and "advertiser-side validator".
 
+<div class='break-page'></div>
+
 ## Flow
 
 The entire flow is as follows:
@@ -150,6 +216,8 @@ If an advertiser wants to close a campaign, they sign a new state, which distrib
 The publisher-side validator recognizes this as an intention to close the campaign, and signs the state as well, therefore allowing the advertiser to withdraw their unspent funds. With this, the channel is considered exhausted and no longer represents any demand.
 
 While it is possible for a publisher-side validator to refuse to approve the state, they gain nothing from doing so: (1) the advertiser has decided to cancel the campaign, meaning they won't sign any new states with new payments to publishers anyway; (2) after a channel is no longer valid, they still get their unspent deposit back; and (3) the publisher-side validator gets compensated with a cancellation fee.
+
+<div class='break-page'></div>
 
 ### Campaign health
 
@@ -183,6 +251,8 @@ We do that because:
 * Maintaining liveness is critical; in a 2 out of 2 setup, 1 party going down means that the channel stalls;
 * The publisher needs to trust the publisher-side validator, read on to [Trust implications](#trust-implications).
 
+<div class='break-page'></div>
+
 ### Trust implications
 
 For a state to be valid, it requires >=2/3 validator signatures. In a setup with the minimum number of validators, 2, this can only mean 2 signatures.
@@ -213,7 +283,7 @@ Should the validator(s) come online again, everything can resume as normal.
 The possibility of validators going offline is mitigated by (1) the architecture of [the validator stack](#validator-stack) and (2) the ability of OUTPACE to work with any arbitrary number of validators.
 
 
-
+<div class='break-page'></div>
 
 ## Components
 
@@ -255,6 +325,8 @@ The market is currently implemented in the `adex-market` repository. Because of 
 For a detailed specification, see [market.md](/components/market.md).
 
 
+<div class='break-page'></div>
+
 ### Validator stack
 
 The validator stack is a collective term for all off-chain components responsible of handling events, managing OUTPACE channels and generating analytical reports.
@@ -285,6 +357,8 @@ If you're a dApp builder, it is recommended that you pin this file on your own I
 
 For the JSON blob specification, see [`campaignSpec.md`](/campaignSpec.md). It includes detailed description of the campaign, including min/max impression prices, targeting, ad units and etc.; currently, the format is specific to AdEx, but [AdCOM](https://github.com/InteractiveAdvertisingBureau/AdCOM) might be incorporated in the future.
 
+<div class='break-page'></div>
+
 #### Paying by impression (CPM) or by click (CPC)
 
 It's possible to pay for advertising in any way by configuring a campaign goal - e.g. by impression, by click, or even  by number of user registrations (CPA).
@@ -310,6 +384,7 @@ Alternative validator stack implementations can be created, and can be useful fo
 
 In order to maintain compatibility with the existing AdEx infrastructure (the Platform and the AdView), you don't need to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), but you need to implement the same RESTful APIs.
 
+<div class='break-page'></div>
 
 ### AdView
 
@@ -346,6 +421,7 @@ To achieve this, the AdView always has to be loaded from the same domain (e.g. `
 
 Advertisers may report tags that allow for remarketing, such as a tag indicating that a user visited their website, or even a tag indicating they've visited a particular page, allowing for dynamic remarketing.
 
+<div class='break-page'></div>
 
 #### Blacklisting ads
 
@@ -373,6 +449,7 @@ With OUTPACE channels, it's possible for users to earn monetary rewards as well,
 
 There's no public implementation of the Lounge yet.
 
+<div class='break-page'></div>
 
 ### Identity
 
@@ -410,6 +487,7 @@ If there's a suitable way to do it, we intend to allow opening a campaign with U
 
 We are also exploring the possibilities of allowing signing up with BTC, by using HTLC-based atomic swaps or Bitcoin SPVs to exchange it for a pre-approved token.
 
+<div class='break-page'></div>
 
 ### Staking (Registry)
 
@@ -435,7 +513,7 @@ As of 2020, there's an [incentivized staking campaign](https://www.adex.network/
 
 You can also stake through Binance and Huobi.
 
-
+<div class='break-page'></div>
 
 ## Appendix
 
@@ -455,11 +533,12 @@ One of the main challenges of any digital advertising system is preventing fake 
 
 There are a few ways to mitigate that in AdEx:
 
-1) Traditional adtech methods, such as IP whitelists/blacklists, as well as verifying publishers by their domain name
-2) The AdView has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit
-3) Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
-4) The AdView allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold
-5) Publishers integrating the AdView may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser.
+1. Traditional adtech methods, such as IP whitelists/blacklists, as well as verifying publishers by their domain name
+2. The AdView has to send each event to each validator, and they will keep an internal ledger of IPs events came from and impose a limit
+3. Requiring a proof of work challenge to be solved in order to submit a click/impression message, therefore making it more expensive than the reward you'd get for the corresponding event
+<div class='break-page'></div>
+4. The AdView allows publishers to vouch for users of their website/app, for example if a user registers on your website and verifies a valid phone number; that allows users to gain reputation as "real" users, and therefore more conservative advertisers may define in their campaigns to only target users above a certain threshold
+5. Publishers integrating the AdView may opt to show a captcha to users, the first time the user's cryptographic identity is created; this essentially means the user will solve the captcha once for all sites that integrate AdEx; they will need to solve the captcha again if they clear `localStorage` or change their browser.
 
 It should be noted that such a system is, by definition, always gameable. AdEx tries to make it as hard as possible. We believe the transparent reporting aspect of the system, combined with the "custom events", which allow you to track end results (e.g. registrations, purchases, etc.), ensure that the incentives for fraud are significantly reduced.
 
@@ -495,6 +574,8 @@ Anyone in the network can query any validators for events, but only for the even
 
 Please note that the entire balance tree of each channel will be revealed to everyone at all times, (1) to allow earners (publishers) to observe it's validity and (2) it will be revealed on-chain anyway once everyone withdraws.
 
+
+<div class='break-page'></div>
 
 ### Privacy of the end-user
 
@@ -533,6 +614,7 @@ A realistic way for this to work is for it to be implemented in an ad blocker, s
 
 **To be explored further; including possible collaborations with ad blockers.**
 
+<div class='break-page'></div>
 
 ### Real-time bidding / Header Bidding
 
