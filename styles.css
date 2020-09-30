@@ -148,7 +148,7 @@ a:hover {
 .logo {
   height: 1580px;
   width: 100%;
-  background: url(/assets/front-page.png) no-repeat;
+  background: url(./assets/front-page.png) no-repeat;
   background-color: #1a75bc;
   background-size: cover;
   display: flex;
