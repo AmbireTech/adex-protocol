@@ -519,7 +519,7 @@ You can also stake through Binance and Huobi.
 
 ### Basic visual representation
 
-![Architecture](/graphs/architecture-pretty.png)
+![Architecture](./graphs/architecture-pretty.png)
 
 * The box-shaped platform and AdView are client-side software
 * Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](/graphs/real-world.svg))
