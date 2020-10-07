@@ -179,9 +179,8 @@ a:hover {
   align-items: center;
   flex-direction: column;
   background-image: url(./assets/x-wallpaper-transp.png);
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position-y: -100px;
 }
 
 .front-page-footer h2 {
