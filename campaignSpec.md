@@ -12,7 +12,7 @@ Within the validator stack, the `spec` is submitted as part of the POST `/channe
 
 Because the `campaignSpec` format needs to be able to evolve rapidly, we can use a wrapper that also contains the format version.
 
-**Please note,** this wrapper format is not in use as of Q1 2019 (v4.0). If we decide to use it later, we can obsolete the `channel.spec` field and introduce another field which contains this wrpaper.
+**Please note,** this wrapper format is not in use as of Q1 2019 (v4.0). If we decide to use it later, we can obsolete the `channel.spec` field and introduce another field which contains this wrapper.
 
 * `version`: a semver version of the format
 * `body`: the `campaignSpec` body
@@ -37,6 +37,7 @@ Example: `{ "version": "1.0.0-beta",  "body": "..." }`
 * `nonce`: BigNumStr, a random number to ensure the campaignSpec hash is unique
 * `withdrawPeriodStart`: Number, a millisecond timestamp of when the campaign should enter a withdraw period (no longer accept any events other than `CHANNEL_CLOSE`); a sane value should be lower than `channel.validUntil * 1000` and higher than `created`; it is strongly recommended to set this at least one month prior to `channel.validUntil * 1000`, to allow enough time for earnings to be claimed by everyone
 * `adUnits`: optional, an array of [AdUnit](#Adunit)
+* `depositChainId`: optional, the id of the chain of the `depositAsset`; if it's not passed, it will try to infer it from the `depositAsset` token address.
 
 #### Validator
 
@@ -79,7 +80,7 @@ To enable the creator to submit as many events as they like (and submit multiple
 
 #### AdUnit
 
-##### Spec properties (added to [ipfs] and can NOT be modified) 
+##### Spec properties (added to [ipfs] and can NOT be modified)
 
 * `ipfs`: string, valid [ipfs] hash of spec props below
 * `type`: string, the type of the ad unit; currently, possible values are: `legacy_300x250`, `legacy_250x250`, `legacy_240x400`, `legacy_336x280`, `legacy_180x150`, `legacy_300x100`, `legacy_720x300`, `legacy_468x60`, `legacy_234x60`, `legacy_88x31`, `legacy_120x90`, `legacy_120x60`, `legacy_120x240`, `legacy_125x125`, `legacy_728x90`, `legacy_160x600`, `legacy_120x600`, `legacy_300x600`, see [IAB ad unit guidelines](https://www.soflaweb.com/standard-banner-sizes-iab-ad-unit-guidelines/) and `iab_flex_{adUnitName}` (see [IAB's new ad portfolio](https://www.iab.com/newadportfolio/) and [PDF](https://www.iab.com/wp-content/uploads/2017/08/IABNewAdPortfolio_FINAL_2017.pdf))
