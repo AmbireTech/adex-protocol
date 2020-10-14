@@ -87,7 +87,7 @@ This is a concept that builds on **OCEAN**, where each channel also has a deposi
 
 The state transition function enforces a few simple rules for each next state: (1) the sum of all balances in the state can only increase, (2) each individual balance can only increase and (3) the total sum of the balances can never exceed the channel deposit.
 
-Because of these constraints, an OUTPACE channel does not need sequences or challenge periods.
+Because of these rules, an OUTPACE channel does not need sequences or challenge periods.
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered valid.
 
@@ -175,7 +175,7 @@ For example:
 - `Unhealthy`: when health < 95%;
 - `Unsignable`: when health < 75%;
 
-2) [__Refusal to sign on constraints violation__](./OUTPACE.md#refusal-to-sign-on-constraints-violation) will happen when the proposed state of the advertiser-side validator (Leader) violates one of the 3 rules of state transition (see also [OUTPACE State transitions rules](#state-transition-rules) & [OUTPACE.md Specification](./OUTPACE.md#specification)).
+2) [__Refusal to sign on rules violation__](./OUTPACE.md#refusal-to-sign-on-rules-violation) will happen when the proposed state of the advertiser-side validator (Leader) violates one of the 3 rules of state transition (see also [OUTPACE State transitions rules](#state-transition-rules) & [OUTPACE.md Specification](./OUTPACE.md#specification)).
 
 ### Validator fees
 
@@ -268,7 +268,7 @@ The market needs to track all on-chain OUTPACE channels and needs to constantly 
 
 Additional privacy can be achieved by having groups of publishers/advertisers run their own instances of the market - that way, campaigns will be visible only within their private group.
 
-The market is currently implemented in the `adex-market` repository. Because of it's aggregation-only role, it can be considered a back-end to [the Platform](https://platform.adex.network).
+The market is currently implemented in the [`adex-market`](https://github.com/AdExNetwork/adex-market) repository. Because of it's aggregation-only role, it can be considered a back-end to [the Platform](https://platform.adex.network).
 
 For a detailed specification, see [market.md](/components/market.md).
 
