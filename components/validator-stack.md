@@ -132,7 +132,7 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 ##### Channel information: public, can be cached
 
 * GET /channel/list
-    Query params:
+    Query parameters:
 
     * `page` (optional): int, default: `0`
         **NB:** First page is with value `0`
@@ -209,24 +209,198 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
 * POST /channel/validate
 
-Same as `POST /channel` with 1 difference - it only validates the channel and does not save it in the database.
+    Same as `POST /channel` with 1 difference - it only validates the channel and does not save it in the database.
 
 * GET /channel/:id/status
 
 * GET /channel/:id/validator-messages
 
+    Retrieve the last N (see `limit` query parameter) Validator messages of a Channel from a Validator, optionally filtered by types of message.
+
+    Route parameters:
+    * `id`: string - `0x` prefixed address of the Channel
+
+    Query parameters:
+
+    * `limit` (optional): int - Limits the returned `Validator Messages`, configuration value `MSGS_FIND_LIMIT` (see `GET /cfg` route) is used if no value is passed.
+        **NB:** `MSGS_FIND_LIMIT` is used as maximum value for `limit`, if `limit` is set higher then `MSGS_FIND_LIMIT` will be used instead.
+
+* GET /channel/:id/validator-messages/:uid/:type?
+
+    Retrieve the last N (see `limit` query parameter) Validator messages of a Channel from a Validator, optionally filtered by types of message.
+
+    Route parameters:
+
+    * `id`: string - `0x` prefixed address of the Channel
+    * `uid`: string - `0x` prefixed address of a Validator address - filters messages that are received only from this Validator address
+    * `type` (optional): string - Validator message type(s) - filters the messages by types.
+        Available types (see [Validator messages](#validator-messages) for more details):
+        - `ApproveState`
+        - `NewState`
+        - `RejectState`
+        - `Heartbeat`
+        - `Accounting`
+
+        Multiple types are allowed by separating them with a space `" "` (URL encoded as a `+`).
+
+        Example: `.../NewState+RejectState`
+
+    Query parameters:
+
+    * `limit` (optional): int - Limits the returned `Validator Messages`, configuration value `MSGS_FIND_LIMIT` (see `GET /cfg` route) is used if no value is passed.
+        **NB:** `MSGS_FIND_LIMIT` is used as maximum value for `limit`, if `limit` is set higher then `MSGS_FIND_LIMIT` will be used instead.
+
+
 * GET /channel/:id/last-approved
 
-* GET /channel/:id/validator-messages/:uid/:type? **(auth required)**
+    Returns the last `NewState` and corresponding `ApprovedState` approved from the validator. If one of them is missing then empty response is returned.
+
+    Query parameters:
+
+    * `withHeartbeat` (optional): string, allowed values: `true` - when this parameter is set then the last 2 Heartbeats from each of the Channel Validators will be returned for a maximum of 4 Heartbeats returned.
+
+    Response:
+
+    * `lastApproved`: a map with:
+        * `newState` - `NewState` object | `null`
+        * `approveState` - `ApproveState` object | `null`
+    * `heartbeats` (only if `withHeartbeat=true` is set): an array of `Heartbeat`s - 0 to 4 heartbeats (maximum of 2 from each validator).
+
+
+    Example response **without** `withHeartbeat=true`:
+
+    ```json
+    {
+        "lastApproved":
+        {
+            "newState":
+            {
+                "from": "0xce07CbB7e054514D590a0262C93070D838bFBA2e",
+                "msg":
+                {
+                    "type": "NewState",
+                    "balances":
+                    {
+                        "0xd5860D6196A4900bf46617cEf088ee6E6b61C9d6": "27030822000000000000",
+                        "0x5d62321228bC75936dd29f9c129f8DbDfcB93264": "7887627600000000000",
+                    },
+                    "stateRoot": "b30eab8eb8206ce2377eb5030a3ff3d9dcfae66be1ffda30265c726d2b0634f8",
+                    "signature": "0x311615c8006511aec4ee6c48680db83f065c82f937229499f19e9de5dc18f4fe295900b597a587069636f185f5753c6ddde1af5f6bcb20d25480c36decbba58a1c",
+                },
+                "received": "2020-09-29T23:35:17.450Z"
+            },
+            "approveState":
+            {
+                "from": "0x2892f6C41E0718eeeDd49D98D648C789668cA67d",
+                "msg":
+                {
+                    "type": "ApproveState",
+                    "stateRoot": "b30eab8eb8206ce2377eb5030a3ff3d9dcfae66be1ffda30265c726d2b0634f8",
+                    "signature": "0xa7737479df071f0df7c694c65093b68abae80d20ab6d71bd5c58aa675db2799c436b75dda9e1443def0ba77e43387d7e344f0e2771780c83d440854ff70812841b",
+                    "isHealthy": true
+                },
+                "received": "2020-09-29T23:35:55.930Z"
+            }
+        }
+    }
+    ```
+
+    Example response **with** `withHeartbeat=true`:
+
+    ```json
+    {
+        "lastApproved":
+        {
+            "newState":
+            {
+                "from": "0xce07CbB7e054514D590a0262C93070D838bFBA2e",
+                "msg":
+                {
+                    "type": "NewState",
+                    "balances":
+                    {
+                        "0xd5860D6196A4900bf46617cEf088ee6E6b61C9d6": "27030822000000000000",
+                        "0x5d62321228bC75936dd29f9c129f8DbDfcB93264": "7887627600000000000",
+                    },
+                    "stateRoot": "b30eab8eb8206ce2377eb5030a3ff3d9dcfae66be1ffda30265c726d2b0634f8",
+                    "signature": "0x311615c8006511aec4ee6c48680db83f065c82f937229499f19e9de5dc18f4fe295900b597a587069636f185f5753c6ddde1af5f6bcb20d25480c36decbba58a1c",
+                },
+                "received": "2020-09-29T23:35:17.450Z"
+            },
+            "approveState":
+            {
+                "from": "0x2892f6C41E0718eeeDd49D98D648C789668cA67d",
+                "msg":
+                {
+                    "type": "ApproveState",
+                    "stateRoot": "b30eab8eb8206ce2377eb5030a3ff3d9dcfae66be1ffda30265c726d2b0634f8",
+                    "signature": "0xa7737479df071f0df7c694c65093b68abae80d20ab6d71bd5c58aa675db2799c436b75dda9e1443def0ba77e43387d7e344f0e2771780c83d440854ff70812841b",
+                    "isHealthy": true
+                },
+                "received": "2020-09-29T23:35:55.930Z"
+            }
+        },
+        "heartbeats": [
+            {
+                "from": "0xce07CbB7e054514D590a0262C93070D838bFBA2e",
+                "msg": {
+                    "type": "Heartbeat",
+                    "timestamp": "2020-10-15T10:43:40.184Z",
+                    "signature": "0x523b022dc09594baee3d520ad5759bdec71649ee185be0041be83516bc6355b95c450a0597456ff7d1c834205ec57ed14d6a95cb144fc8277a47083ef85ba7d31b",
+                    "stateRoot": "cd3142f7cd23b93bba361af8ee761c09ff779f81ed4891596cab92621e5f339c"
+                },
+                "received": "2020-10-15T10:43:40.272Z"
+            },
+            {
+                "from": "0xce07CbB7e054514D590a0262C93070D838bFBA2e",
+                "msg": {
+                    "type": "Heartbeat",
+                    "timestamp": "2020-10-15T10:42:20.338Z",
+                    "signature": "0xee7dbf3693e04429bad4e2f15eb95cb26102cd3248fa312f4e9def5a4c9b9fc1478decbe6a4f427e82561cbfd14f58733c949f0d3f75ae75ae394cfdbadfe6c01c",
+                    "stateRoot": "7cfa0a75bb29aef3e082c39a9e884ef8923aed4a398a5d8ef3a7ea6d3b85ea63"
+                },
+                "received": "2020-10-15T10:42:20.468Z"
+            },
+            {
+                "from": "0x2892f6C41E0718eeeDd49D98D648C789668cA67d",
+                "msg": {
+                    "type": "Heartbeat",
+                    "signature": "0x38e819b5e0d939992ee46ac78e6b0d10d5d79e49b14b9438278cfc181ed1e8986c622e94639ca52d0b4b33bfd61a2c25d57858d8743bf1e73a47d6176730b6ba1c",
+                    "stateRoot": "c7e16ea2246d3f76e96e966c62cce291dfe3c913fd047d255275b90fa8cc9fec",
+                    "timestamp": "2020-10-15T10:43:08.815Z"
+                },
+                "received": "2020-10-15T10:43:08.981Z"
+            },
+            {
+                "from": "0x2892f6C41E0718eeeDd49D98D648C789668cA67d",
+                "msg": {
+                    "type": "Heartbeat",
+                    "signature": "0xcc4e9cd43fabc97a176f4fd23f8cbb2d148dbc978b0b889a68c76d2ee42531427856da832c1d26f591e0d391a611372958a8aaff3f41f16100254296e7a884d81b",
+                    "stateRoot": "72788f92ad8f4591e28ee8100f88520ebb4558c614d1924ca5e72f62a9874af0",
+                    "timestamp": "2020-10-15T10:41:48.731Z"
+                },
+                "received": "2020-10-15T10:41:48.905Z"
+            }
+        ]
+    }
+    ```
 
 * GET /channel/:id/events-aggregates **(auth required)**
 
+@TODO
+
 * POST /channel/:id/validator-messages **(auth required)**
 
+@TODO
+
 * POST /channel/:id/events
+
     Requires the validator to be part of the `channel.spec.validators`
 
+@TODO
+
 * GET /cfg
+
     Returns the configuration values in JSON with each key being in `SCREAMING_SNAKE_CASE`.
     For up to date information of the values check:
 
@@ -240,7 +414,7 @@ Same as `POST /channel` with 1 difference - it only validates the channel and do
 
 #### Validator messages
 
-Each validator message has to be signed by the validator themselves
+Each validator message has to be signed by the validator themselves.
 
 OUTPACE generic:
 
@@ -248,10 +422,7 @@ OUTPACE generic:
 * `ApproveState`: approves a `NewState`
 * `Heartbeat`: validators send that periodically; once there is a Heartbeat for every validator, the channel is considered `LIVE`
 * `RejectState`: sent back to a validator that proposed an invalid `NewState`
-
-AdEx specific:
-
-* SetImpressionPrice: set the current price the advertiser is willing to pay per impression; also allows to set a per-publisher price
+* `Accounting`: aggregated state of the balances before and after applied validator fees
 
 Each message must be individually signed by the validator who's emitting it.
 
