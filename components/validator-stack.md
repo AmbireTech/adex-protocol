@@ -132,6 +132,7 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 ##### Channel information: public, can be cached
 
 * GET /channel/list
+
     Query parameters:
 
     * `page` (optional): int, default: `0`
@@ -207,11 +208,15 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
 * POST /channel
 
+@TODO
+
 * POST /channel/validate
 
     Same as `POST /channel` with 1 difference - it only validates the channel and does not save it in the database.
 
 * GET /channel/:id/status
+
+@TODO
 
 * GET /channel/:id/validator-messages
 
@@ -265,6 +270,18 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
         * `newState` - `NewState` object | `null`
         * `approveState` - `ApproveState` object | `null`
     * `heartbeats` (only if `withHeartbeat=true` is set): an array of `Heartbeat`s - 0 to 4 heartbeats (maximum of 2 from each validator).
+
+    Example of empty response (missing either `NewState` or `ApproveState`):
+
+    ```json
+    {
+        "lastApproved":
+        {
+            "newState": null,
+            "approveState": null,
+        }
+    }
+    ```
 
 
     Example response **without** `withHeartbeat=true`:
@@ -387,17 +404,176 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
 * GET /channel/:id/events-aggregates **(auth required)**
 
-@TODO
+    Retrieves the last N (configuration value `EVENTS_FIND_LIMIT` of the `GET /cfg` route) `Events Aggregates` which contain the events: count and payouts.
+
+    `Events Aggregates` are snapshots of all events (e.g. `IMPRESSION`, `CLICK`, etc.) between 2 particular points in time with their respective count and payouts for the channel.
+
+    If the Authenticated (see [Authentication and Authorization with Ethereum Web Tokens](#authentication-and-authorization-with-ethereum-web-tokens)) session address is part of the `ChannelSpec Validators` then all of the `Events Aggregates`, otherwise only the aggregates from this particular address of `IMPRESSION` events will be returned.
+
+    Query parameters:
+
+    * `after` (optional): int, in milliseconds - filters the `Events Aggregates` created after the specified date & time in milliseconds from epoch
+
+    Example response:
+
+    @TODO
 
 * POST /channel/:id/validator-messages **(auth required)**
 
-@TODO
+    Insert new `Channel` `Validator Message`s to the validator. The Authenticated (see [Authentication and Authorization with Ethereum Web Tokens](#authentication-and-authorization-with-ethereum-web-tokens)) session address **must** be part of the `Channel`'s validators (`channel.spec.validators`), otherwise `401 Unauthorized` will be returned.
+
+    Request body:
+
+    * `messages`: array of `Validator Message`s
+
+    Examples request:
+
+    ```json
+    {
+        "messages": [
+            {
+                "type": "NewState",
+                "balances":
+                {
+                    "0xd5860D6196A4900bf46617cEf088ee6E6b61C9d6": "27030822000000000000",
+                    "0x5d62321228bC75936dd29f9c129f8DbDfcB93264": "7887627600000000000",
+                },
+                "stateRoot": "b30eab8eb8206ce2377eb5030a3ff3d9dcfae66be1ffda30265c726d2b0634f8",
+                "signature": "0x311615c8006511aec4ee6c48680db83f065c82f937229499f19e9de5dc18f4fe295900b597a587069636f185f5753c6ddde1af5f6bcb20d25480c36decbba58a1c",
+            },
+            {
+                "type": "Heartbeat",
+                "timestamp": "2020-10-15T10:43:40.184Z",
+                "signature": "0x523b022dc09594baee3d520ad5759bdec71649ee185be0041be83516bc6355b95c450a0597456ff7d1c834205ec57ed14d6a95cb144fc8277a47083ef85ba7d31b",
+                "stateRoot": "cd3142f7cd23b93bba361af8ee761c09ff779f81ed4891596cab92621e5f339c"
+            },
+        ]
+    }
+    ```
+
+    Successful response:
+
+    ```json
+    {
+        "success": true
+    }
+    ```
 
 * POST /channel/:id/events
 
-    Requires the validator to be part of the `channel.spec.validators`
+    Insert new `Channel` `Event`s to the validator. The Authenticated (see [Authentication and Authorization with Ethereum Web Tokens](#authentication-and-authorization-with-ethereum-web-tokens)) session address **must** be part of the `Channel`'s validators (`channel.spec.validators`), otherwise `401 Unauthorized` will be returned.
 
-@TODO
+    **Available `Event`s**:
+
+    * `IMPRESSION` (payout event): Impression event has occurred
+    * `CLICK` (payout event): Click event has occurred
+    * `CLOSE`: Close the payment `Channel`
+    * `UPDATE_TARGETING`: Update `targetingRules` of the `Channel` and not the `channel.spec` ([`campaignSpec`](../campaignSpec.md))
+
+    If any of the events fail the checks (like access, validation, event submission limits, etc) described bellow, the whole request will be rejected and no events will be taken into account.
+
+    **Request checks:**
+
+    1. Authenticated session address **must** be part of the `Channel`'s validators (`channel.spec.validators`), otherwise `401 Unauthorized` will be returned (already described above).
+    * `Channel` should still be valid (`channel.validUntil > NOW`) otherwise `400 Bad Request` will be returned with response body:
+
+    ```json
+    {
+        "success": false,
+        "statusCode": 400,
+        "message": "channel is expired"
+    }
+    ```
+
+    2. If the request has a `CLOSE` event, it should contain **only** a `CLOSE` event, and it can be send:
+        * only by the `Channel` creator (`channel.creator`) if the *withdraw period* **hasn't** started
+        OR
+        * by any of the `Channel` validators (`channel.spec.validators`) if the *withdraw period* **has** started
+
+    Otherwise it will return an `403 Forbidden` response.
+
+    Error response:
+
+    ```json
+    {
+        "success": false,
+        "statusCode": 403
+    }
+    ```
+
+    **NB:** *Withdraw period* has started when `NOW > channel.spec.withdrawPeriodStart`
+
+    3. If the request has a `UPDATE_TARGETING` event, it should contain **only** an `UPDATE_TARGETING` event and it can be send **only** by the `Channel`'s creator (`channel.creator`) otherwise an `403 Forbidden` response will be returned.
+
+    Error response:
+
+    ```json
+    {
+        "success": false,
+        "statusCode": 403
+    }
+    ```
+
+    4. Payout events (see bellow) are accepted **only** if the `Channel`'s *withdraw period* **hasn't** started, otherwise a `400 Bad Request` response will be returned:
+
+    Error response:
+
+    ```json
+    {
+        "success": false,
+        "statusCode": 400,
+        "message": "channel is in withdraw period"
+    }
+    ```
+
+    **NB:** *Withdraw period* has started when `NOW > channel.spec.withdrawPeriodStart`
+
+    5. If `CF-IPCountry` header is set to `XX` (used by [CloudFlare](https://cloudflare.com) for clients without country code data) or if the [`Referer`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer) header hostname is either `localhost` or `127.0.0.1` a `403 Forbidden` response will be returned.
+
+    Error response:
+
+    ```json
+    {
+        "success": false,
+        "statusCode": 403,
+        "message": "event submission restricted"
+    }
+    ```
+
+    6. Next the `Event Submission Rules` (`channel.spec.eventSubmission`) are applied, you can check [CampaignSpec EventSubmissionRule](../campaignSpec.md#EventSubmissionRule) for more details. If rate limits apply a response `429 Too Many Requests` will be returned with body:
+
+    ```json
+    {
+        "success": false,
+        "statusCode": 429,
+        "message": "{Message}"
+    }
+    ```
+
+    Where `{Message}` is one of the following:
+    * `rateLimit: only allows 1 event`
+    * `rateLimit: unauthenticated request`
+    * `rateLimit: too many requests`
+
+    **NB:** This list may include other messages in the future for features like bot prevention.
+
+    7. If the request includes `Payout Events` (`CLICK` and `IMPRESSION`), there should always be a payout to an address after applying `targeting rules` (see [Targeting and Bidding](../targetingAndBidding.md) for more information) or an error response will be returned with a **custom** `469` Http status code:
+
+    ```json
+    {
+        "success": false,
+        "statusCode": 469,
+        "message": "no event payout"
+    }
+    ```
+
+    Successful response (`200 OK`):
+
+    ```json
+    {
+        "success": true
+    }
+    ```
 
 * GET /cfg
 

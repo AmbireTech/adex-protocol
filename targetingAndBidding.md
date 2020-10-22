@@ -36,7 +36,7 @@ The rules are defined as JavaScript objects/in JSON, and are lisp-inspired: obje
 
 // rule to match websites that are both News and Bitcoin
 { onlyShowIf: { and: [
-   { in: [{ get: 'adSlot.categories' }, 'News'] }, 
+   { in: [{ get: 'adSlot.categories' }, 'News'] },
    { in: [{ get: 'adSlot.categories' }, 'Bitcoin'] }
 ] } }
 
@@ -155,7 +155,7 @@ All of this means that ad units will no longer require entering targeting tags, 
 
 ### Default excluded categories
 
-By defualt, some categories will be pre-added to the excluded list. Currently the only such category is Incentivized (IAB25-7), but more may be added in the future.
+By default, some categories will be pre-added to the excluded list. Currently the only such category is Incentivized (IAB25-7), but more may be added in the future.
 
 ### Publisher UX
 
@@ -258,7 +258,7 @@ Since `targetingRules` will be part of the `spec`, it cannot be updated as the s
 * Budget caps: limit daily spending
 * Frequency capping: which can also eliminate a lot of the logic set by the AdView and allow advertisers to choose what frequency capping they want for themselves. Again, this can be combined with logic, e.g. "only show this ad once per day, except if the user likes this category, in which case show it once per hour"
 * Time-based targeting: show ads only at a certain time of day
-* Dynamically adjusted pricing: increase/decrease the price based on whether the campaign spend is running ahead/behind schedule; replaces "dynamic price adjustment algo" in #6 
+* Dynamically adjusted pricing: increase/decrease the price based on whether the campaign spend is running ahead/behind schedule; replaces "dynamic price adjustment algo" in #6
 * Private marketplaces (PMPs)
 
 ## Targeting DSL
@@ -270,7 +270,7 @@ If a function is invoked with incompatible types, evaluation will throw a `TypeE
 * math (div, mul, mod, add, sub, max, min)
 * variables (get, set)
 * syntax sugar (onlyShowIf; perhaps setMul, setAdd which are equivalent to `*=` and `+=`)
-* price helpers: (getPriceInUSD will return the currently set price for a specific event, approximated in USD; this is useful for the ad slot rules, as it allows setting min CPM regardless of asset type) 
+* price helpers: (getPriceInUSD will return the currently set price for a specific event, approximated in USD; this is useful for the ad slot rules, as it allows setting min CPM regardless of asset type)
 * logic (or, and, not)
 * flow control (if, ifNot, ifElse, do)
 * comparison (lt, gt, gte, eq, neq, nin, in, intersects, between)
