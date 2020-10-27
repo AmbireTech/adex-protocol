@@ -416,7 +416,93 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
     Example response:
 
-    @TODO
+    ```json
+    {
+        "channel": {
+            "id": "0x7996bc363acd9e5cf5354da7feb76008f0fbb129b74a565d65ee04e963380d63",
+            "creator": "0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196",
+            "depositAsset": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            "depositAmount": "500000000000000000000",
+            "validUntil": 1602587940,
+            "spec":
+            {
+                "title": "Binance trading comp",
+                "adUnits":
+                [
+                    {"ipfs":"QmQfBbv4efohxQWYwKuTD4puaBx9mhPneCVkHxNLYcXZV5","type":"legacy_300x250","mediaUrl":"ipfs://QmPRiy54hJAktBMRwB1P4ptHxXKQ5eRpQuD1C891VzXed2","mediaMime":"image/jpeg","targetUrl":"https://www.adex.network/blog/adx-trading-competition-binance/?utm_source=adex_PUBHOSTNAME&utm_medium=banner&utm_campaign=Binance%20trading%20comp&utm_content=1_legacy_300x250","targeting":[],"owner":"0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","created":1600689820025},
+                ],
+                "validators":
+                [
+                    {"id":"0xce07CbB7e054514D590a0262C93070D838bFBA2e","url":"https://jerry.moonicorn.network","fee":"0"},
+                    {"id":"0x2892f6C41E0718eeeDd49D98D648C789668cA67d","url":"https://tom.moonicorn.network","fee":"35000000000000000000","feeAddr":"0xe3C19038238De9bcc3E735ec4968eCd45e04c837"}
+                ],
+                "pricingBounds":
+                {
+                    "IMPRESSION": {"min":"100000000000000","max":"150000000000000"}
+                },
+                "maxPerImpression": "150000000000000",
+                "minPerImpression": "100000000000000",
+                "targetingRules":
+                [
+                    {"if":[{"in":[["AU","CA","CH","DE","GB","IE","IS","LU","NL","NO","SE","SG","US"],{"get":"country"}]},{"set":["price.IMPRESSION",{"bn":"150000000000000000"}]}]},
+                    {"if":[{"in":[["AD","AE","AG","AR","AT","AW","BB","BE","BH","BM","BN","BS","CK","CL","CW","CY","CZ","DK","EE","ES","FI","FK","FO","FR","GD","GF","GI","GL","GP","GQ","GR","HK","HR","HU","IC","IL","IT","JP","KR","KW","KY","LI","LT","LV","MC","MO","MQ","MT","NZ","OM","PF","PL","PT","QA","RU","SA","SC","SI","SM","SK","TT","TW","UY","VA","VE","VG","VI"],{"get":"country"}]},{"set":["price.IMPRESSION",{"bn":"150000000000000000"}]}]},
+                    {"if":[{"in":[["AL","AO","AZ","BA","BG","BR","BW","BY","BZ","CN","CO","CR","CU","DO","DZ","EC","FJ","GA","IQ","IR","JM","JO","KZ","LB","LC","LY","ME","MK","MN","MU","MX","MY","NA","PA","PE","PY","RO","RS","SR","TH","TN","TR","TV","VC","ZA"],{"get":"country"}]},{"set":["price.IMPRESSION",{"bn":"150000000000000000"}]}]},
+                    {"onlyShowIf":{"undefined":[[],{"get":"userAgentOS"}]}}
+                ],
+                "minTargetingScore": null,
+                "created": 1601119169830,
+                "nonce": "91435658526621140049841607517946237384784204309386341933594170269202382085017",
+                "withdrawPeriodStart": 1601291940000,
+                "eventSubmission":
+                {
+                    "allow": [{"uids":["0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","0xce07CbB7e054514D590a0262C93070D838bFBA2e","0x2892f6C41E0718eeeDd49D98D648C789668cA67d"]},{"uids":null,"rateLimit":{"type":"ip","timeframe":300000}}]
+                },
+                "activeFrom": 1601119140641
+            },
+        },
+        "events": [
+            {
+                "channelId": "0x7996bc363acd9e5cf5354da7feb76008f0fbb129b74a565d65ee04e963380d63",
+                "created": "2020-10-05T12:58:05.780Z",
+                "events": {
+                    "CLICK": {
+                        "eventCounts": {
+                            "0xce07CbB7e054514D590a0262C93070D838bFBA2e": 3
+                        },
+                        "eventPayouts": {
+                            "0xce07CbB7e054514D590a0262C93070D838bFBA2e": "300000000000000"
+                        }
+                    },
+                    "IMPRESSION": {
+                        "eventCounts": {
+                            "0x2892f6C41E0718eeeDd49D98D648C789668cA67d": 5
+                        },
+                        "eventPayouts": {
+                            "0x2892f6C41E0718eeeDd49D98D648C789668cA67d": "500000000000000"
+                        }
+                    }
+                },
+                "totals": {
+                    "CLICK": {
+                        "eventCounts": "3",
+                        "eventPayouts": "1"
+                    },
+                    "IMPRESSION": {
+                        "eventCounts": "5",
+                        "eventPayouts": "1"
+                    },
+                },
+                "earners": [
+                    "0xce07CbB7e054514D590a0262C93070D838bFBA2e",
+                    "0x2892f6C41E0718eeeDd49D98D648C789668cA67d"
+                ]
+            },
+            ...
+        ]
+    }
+    ```
+
+    There is a special case if there is a `CLOSE` event
 
 * POST /channel/:id/validator-messages **(auth required)**
 
