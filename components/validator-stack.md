@@ -32,6 +32,8 @@ The Sentry is a stateless microservice, which means it can scale horizontally. T
 
 ### Authentication and Authorization with Ethereum Web Tokens
 
+For more information check the [ethereum EIP#1341](https://github.com/ethereum/EIPs/issues/1341).
+
 We use the [`AUTHORIZATION`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) HTTP request header for both Authentication and Authorization of the request using Ethereum Web Tokens.
 
 The `AUTHORIZATION` header must be set with [`Bearer`](https://tools.ietf.org/html/rfc6750) scheme that includes the encoded **EWT** (Ethereum Web Tokens) token string.
@@ -133,6 +135,8 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
 * GET /channel/list
 
+    Lists `Channel`s that are part of the `Validator`.
+
     Query parameters:
 
     * `page` (optional): int, default: `0`
@@ -143,7 +147,7 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
     Response:
 
-    * `channels` - List of the channels (TODO: explain the channel json)
+    * `channels` - List of `Channel`s - check the `POST /channel` for detailed explanation of the `Channel` object
     * `total` - total number of pages
     * `totalPages` - same as `total`
     * `page` - the number of page that was requested
@@ -165,7 +169,7 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
                     "title": "Binance trading comp",
                     "adUnits":
                     [
-                        {"ipfs":"QmQfBbv4efohxQWYwKuTD4puaBx9mhPneCVkHxNLYcXZV5","type":"legacy_300x250","mediaUrl":"ipfs://QmPRiy54hJAktBMRwB1P4ptHxXKQ5eRpQuD1C891VzXed2","mediaMime":"image/jpeg","targetUrl":"https://www.adex.network/blog/adx-trading-competition-binance/?utm_source=adex_PUBHOSTNAME&utm_medium=banner&utm_campaign=Binance%20trading%20comp&utm_content=1_legacy_300x250","targeting":[],"owner":"0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","created":1600689820025},
+                        {"ipfs":"QmQfBbv4efohxQWYwKuTD4puaBx9mhPneCVkHxNLYcXZV5","type":"legacy_300x250","mediaUrl":"ipfs://QmPRiy54hJAktBMRwB1P4ptHxXKQ5eRpQuD1C891VzXed2","mediaMime":"image/jpeg","targetUrl":"https://www.adex.network/blog/adx-trading-competition-binance/?utm_source=adex_PUBHOSTNAME&utm_medium=banner&utm_campaign=Binance%20trading%20comp&utm_content=1_legacy_300x250","owner":"0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","created":1600689820025},
                     ],
                     "validators":
                     [
@@ -203,20 +207,120 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
     }
     ```
 
-    **NB:** Limitation of the returned Channels of the `/channel/list` endpoint is handled by a configuration value (`CHANNELS_FIND_LIMIT` from `GET /cfg` endpoint) set in `sentry`.
-
+    **NB:** Limitation of the returned `Channel`s of the `/channel/list` endpoint is handled by a configuration value (`CHANNELS_FIND_LIMIT` from `GET /cfg` endpoint) set in `sentry`.
 
 * POST /channel
+    Creating a new `Channel`. This request should consists of:
 
-@TODO
+    * Header Content-Type: `application/json`
+    * Request body: JSON of the `Channel` object
+
+    The `Channel` object consists of:
+    * `id`: String - `0x` prefixed representation of the 32 bytes in hex of the `Channel` Id
+    * `creator`: String - `0x` prefixed representation of the 20 bytes in hex of the `creator`'s address
+    * `deposit_asset`: String - `0x` prefixed representation of the 20 bytes in hex of the `deposit asset` of the `Channel`
+    * `deposit_amount`: BigNum - the `Channel` `deposit amount`
+    * `valid_until`: int, seconds since Epoch
+    * `targeting_rules`: (optional) array of [`Targeting rules`][Targeting and Bidding] - this field is used for updating the `Targeting rules`, since the `Channel Spec` rules are **immutable**
+    * `spec`: `CampaignSpec` object - The `Channel Spec` is identical to the `CampaignSpec` with additional `Validator` object validation. For detailed information of the `CampaignSpec` object refer to [campaignSpec](../campaignSpec.md#campaignspec-format-v100).
+        Additional `Validator` object validation:
+        * `id` - should be `0x` prefixed representation of the 20 bytes in hex of the validator address
+        * `fee_addr`: (optional) if not set `id` will be used - should be `0x` prefixed representation of the 20 bytes in hex of the address
+
+    Example body:
+
+    ```json
+    {
+        "id": "0x7996bc363acd9e5cf5354da7feb76008f0fbb129b74a565d65ee04e963380d63",
+        "creator": "0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196",
+        "depositAsset": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+        "depositAmount": "500000000000000000000",
+        "validUntil": 1602587940,
+        "spec":
+        {
+            "title": "Binance trading comp",
+            "adUnits":
+            [
+                {"ipfs":"QmQfBbv4efohxQWYwKuTD4puaBx9mhPneCVkHxNLYcXZV5","type":"legacy_300x250","mediaUrl":"ipfs://QmPRiy54hJAktBMRwB1P4ptHxXKQ5eRpQuD1C891VzXed2","mediaMime":"image/jpeg","targetUrl":"https://www.adex.network/blog/adx-trading-competition-binance/?utm_source=adex_PUBHOSTNAME&utm_medium=banner&utm_campaign=Binance%20trading%20comp&utm_content=1_legacy_300x250","owner":"0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","created":1600689820025},
+            ],
+            "validators":
+            [
+                {"id":"0xce07CbB7e054514D590a0262C93070D838bFBA2e","url":"https://jerry.moonicorn.network","fee":"0"},
+                {"id":"0x2892f6C41E0718eeeDd49D98D648C789668cA67d","url":"https://tom.moonicorn.network","fee":"35000000000000000000","feeAddr":"0xe3C19038238De9bcc3E735ec4968eCd45e04c837"}
+            ],
+            "pricingBounds":
+            {
+                "IMPRESSION": {"min":"100000000000000","max":"150000000000000"}
+            },
+            "maxPerImpression": "150000000000000",
+            "minPerImpression": "100000000000000",
+            "targetingRules":
+            [
+                {"if":[{"in":[["AU","CA","CH","DE","GB","IE","IS","LU","NL","NO","SE","SG","US"],{"get":"country"}]},{"set":["price.IMPRESSION",{"bn":"150000000000000000"}]}]},
+                {"if":[{"in":[["AD","AE","AG","AR","AT","AW","BB","BE","BH","BM","BN","BS","CK","CL","CW","CY","CZ","DK","EE","ES","FI","FK","FO","FR","GD","GF","GI","GL","GP","GQ","GR","HK","HR","HU","IC","IL","IT","JP","KR","KW","KY","LI","LT","LV","MC","MO","MQ","MT","NZ","OM","PF","PL","PT","QA","RU","SA","SC","SI","SM","SK","TT","TW","UY","VA","VE","VG","VI"],{"get":"country"}]},{"set":["price.IMPRESSION",{"bn":"150000000000000000"}]}]},
+                {"if":[{"in":[["AL","AO","AZ","BA","BG","BR","BW","BY","BZ","CN","CO","CR","CU","DO","DZ","EC","FJ","GA","IQ","IR","JM","JO","KZ","LB","LC","LY","ME","MK","MN","MU","MX","MY","NA","PA","PE","PY","RO","RS","SR","TH","TN","TR","TV","VC","ZA"],{"get":"country"}]},{"set":["price.IMPRESSION",{"bn":"150000000000000000"}]}]},
+                {"onlyShowIf":{"undefined":[[],{"get":"userAgentOS"}]}}
+            ],
+            "minTargetingScore": null,
+            "created": 1601119169830,
+            "nonce": "91435658526621140049841607517946237384784204309386341933594170269202382085017",
+            "withdrawPeriodStart": 1601291940000,
+            "eventSubmission":
+            {
+                "allow": [{"uids":["0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","0xce07CbB7e054514D590a0262C93070D838bFBA2e","0x2892f6C41E0718eeeDd49D98D648C789668cA67d"]},{"uids":null,"rateLimit":{"type":"ip","timeframe":300000}}]
+            },
+            "activeFrom": 1601119140641
+        },
+    }
+    ```
+
 
 * POST /channel/validate
 
-    Same as `POST /channel` with 1 difference - it only validates the channel and does not save it in the database.
+    Same as `POST /channel` with 1 difference - it only validates the channel and does not save it to the database.
 
 * GET /channel/:id/status
 
-@TODO
+    * `channel` - the Channel object, refer to `POST /channel` for detailed explanation of the full Channel object.
+
+    Example response:
+
+    ```json
+    {
+        "channel": {
+            "id": "0x061d5e2a67d0a9a10f1c732bca12a676d83f79663a396f7d87b3e30b9b411088",
+            "depositAsset": "0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359",
+            "depositAmount": "1000",
+            "creator": "0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196",
+            "validUntil": 4102444800,
+            "spec": {
+                "minPerImpression": "1",
+                "maxPerImpression": "10",
+                "pricingBounds": {
+                    "CLICK": {
+                        "min": "0",
+                        "max": "0"
+                    }
+                },
+                "withdrawPeriodStart": 4073414400000,
+                "validators": [
+                    {
+                        "id": "0xce07CbB7e054514D590a0262C93070D838bFBA2e",
+                        "url": "https://jerry.moonicorn.network",
+                        "fee": "0"
+                    },
+                    {
+                        "id": "0x2892f6C41E0718eeeDd49D98D648C789668cA67d",
+                        "url": "https://tom.moonicorn.network",
+                        "fee": "35000000000000000000",
+                        "feeAddr": "0xe3C19038238De9bcc3E735ec4968eCd45e04c837"
+                    }
+                ]
+            }
+        }
+    }
+    ```
+
 
 * GET /channel/:id/validator-messages
 
@@ -429,7 +533,7 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
                 "title": "Binance trading comp",
                 "adUnits":
                 [
-                    {"ipfs":"QmQfBbv4efohxQWYwKuTD4puaBx9mhPneCVkHxNLYcXZV5","type":"legacy_300x250","mediaUrl":"ipfs://QmPRiy54hJAktBMRwB1P4ptHxXKQ5eRpQuD1C891VzXed2","mediaMime":"image/jpeg","targetUrl":"https://www.adex.network/blog/adx-trading-competition-binance/?utm_source=adex_PUBHOSTNAME&utm_medium=banner&utm_campaign=Binance%20trading%20comp&utm_content=1_legacy_300x250","targeting":[],"owner":"0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","created":1600689820025},
+                    {"ipfs":"QmQfBbv4efohxQWYwKuTD4puaBx9mhPneCVkHxNLYcXZV5","type":"legacy_300x250","mediaUrl":"ipfs://QmPRiy54hJAktBMRwB1P4ptHxXKQ5eRpQuD1C891VzXed2","mediaMime":"image/jpeg","targetUrl":"https://www.adex.network/blog/adx-trading-competition-binance/?utm_source=adex_PUBHOSTNAME&utm_medium=banner&utm_campaign=Binance%20trading%20comp&utm_content=1_legacy_300x250","owner":"0x033Ed90e0FeC3F3ea1C9b005C724D704501e0196","created":1600689820025},
                 ],
                 "validators":
                 [
@@ -506,11 +610,12 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
 * POST /channel/:id/validator-messages **(auth required)**
 
-    Insert new `Channel` `Validator Message`s to the validator. The Authenticated (see [Authentication and Authorization with Ethereum Web Tokens](#authentication-and-authorization-with-ethereum-web-tokens)) session address **must** be part of the `Channel`'s validators (`channel.spec.validators`), otherwise `401 Unauthorized` will be returned.
+    Create new `Channel` `Validator Message`s. The Authenticated (see [Authentication and Authorization with Ethereum Web Tokens](#authentication-and-authorization-with-ethereum-web-tokens)) session address **must** be part of the `Channel`'s validators (`channel.spec.validators`), otherwise `401 Unauthorized` will be returned.
 
-    Request body:
-
-    * `messages`: array of `Validator Message`s
+    Request should consist of:
+    * Header Content-Type: `application/json`
+    * Request body:
+        * `messages`: array of the `Validator Message`s to be created for the `Channel`.
 
     Examples request:
 
@@ -643,7 +748,7 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
 
     **NB:** This list may include other messages in the future for features like bot prevention.
 
-    7. If the request includes `Payout Events` (`CLICK` and `IMPRESSION`), there should always be a payout to an address after applying `targeting rules` (see [Targeting and Bidding](../targetingAndBidding.md) for more information) or an error response will be returned with a **custom** `469` Http status code:
+    7. If the request includes `Payout Events` (`CLICK` and `IMPRESSION`), there should always be a payout to an address after applying `Targeting rules` (see [Targeting and Bidding][Targeting and Bidding] for more information) or an error response will be returned with a **custom** `469` Http status code:
 
     ```json
     {
@@ -708,7 +813,7 @@ This is described fully in [targeting and bidding](/targetingAndBidding.md). Thi
 
 Each campaign has a total budget, and the minimum/maximum amounts that the advertiser is willing to pay per impression.
 
-Other than that, the advertiser may adjust the amount that they want to pay dynamically, as well as targeting rules, during the course of the campaign. They may also adjust the amount for each individual publisher through the targeting rules. This is done by sending a validator message (`UPDATE_TARGETING`) to both validators.
+Other than that, the advertiser may adjust the amount that they want to pay dynamically, as well as [`Targeting rules`][Targeting and Bidding], during the course of the campaign. They may also adjust the amount for each individual publisher through the [`Targeting rules`][Targeting and Bidding]. This is done by sending a validator message (`UPDATE_TARGETING`) to both validators.
 
 
 ## DB structure
@@ -716,3 +821,5 @@ Other than that, the advertiser may adjust the amount that they want to pay dyna
 * Channels
 * Messages
 * EventAggregates
+
+[Targeting and Bidding]: ../targetingAndBidding.md
