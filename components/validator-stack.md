@@ -218,14 +218,14 @@ Multiple Sentry nodes can be spawned at the same time, and they can be across di
     The `Channel` object consists of:
     * `id`: String - `0x` prefixed representation of the 32 bytes in hex of the `Channel` Id
     * `creator`: String - `0x` prefixed representation of the 20 bytes in hex of the `creator`'s address
-    * `deposit_asset`: String - `0x` prefixed representation of the 20 bytes in hex of the `deposit asset` of the `Channel`
-    * `deposit_amount`: BigNum - the `Channel` `deposit amount`
-    * `valid_until`: int, seconds since Epoch
-    * `targeting_rules`: (optional) array of [`Targeting rules`][Targeting and Bidding] - this field is used for updating the `Targeting rules`, since the `Channel Spec` rules are **immutable**
+    * `depositAsset`: String - `0x` prefixed representation of the 20 bytes in hex of the `deposit asset` of the `Channel`
+    * `depositAmount`: BigNum - the `Channel` `deposit amount`
+    * `validUntil`: int, seconds since Epoch
+    * `targetingRules`: (optional) array of [`Targeting rules`][Targeting and Bidding] - this field is used for updating the `Targeting rules`, since the `Channel Spec` rules are **immutable**
     * `spec`: `CampaignSpec` object - The `Channel Spec` is identical to the `CampaignSpec` with additional `Validator` object validation. For detailed information of the `CampaignSpec` object refer to [campaignSpec](../campaignSpec.md#campaignspec-format-v100).
         Additional `Validator` object validation:
         * `id` - should be `0x` prefixed representation of the 20 bytes in hex of the validator address
-        * `fee_addr`: (optional) if not set `id` will be used - should be `0x` prefixed representation of the 20 bytes in hex of the address
+        * `feeAddr`: (optional) if not set `id` will be used - should be `0x` prefixed representation of the 20 bytes in hex of the address
 
     Example body:
 
