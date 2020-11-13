@@ -133,7 +133,7 @@ In AdEx, we use two scaling primitives that we defined: **OCEAN** and **OUTPACE*
 
 #### Off-chain event aggregation (OCEAN)
 
-**OCEAN** stands for **O**ff-**c**hain **e**vent **a**ggregatio**n**. 
+**OCEAN** stands for **O**ff-**c**hain **e**vent **a**ggregatio**n**.
 
 An OCEAN channel is defined on-chain with a validator set, timeout and a definition of what we're looking to get achieved off-chain. Then, the validators observe off-chain events, and the leading validator (`validators[0]`) would propose new states, and the rest of the validators may check and sign those new states.
 
@@ -145,9 +145,11 @@ If a state is signed by a supermajority (>=2/3) of validators, it can be used to
 
 This is a concept that builds on **OCEAN**, where each channel also has a deposit and a `validUntil` date, and each state represents a tree of balances.
 
+##### State transition rules
+
 The state transition function enforces a few simple rules for each next state: (1) the sum of all balances in the state can only increase, (2) each individual balance can only increase and (3) the total sum of the balances can never exceed the channel deposit.
 
-Because of these constraints, an OUTPACE channel does not need sequences or challenge periods.
+Because of these rules, an OUTPACE channel does not need sequences or challenge periods.
 
 The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered 
 
@@ -155,12 +157,14 @@ The initially delegated validators sign every new state, and a state signed by a
 
 One advertising campaign is mapped to a single OUTPACE channel, where the deposit is the entire campaign budget, and the validators are normally an advertiser-side and a publisher-side [validators](#validator-stack). That allows the advertiser to make micropayments to multiple publishers (one micropayment per impression/click/etc.), and the publishers are able to withdraw their earnings at any point.
 
+##### States
+
 The possible states of an OUTPACE channel are:
 
-* Unknown: the channel does not exist yet
-* Active: the channel exists, has a deposit, and it's within the valid period
-* Expired: the channel exists, but it's no longer valid
-* Exhausted: this is a meta-state that's not reflected on-chain; it means the channel is Active, but all funds in it are spent
+* `Unknown`: the channel does not exist yet
+* `Active`: the channel exists, has a deposit, and it's within the valid period
+* `Expired`: the channel exists, but it's no longer valid
+* `Exhausted`: this is a meta-state that's not reflected on-chain; it means the channel is Active, but all funds in it are spent
 
 For a full explanation, see [OUTPACE](/OUTPACE.md).
 
@@ -196,7 +200,7 @@ The entire flow is as follows:
 4. The AdView will generate events (impressions, clicks, page closed, etc.) and send them to the validators.
 5. The events will be reflected by the validators, creating a new state; each valid impression event is turned into a micropayment to a publisher; publishers will be immediately able to use that state to withdraw their earnings.
 6. Should the publisher decide to withdraw their earnings, they can withdraw from any number of channels at once.
-7. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health)).
+7. As long as the state keeps advancing, publishers have a constant guarantee of their revenue; should the state stop advancing properly, publishers can immediately stop serving ads (see [campaign health](#campaign-health) and [Campaign health vs refusal to sign](#campaign-health-vs-refusal-to-sign)).
 
 The benefits of this approach are:
 
@@ -225,7 +229,21 @@ The campaign health is a publisher-specific concept that indicates whether the a
 
 Each publisher, with the help of the publisher-side validator, tracks the health status of each campaign they've ever interacted with. If a certain (configurable) threshold of non-paid impression events is reached, the campaign will be marked unhealthy, and the publisher will no longer pick it until the paid amount increases sufficiently.
 
-The campaign health should not be confused with OUTPACE state sanity: even if a campaign is unhealthy, the publisher-side  validator will continue signing new states as long as they're valid: because of the unidirectional flow, valid states can only mean more revenue for publishers.
+The campaign health should not be confused with OUTPACE state sanity: even if a campaign is unhealthy, the publisher-side validator will continue signing new states as long as they're valid: because of the unidirectional flow, valid states can only mean more revenue for publishers.
+
+### Campaign health vs Refusal to sign
+
+While a campaign can be unhealthy and the publisher-side validator (Follower) will continue to sign new states, there are 2 cases in which it will refuse to sign states:
+
+1) In case of the [__campaign health__](#campaign-health) dropping below an unsignalbe (configurable) threshold, the publisher-side validator (Follower) will stop approving states proposed by the advertiser-side validator (Leader) until this threshold is surpassed again.
+
+**NOTE:** The `Unsignable` and `Unhealthy` thresholds and 2 different configurable values and the latter is greater.
+
+For example:
+- `Unhealthy`: when health < 95%;
+- `Unsignable`: when health < 75%;
+
+2) [__Refusal to sign on rules violation__](./OUTPACE.md#refusal-to-sign-on-rules-violation) will happen when the proposed state of the advertiser-side validator (Leader) violates one of the 3 rules of state transition (see also [OUTPACE State transitions rules](#state-transition-rules) & [OUTPACE.md Specification](./OUTPACE.md#specification)).
 
 ### Validator fees
 
@@ -320,7 +338,7 @@ The market needs to track all on-chain OUTPACE channels and needs to constantly 
 
 Additional privacy can be achieved by having groups of publishers/advertisers run their own instances of the market - that way, campaigns will be visible only within their private group.
 
-The market is currently implemented in the `adex-market` repository. Because of it's aggregation-only role, it can be considered a back-end to [the Platform](https://platform.adex.network).
+The market is currently implemented in the [`adex-market`](https://github.com/AdExNetwork/adex-market) repository. Because of it's aggregation-only role, it can be considered a back-end to [the Platform](https://platform.adex.network).
 
 For a detailed specification, see [market.md](/components/market.md).
 
@@ -523,7 +541,7 @@ You can also stake through Binance and Huobi.
 
 * The box-shaped platform and AdView are client-side software
 * Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](/graphs/real-world.svg))
-* The diamond shape represents another P2P network, in this case Ethereum 
+* The diamond shape represents another P2P network, in this case Ethereum
 
 To keep the representation simple, we've omitted some components: for example, the Identity is used by publishers/advertisers to interact with the platform, and the Core runs on the Ethereum network itself. The Registry is a separate system, designed to help platform users pick validators.
 
@@ -546,7 +564,7 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 
 Because impressions are tracked and rewarded off-chain, the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
-We do have a way to improve on-chain capacity as well: our OUTPACE payment channels are implemented with [Substrate](https://github.com/paritytech/substrate) and [ready to be deployed on Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited. 
+We do have a way to improve on-chain capacity as well: our OUTPACE payment channels are implemented with [Substrate](https://github.com/paritytech/substrate) and [ready to be deployed on Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited.
 
 ### Autonomous regulation
 
