@@ -4,7 +4,7 @@
 
 * *JavaScript (Node.js)*: https://github.com/adexnetwork/adex-validator
 * *Rust*: https://github.com/AdExNetwork/adex-validator-stack-rust
-    As of October 2020 the Rust implementation of Sentry is lacking behind the JavsScript implementation.
+    As of October 2020 the Rust implementation of Sentry is lacking behind the JavaScript implementation.
 
 #### As of the v0.4 milestone (2019-04) of the reference implementation, most of this document is outdated, except Bidding process, which is not part of the validator stack anyway
 
@@ -80,7 +80,7 @@ Decoding the `Payload` should result in a JSON string with the following fields:
 
 * `id` - string - "0x" prefixed address of the validator this request is intended for
 * `era` - number - `current Date & Time milliseconds / 60 000` or simply the current date and time minutes passed from epoch in milliseconds
-* `address` - string - "0x" prefixed address (TODO: what is it used for?)
+* `address` - string - "0x" prefixed address of the **Signer** of the request
 * `identity` - null | string, "0x" prefixed address of an identity owned by the validator
 
 **NB:** The identity is used to check the privileges using the relayer:
@@ -95,9 +95,9 @@ The `Verified Payload` contains the decoded `Signer address` and `Payload` from 
 
 Using the `Verified Payload` we perform 2 more checks:
 
-##### 1. Was this Authentication toke intended for this validator?
+##### 1. Was this Authentication token intended for this validator?
 
-We check if the `Payload` `id` is the same as the validator address, if it's not, then this token was not intended for this validator.
+We check if the `Payload` `id` is the same as the `Validator` address, if it's then this token was intended for this `Validator`.
 
 ##### 2. Authorization
 
@@ -106,7 +106,7 @@ If a `Payload` `identity` was set, we call the [Relayer](./relayer.md) using the
 ### @TODO explain what the flow is FOR; all processes that require the validator stack
 
 * negotiate validators
-* create a channel (ethereum, polkadot, whatever)
+* create a channel (ethereum, polkadot, ..)
 * upload campaignSpec to the market, and potentially to validators (IPFS?)
 * each validator would go through these states for a channel: `UNKNOWN`, `CONFIRMED` (on-chain finality), `LIVE` (we pulled campaignSpec and received a `init` msg from other validators) (other states: `EXHAUSTED`, `EXPIRED`, `VIOLATED_CONSTRAINTS`)
 * AdView asks all publisher-side platforms for ACTIVE channels, sorts by targeting score, takes top N, then sorts by price and takes top M - then randomly chooses an ad from the remaining, and signs a message using the user's keypair on which campaign was chosen and at what price
