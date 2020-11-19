@@ -65,9 +65,9 @@ AdEx is an open, trust-minimized protocol & stack for digital advertising that r
 
 The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
-The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. 
+The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information about our rationale, see the [Benetits overview](https://github.com/AdExNetwork/adex-protocol/blob/master/BENEFITS.md).
 
-The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at https://platform.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-platform))
+The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at [https://platform.adex.network](https://platform.adex.network) ([GitHub Repository](https://github.com/AdExNetwork/adex-platform)).
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
