@@ -65,7 +65,7 @@ AdEx is an open, trust-minimized protocol & stack for digital advertising that r
 
 The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
-The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information on our rationale, see the [business case whitepaper](https://www.adex.network/adex/AdEx-Whitepaper-v.8.pdf).
+The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. 
 
 The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at https://platform.adex.network ([GitHub Repository](https://github.com/AdExNetwork/adex-platform))
 
