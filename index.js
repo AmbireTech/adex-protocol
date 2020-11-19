@@ -24,7 +24,10 @@ window.onload = function () {
       reader.onload = function () {
         const adexProtocol = reader.result;
         var converter = new showdown.Converter();
+        // This changes the format of the generated header IDs: spaces are replaced with dashes and a bunch of non alphanumeric chars are removed.
         converter.setOption("ghCompatibleHeaderId", true);
+        // Turning this option on will enable automatic linking when the parser find plain text urls
+        converter.setOption("simplifiedAutoLink", true);
         html = converter.makeHtml(adexProtocol);
         root.innerHTML += `<div class='content'>${html}</div>`;
         const pages = window.document.getElementsByClassName("break-page");
