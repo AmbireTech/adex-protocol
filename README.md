@@ -537,10 +537,10 @@ You can also stake through Binance and Huobi.
 
 ### Basic visual representation
 
-![Architecture](https://github.com/AdExNetwork/adex-protocol/blob/master/graphs/architecture-pretty.png)
+![Architecture](https://raw.githubusercontent.com/AdExNetwork/adex-protocol/master/graphs/architecture-pretty.png)
 
 * The box-shaped platform and AdView are client-side software
-* Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](https://github.com/AdExNetwork/adex-protocol/blob/master/graphs/real-world.svg))
+* Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](https://raw.githubusercontent.com/AdExNetwork/adex-protocol/master/graphs/real-world.svg))
 * The diamond shape represents another P2P network, in this case Ethereum
 
 To keep the representation simple, we've omitted some components: for example, the Identity is used by publishers/advertisers to interact with the platform, and the Core runs on the Ethereum network itself. The Registry is a separate system, designed to help platform users pick validators.
