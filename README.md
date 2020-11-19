@@ -65,7 +65,7 @@ AdEx is an open, trust-minimized protocol & stack for digital advertising that r
 
 The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
-The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information about our rationale, see the [Benetits overview](https://github.com/AdExNetwork/adex-protocol/blob/master/BENEFITS.md).
+The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information about our rationale, see the [Benefits overview](https://github.com/AdExNetwork/adex-protocol/blob/master/BENEFITS.md).
 
 The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at [https://platform.adex.network](https://platform.adex.network) ([GitHub Repository](https://github.com/AdExNetwork/adex-platform)).
 
@@ -151,7 +151,7 @@ The state transition function enforces a few simple rules for each next state: (
 
 Because of these rules, an OUTPACE channel does not need sequences or challenge periods.
 
-The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered 
+The initially delegated validators sign every new state, and a state signed by a supermajority (>=2/3) of validators is considered
 
 <div class='break-page'></div>
 
@@ -166,7 +166,7 @@ The possible states of an OUTPACE channel are:
 * `Expired`: the channel exists, but it's no longer valid
 * `Exhausted`: this is a meta-state that's not reflected on-chain; it means the channel is Active, but all funds in it are spent
 
-For a full explanation, see [OUTPACE](/OUTPACE.md).
+For a full explanation, see [OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md).
 
 #### Validators
 
@@ -243,7 +243,7 @@ For example:
 - `Unhealthy`: when health < 95%;
 - `Unsignable`: when health < 75%;
 
-2) [__Refusal to sign on rules violation__](./OUTPACE.md#refusal-to-sign-on-rules-violation) will happen when the proposed state of the advertiser-side validator (Leader) violates one of the 3 rules of state transition (see also [OUTPACE State transitions rules](#state-transition-rules) & [OUTPACE.md Specification](./OUTPACE.md#specification)).
+2) [__Refusal to sign on rules violation__](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md#refusal-to-sign-on-rules-violation) will happen when the proposed state of the advertiser-side validator (Leader) violates one of the 3 rules of state transition (see also [OUTPACE State transitions rules](#state-transition-rules) & [OUTPACE.md Specification](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md#specification)).
 
 ### Validator fees
 
@@ -326,7 +326,7 @@ The on-chain interactions are:
 * `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`;
 * `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot.
 
-For more information on how the payment channels work, see [OUTPACE](/OUTPACE.md).
+For more information on how the payment channels work, see [OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md).
 
 ### Market
 
@@ -340,7 +340,7 @@ Additional privacy can be achieved by having groups of publishers/advertisers ru
 
 The market is currently implemented in the [`adex-market`](https://github.com/AdExNetwork/adex-market) repository. Because of it's aggregation-only role, it can be considered a back-end to [the Platform](https://platform.adex.network).
 
-For a detailed specification, see [market.md](/components/market.md).
+For a detailed specification, see [market.md](https://github.com/AdExNetwork/adex-protocol/blob/master/components/market.md).
 
 
 <div class='break-page'></div>
@@ -351,7 +351,7 @@ The validator stack is a collective term for all off-chain components responsibl
 
 Full list of functionalities:
 
-1. Collecting events from users; this includes filtering them to ensure their validity and applying [`campaignSpec`](/campaignSpec.md) policies (e.g. max 10 events per user);
+1. Collecting events from users; this includes filtering them to ensure their validity and applying [`campaignSpec`](https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md) policies (e.g. max 10 events per user);
 2. Track the on-chain state of OUTPACE channels;
 3. Serve as a validator of the OUTPACE channels;
 4. Generating analytical reports;
@@ -361,7 +361,7 @@ In a normal setup, each of the nominated validators for an OUTPACE channel would
 
 The validators communicate with the outside world and between each other through a RESTful API, exposed by a component called a Sentry.
 
-For a detailed specification, see [validator-stack.md](/components/validator-stack.md).
+For a detailed specification, see [validator-stack.md](https://github.com/AdExNetwork/adex-protocol/blob/master/components/validator-stack.md).
 
 #### campaignSpec
 
@@ -371,9 +371,9 @@ In the AdEx Protocol, we use that field for a specification of the advertising c
 
 To do that, we set the `spec` value to a 32-byte IPFS hash of the JSON blob, using the SHA2-256 digest function.
 
-If you're a dApp builder, it is recommended that you pin this file on your own IPFS nodes. However, this file will also be permenantly stored by the [Market](#market) when it's uploaded to it.
+If you're a dApp builder, it is recommended that you pin this file on your own IPFS nodes. However, this file will also be permanently stored by the [Market](#market) when it's uploaded to it.
 
-For the JSON blob specification, see [`campaignSpec.md`](/campaignSpec.md). It includes detailed description of the campaign, including min/max impression prices, targeting, ad units and etc.; currently, the format is specific to AdEx, but [AdCOM](https://github.com/InteractiveAdvertisingBureau/AdCOM) might be incorporated in the future.
+For the JSON blob specification, see [`campaignSpec.md`](https://github.com/AdExNetwork/adex-protocol/blob/master/campaignSpec.md). It includes detailed description of the campaign, including min/max impression prices, targeting, ad units and etc.; currently, the format is specific to AdEx, but [AdCOM](https://github.com/InteractiveAdvertisingBureau/AdCOM) might be incorporated in the future.
 
 <div class='break-page'></div>
 
@@ -400,7 +400,7 @@ The validator stack is, like anything else in the AdEx protocol, modular and rep
 
 Alternative validator stack implementations can be created, and can be useful for optimizing for particular flows/workloads.
 
-In order to maintain compatibility with the existing AdEx infrastructure (the Platform and the AdView), you don't need to follow the architecture outlined in [validator-stack.md](/components/validator-stack.md), but you need to implement the same RESTful APIs.
+In order to maintain compatibility with the existing AdEx infrastructure (the Platform and the AdView), you don't need to follow the architecture outlined in [validator-stack.md](https://github.com/AdExNetwork/adex-protocol/blob/master/components/validator-stack.md), but you need to implement the same RESTful APIs.
 
 <div class='break-page'></div>
 
@@ -494,7 +494,7 @@ While OUTPACE can work with any Ethereum token that implements the ERC20 standar
 
 This is why we came up with a set of pre-approved tokens. For now, we've decided on DAI and ADX, but we can easily allow more.
 
-It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [adex-platform](https://github.com/AdExNetwork/adex-platform).
+It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [`adex-platform`](https://github.com/AdExNetwork/adex-platform).
 
 
 #### Sign-up process
@@ -537,10 +537,10 @@ You can also stake through Binance and Huobi.
 
 ### Basic visual representation
 
-![Architecture](./graphs/architecture-pretty.png)
+![Architecture](https://raw.githubusercontent.com/AdExNetwork/adex-protocol/master/graphs/architecture-pretty.png)
 
 * The box-shaped platform and AdView are client-side software
-* Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](/graphs/real-world.svg))
+* Round-shaped items represent parts of the AdEx peer-to-peer network (in practice, [many validators and markets may exist](https://raw.githubusercontent.com/AdExNetwork/adex-protocol/master/graphs/real-world.svg))
 * The diamond shape represents another P2P network, in this case Ethereum
 
 To keep the representation simple, we've omitted some components: for example, the Identity is used by publishers/advertisers to interact with the platform, and the Core runs on the Ethereum network itself. The Registry is a separate system, designed to help platform users pick validators.
@@ -644,7 +644,7 @@ We don't consider this to be a major disadvantage as header bidding is very rapi
 
 In other words, **in AdEx, advertisers can bid for an impression in real-time**, but we do not implement traditional real-time bidding.
 
-See [Flow](#flow) and [Bidding Process](/components/validator-stack.md#bidding-process).
+See [Flow](#flow) and [Bidding Process](https://github.com/AdExNetwork/adex-protocol/blob/master/components/validator-stack.md#bidding-process).
 
 
 ### Oracle-based advertising
