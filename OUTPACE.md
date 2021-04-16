@@ -50,7 +50,9 @@ Furthermore:
 4. at each next state `sum(balances)` must always be <= `channel.totalDeposit`
 5. at any time, only one balance entry per address must exist in the tree
 
-If a validator receives a state where one of the constraints (2-5) is violated, they will not sign the state.
+#### Refusal to sign on rules violation
+
+If a validator receives a state where one of the rules (2-5) is violated, they will not sign the state.
 
 ### States
 
@@ -95,5 +97,5 @@ This problem is similar to Bitcoin dust.
 
 It is also the reason for impressions [not always resulting in revenue](./FAQ.md#why-are-there-impressions-but-no-revenue).
 
-However, because there's a limit to the max amount of channels you can earn from, and the cost of doing a `channelWithdraw` is relatively small, this problem only manifests itself with really low earnings (under 3.5 DAI per week). 
+However, because there's a limit to the max amount of channels you can earn from, and the cost of doing a `channelWithdraw` is relatively small, this problem only manifests itself with really low earnings (under 3.5 DAI per week).
 

@@ -2,14 +2,14 @@
 
 Ad Slot represents Publisher ad space entity for displaying [Ad Units][Ad Unit] with the following fields:
 
-##### Spec properties (added to [ipfs] and can NOT be modified) 
+##### Spec properties (added to [ipfs] and can NOT be modified)
 
 * `ipfs`: string, valid [ipfs] hash of spec props below
 * `type`: string, the type of the ad slot that will match [Ad Unit] `type`
 * `tags`: an array of [TargetingTag], meant for discovery between publishers/advertisers
 * `owner`: user address from the session
 * `created`: number, UTC timestamp in milliseconds, used as nonce for escaping duplicated spec [ipfs] hashes
-* `rules`: array of [targeting DSL rules] which can only infuence the `show` output variable; see [Targeting and bidding] for more details
+* `rules`: array of [targeting DSL rules] which can only influence the `show` output variable; see [Targeting and bidding] for more details
 
 ##### Non spec properties (not added to ipfs and CAN be modified*)
 
