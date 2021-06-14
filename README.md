@@ -519,7 +519,7 @@ This system differs from token curated registries in that there is no approval/r
 
 Because challenges may require verifying validator `NewState` and `ApproveState` messages on-chain, the Registry needs high transaction throughput. Therefore, we have decided to build it as a [Substrate](https://github.com/paritytech/substrate) chain, and possibly make it part of the [Polkadot network](https://polkadot.network/).
 
-#### Nomination
+#### Nomination and staking
 
 If a validator chooses so, they may allow users to "nominate" them: stake tokens in the validator's name (delegate), therefore receiving a pro rata share of their fee earnings, but also inheriting their slash risk. We call this "staking pools". This is the case with the current [staking portal](https://staking.adex.network/). A validator may choose to run a pool and distribute their earnings in order to increase the ADX staked against their name.
 
@@ -527,11 +527,15 @@ If you're interested in staking ADX as a token holder, you can [learn more here]
 
 #### Incentivized staking
 
-As of 2020, there's an [incentivized staking campaign](https://www.adex.network/blog/new-token-economics-and-staking/) running which generates over 50% annual percentage yield.
+As of 2021, there's an [incentivized staking campaign](https://www.adex.network/blog/new-token-economics-and-staking/) running which generates over 50% annual percentage yield.
 
 You can also stake through Binance and Huobi.
 
 <div class='break-page'></div>
+
+#### Automated buybacks
+
+In May 2021, a mechanism was introduced in the Tom staking pool that uses the validator's fees to buy ADX and distribute it to stakers.
 
 ## Appendix
 
