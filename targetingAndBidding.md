@@ -270,7 +270,7 @@ If a function is invoked with incompatible types, evaluation will throw a `TypeE
 * math (div, mul, mod, add, sub, max, min)
 * variables (get, set)
 * syntax sugar (onlyShowIf; perhaps setMul, setAdd which are equivalent to `*=` and `+=`)
-* price helpers: (getPriceInUSD will return the currently set price for a specific event, approximated in USD; this is useful for the ad slot rules, as it allows setting min CPM regardless of asset type)
+* price helpers: (**obsolete** ~~getPriceInUSD will return the currently set price for a specific event, approximated in USD; this is useful for the ad slot rules, as it allows setting min CPM regardless of asset type~~ see #67 for more details)
 * logic (or, and, not)
 * flow control (if, ifNot, ifElse, do)
 * comparison (lt, gt, gte, eq, neq, nin, in, intersects, between)
