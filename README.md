@@ -115,7 +115,7 @@ A potential use case is using AdEx for affiliate networks, where publishers get 
 
 Ad campaigns are traditionally defined as "coordinated series of linked advertisements with a single idea or theme". In AdEx, they further represent a intent to spend a certain budget towards spreading those advertisements: essentially, a big piece of demand.
 
-Campaigns are created with a total budget (e.g. 5000 DAI) and a specification of the desired result: e.g. purchase as many impressions as possible for this ad, with a maximum allowed price per impression and targeting information.
+Campaigns are created with a total budget (e.g. 5000 USDC) and a specification of the desired result: e.g. purchase as many impressions as possible for this ad, with a maximum allowed price per impression and targeting information.
 
 Because campaigns represent a financial commitment on a smart contract, they can be also be seen as smart, automated insertion orders.
 
@@ -476,12 +476,12 @@ The Identity layer is currently specific to our Ethereum implementation and desi
 It is a smart contract that allows the users of the Platform (publishers/advertisers) to:
 
 * Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them (essentially a multisig)
-* Interact with the Ethereum network without needing to have ETH: fees can be paid in DAI or another ERC20 token
+* Interact with the Ethereum network without needing to have ETH: fees can be paid in USDC or another ERC20 token
 * Allow certain actions to be scheduled/performed automatically without needing them to be online, for example withdrawing funds from OUTPACE channels (called "sweeping" to distinguish it from actual withdrawing)
 
 This solves many UX hurdles that are typical for blockchain-related applications.
 
-In the Platform, we also allow the so-called "Quick accounts": you can sign up with an email/passphrase, and the Platform will generate and store a keypair for you, encrypted with your passphrase. Because this is suboptiomal for security, those accounts may be limited (by the Market) in terms of DAI they can earn. However, thanks to the Identity layer, those accounts can be easily secured by de-authorizing the temporary keypair and authorizing a proper wallet such as Metamask/Trezor.
+In the Platform, we also allow the so-called "Quick accounts": you can sign up with an email/passphrase, and the Platform will generate and store a keypair for you, encrypted with your passphrase. Because this is suboptiomal for security, those accounts may be limited (by the Market) in terms of USDC they can earn. However, thanks to the Identity layer, those accounts can be easily secured by de-authorizing the temporary keypair and authorizing a proper wallet such as Metamask/Trezor.
 
 Some of these concepts are sometimes refered to as "smart wallets", "meta tx" or "gas abstractions".
 
@@ -492,16 +492,16 @@ The Identity component is implemented in the [adex-protocol-eth repository](http
 
 While OUTPACE can work with any Ethereum token that implements the ERC20 standard, not all of them are suitable for using as campaign deposit. Some tokens have fatal bugs, others allow arbitrary minting, and some are simply not liquid enough.
 
-This is why we came up with a set of pre-approved tokens. For now, we've decided on DAI and ADX, but we can easily allow more.
+This is why we came up with a set of pre-approved tokens. For now, we've decided on USDC and ADX, but we can easily allow more.
 
 It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [`adex-platform`](https://github.com/AdExNetwork/adex-platform).
 
 
 #### Sign-up process
 
-We intend to allow publishers/advertisers to sign-up to the platform using any pre-approved token (e.g. DAI, ADX), or with ETH, by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
+We intend to allow publishers/advertisers to sign-up to the platform using any pre-approved token (e.g. USDC, ADX), or with ETH, by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
 
-If there's a suitable way to do it, we intend to allow opening a campaign with USD/EUR by integrating the platform with a third-party service that allows purchasing DAI with USD/EUR.
+If there's a suitable way to do it, we intend to allow opening a campaign with USD/EUR by integrating the platform with a third-party service that allows purchasing USDC with USD/EUR, such as Ramp Network.
 
 We are also exploring the possibilities of allowing signing up with BTC, by using HTLC-based atomic swaps or Bitcoin SPVs to exchange it for a pre-approved token.
 
