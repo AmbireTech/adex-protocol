@@ -67,11 +67,15 @@ The AdEx protocol facilitates trading of advertising space/time, as well as the 
 
 The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information about our rationale, see the [Benefits overview](https://github.com/AdExNetwork/adex-protocol/blob/master/BENEFITS.md).
 
-The AdEx team also develops an open source platform built on top of the Ethereum implementation of the protocol, available at [https://platform.adex.network](https://platform.adex.network) ([GitHub Repository](https://github.com/AdExNetwork/adex-platform)).
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
 This document assumes basic familiarity with computer science, blockchain and adtech.
+
+### The platform
+
+The AdEx team also develops an open source ad platform built on top of the Ethereum implementation of the protocol, available at [https://platform.adex.network](https://platform.adex.network) ([GitHub Repository](https://github.com/AdExNetwork/adex-platform)). The platform is targeted towards Web3 companies who intend to advertise their products towards a broader audience than just crypto-focused publishers.
+
 
 ### Values
 
@@ -113,15 +117,15 @@ A potential use case is using AdEx for affiliate networks, where publishers get 
 
 #### Campaigns
 
-Ad campaigns are traditionally defined as "coordinated series of linked advertisements with a single idea or theme". In AdEx, they further represent a intent to spend a certain budget towards spreading those advertisements: essentially, a big piece of demand.
+Ad campaigns are traditionally defined as "coordinated series of linked advertisements with a single idea or theme". In AdEx, they further represent a intent to spend a certain budget towards spreading those advertisements: essentially, a big piece of ad demand.
 
 Campaigns are created with a total budget (e.g. 5000 USDC) and a specification of the desired result: e.g. purchase as many impressions as possible for this ad, with a maximum allowed price per impression and targeting information.
 
 Because campaigns represent a financial commitment on a smart contract, they can be also be seen as smart, automated insertion orders.
 
-The cryptocurrencies that can be used for a campaign depend on what [Core](#core) is used and what it supports: e.g. the Ethereum implementation supports all ERC20 tokens.
+The cryptocurrencies that can be used for a campaign depend on what [Core](#core) is used and what it supports: e.g. the Ethereum implementation supports all ERC20 tokens, but it can also be deployed on any EVM network.
 
-In the AdEx protocol, one campaign always maps to one payment channel called **OUTPACE**.
+In the AdEx protocol, each campaign uses a payment channel powered by a technology we call **OUTPACE**. Multiple campaigns can run on the same payment channel, as payment channels are created between **validators** (more on this later).
 
 #### Layer 2
 
