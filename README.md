@@ -34,7 +34,7 @@
 			- [Blacklisting ads](#blacklisting-ads)
 			- [Security](#security)
 		- [The AdEx Lounge](#the-adex-lounge)
-		- [Identity](#identity)
+		- [Identity](#identity-replaced-by-ambire-wallet)
 			- [Pre-approved tokens](#pre-approved-tokens)
 			- [Sign-up process](#sign-up-process)
 		- [Staking (Registry)](#staking-registry)
