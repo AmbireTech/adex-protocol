@@ -9,8 +9,7 @@
 			- [Custom events](#custom-events)
 			- [Campaigns](#campaigns)
 			- [Layer 2](#layer-2)
-			- [Off-chain event aggregation (OCEAN)](#off-chain-event-aggregation-ocean)
-			- [Ocean-based unidirectional trust-less payment channel (OUTPACE)](#ocean-based-unidirectional-trust-less-payment-channel-outpace)
+			- [Offchain unidirectional trust-less payment channels (OUTPACE)](#offchain-unidirectional-trust-less-payment-channel-outpace)
 			- [Validators](#validators)
 			- [Observers](#observers)
 			- [Validator stack](#validator-stack)
@@ -135,19 +134,13 @@ Ideally, layer 2 solutions allow throughput levels seen in centralized systems, 
 
 In AdEx, we use two scaling primitives that we defined: **OCEAN** and **OUTPACE**.
 
-#### Off-chain event aggregation (OCEAN)
+#### Offchain unidirectional trust-less payment channel (OUTPACE)
 
-**OCEAN** stands for **O**ff-**c**hain **e**vent **a**ggregatio**n**.
+**OUTPACE** stands for **O**ffchain **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
 
-An OCEAN channel is defined on-chain with a validator set, timeout and a definition of what we're looking to get achieved off-chain. Then, the validators observe off-chain events, and the leading validator (`validators[0]`) would propose new states, and the rest of the validators may check and sign those new states.
+An **OUTPACE** channel is defined on-chain with a validator set and a token address. Any amount of funds of that token can be deposited into the channel at any time. The validators observe off-chain events, and the leading validator (validators[0]) would propose the new state of the channel, and the rest of the validators check and confirm those new states.
 
-If a state is signed by a supermajority (>=2/3) of validators, it can be used to enforce a result on-chain.
-
-#### Ocean-based unidirectional trust-less payment channel (OUTPACE)
-
-**OUTPACE** stands for **O**cean-based **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
-
-This is a concept that builds on **OCEAN**, where each channel also has a deposit and a `validUntil` date, and each state represents a tree of balances.
+If a state is signed by a supermajority (>=2/3) of validators, it can be used to enforce a result on-chain and withdraw funds from the channel.
 
 ##### State transition rules
 
