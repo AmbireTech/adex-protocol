@@ -181,6 +181,8 @@ However, in practice, it's possible to have additional observers who are not val
 
 Each observer must have a publicly accessible HTTPS endpoint for receiving events from the AdView.
 
+This functionality is unused as of V5, but it's a inherent property of the protocol and can become useful for specific use-cases.
+
 #### Validator stack
 
 "Validator stack" refers to the entire [validator stack](#validator-stack), which is a set of software components that all validators/observers need to run.
