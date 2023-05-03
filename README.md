@@ -321,12 +321,6 @@ The channel is created with the following information:
 
 The Ethereum implementation of this component is called [`adex-protocol-eth`](https://github.com/AdExNetwork/adex-protocol-eth). While the current running implementation of AdEx is the Ethereum one, we are also experimenting with [Cosmos](https://github.com/AdExNetwork/adex-protocol-cosmos) and [Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate).
 
-The on-chain interactions are:
-
-* `channelOpen(channel)`: open an OUTPACE channel;
-* `channelWithdraw(state, signatures, merkleProof, amount)`: allows anyone who earned from this channel to withdraw their earnings by providing `(state, signatures)` and `merkleProof`;
-* `channelExpiredWithdraw(channel)`: allows the channel creator to withdraw the remaining deposit in a channel after it expired; not needed on blockchain platforms where we can define our own "end block" function, like Cosmos/Polkadot.
-
 For more information on how the payment channels work, see [OUTPACE](https://github.com/AdExNetwork/adex-protocol/blob/master/OUTPACE.md).
 
 ### Market
@@ -510,7 +504,13 @@ We are also exploring the possibilities of allowing signing up with BTC, by usin
 
 <div class='break-page'></div>
 
-### Staking (Registry)
+### ADX token and tokenomics
+
+#### ADX token
+
+The ADX token was launched in 2017 and is currently trading on Binance, Kraken, Huobi, Uniswap and more.
+
+#### Staking and validator registry
 
 The Registry is an autonomous system designed to provide a list of publically accessible validators that you can nominate for your campaign.
 
@@ -521,6 +521,10 @@ This is accomplished by having each validator who wants to be on the Registry st
 This system differs from token curated registries in that there is no approval/rejection game, and anyone with a sufficient minimal stake can be registered. Furthermore, there are specific conditions which will punish misbehavior, related to the particular mechanics of OUTPACE and the validator stack.
 
 Because challenges may require verifying validator `NewState` and `ApproveState` messages on-chain, the Registry needs high transaction throughput. Therefore, we have decided to build it as a [Substrate](https://github.com/paritytech/substrate) chain, and possibly make it part of the [Polkadot network](https://polkadot.network/).
+
+#### Protocol fee discounts
+
+With V5 that will be rolled out in 2023, there will be fee discounts to users who stake over a certain amount of ADX.
 
 #### Nomination and staking
 
