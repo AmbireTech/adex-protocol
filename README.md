@@ -64,7 +64,7 @@ AdEx is an open, trust-minimized protocol & stack for digital advertising that r
 
 The AdEx protocol facilitates trading of advertising space/time, as well as the subsequent verification and proof that it actually occurred. Essentially, it covers all interactions between publishers, advertisers and end users. The protocol combines traditional peer-to-peer technology, cryptography and blockchain.
 
-The rationale for creating the AdEx protocol is to create an open-source, transparent and fraud-proof replacement to the existing stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information about our rationale, see the [Benefits overview](https://github.com/AdExNetwork/adex-protocol/blob/master/BENEFITS.md).
+The rationale for creating the AdEx protocol is to create an privacy-preserving, transparent, fraud-proof and open-source replacement to the existing adtech stack. In a way, AdEx's mission is to create a new standard in digital advertising: by introducing real-time tracking and reporting directly accessible to each advertiser and publisher, and dropping the need for most intermediaries, we dramatically reduce the ability for any side to report wrong data to others for their own financial gain. For more information about our rationale, see the [Benefits overview](https://github.com/AdExNetwork/adex-protocol/blob/master/BENEFITS.md).
 
 The AdEx protocol is designed to be completely invisible to end users, while improving their internet browsing experience (generally encouraging quality ads and unobtrusive experience).
 
@@ -552,6 +552,10 @@ In May 2021, a mechanism was introduced in the Tom staking pool that uses the va
 
 To keep the representation simple, we've omitted some components: for example, the Identity is used by publishers/advertisers to interact with the platform, and the Core runs on the Ethereum network itself. The Registry is a separate system, designed to help platform users pick validators.
 
+
+### Integration with traditional supply-side platforms
+AdEx allows for integrating traditional supply-side platforms (SSPs) that are external to the AdEx protocol. The way this works is by having the AdView call the SSPs directly to select the winning bid (like Prebid.js). Once the winning bid has been selected, it will visualize the ad and broadcast the impression to both the ad server of the SSP and to the validators of the campaign.
+
 ### Preventing fraud/Sybil attacks
 
 One of the main challenges of any digital advertising system is preventing fake or invalid impressions/clicks.
@@ -571,7 +575,7 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 
 Because impressions are tracked and rewarded off-chain, the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
-We do have a way to improve on-chain capacity as well: our OUTPACE payment channels are implemented with [Substrate](https://github.com/paritytech/substrate) and [ready to be deployed on Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate). With possibility of interoperable blockchains designed only to handle OUTPACE channels, the scalability of AdEx is more or less unlimited.
+We do have a way to improve on-chain capacity as well: our OUTPACE payment channels have an alternative [Substrate](https://github.com/paritytech/substrate) implementation [and can be deployed on Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate). AdEx can also be deployed on any EVM chain, and as such it's scalability is virtually unlimtied.
 
 ### Autonomous regulation
 
