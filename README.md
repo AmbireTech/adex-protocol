@@ -695,3 +695,9 @@ The way we envision the model working is by using the OUTPACE channels to pay re
 3) Fund development of additional services built around the AdEx Protocol; for this purpose, AdEx employs SmartCode, a software development company that also develops [Stremio](https://www.stremio.com/)
 
 Because of the open-source nature of the protocol, we do expect (and encourage) other entities interested in using it to join the development/design over time.
+
+### Relationship with Ambire Wallet
+
+1) Ambire Wallet spun off the AdEx Protocol itself - back in 2019, as part of AdEx, we built a smart contract wallet to solve the onboarding challenges of publishers/advertisers, that we initially called [Identity](#identity-replaced-by-ambire-wallet). This later became Ambire Wallet
+2) Ambire Wallet and the AdEx Protocol are founded by the same founders. Even though they have separate teams, those teams share a great deal of know-how.
+
