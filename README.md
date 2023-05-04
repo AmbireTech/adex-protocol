@@ -558,7 +558,9 @@ To keep the representation simple, we've omitted some components: for example, t
 
 
 ### Integration with traditional supply-side platforms
-AdEx allows for integrating traditional supply-side platforms (SSPs) that are external to the AdEx protocol. The way this works is by having the AdView call the SSPs directly to select the winning bid (like Prebid.js). Once the winning bid has been selected, it will visualize the ad and broadcast the impression to both the ad server of the SSP and to the validators of the campaign.
+AdEx allows for integrating traditional supply-side platforms (SSPs) that are external to the AdEx protocol. 
+
+The way this works is by having the validator software itself bid for the supply available on plugged in SSPs, and record the event (impression) internally.
 
 ### Preventing fraud/Sybil attacks
 
