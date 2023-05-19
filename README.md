@@ -663,6 +663,8 @@ In other words, **in AdEx, advertisers can bid for an impression in real-time**,
 
 See [Flow](#flow) and [Bidding Process](https://github.com/AdExNetwork/adex-protocol/blob/master/components/validator-stack.md#bidding-process).
 
+### OpenRTB integration
+While real-time bidding is supported in a different way, AdEx can integrate with traditional OpenRTB with the purpose of plugging in supply from external SSPs. This is done directly through the validator code and in such a setup, the campaign can either use two validators: advertiser-side and publisher-side which integrates the SSP(s), or a single validator setup where one validator does both roles. This is safe because the SSP itself is in the role of the publisher-side validator, as the responsibility of protecting the interests of publishers falls on it.
 
 ### Oracle-based advertising
 
