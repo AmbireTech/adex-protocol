@@ -80,13 +80,12 @@ The platform is built on top of [Ambire Wallet](https://www.ambire.com) and uses
 
 ### Values
 
-* **Transparency:** full reporting transparency for publishers and advertisers; they both receive the same reports
-* **No intermediaries:** connect publishers and advertisers as directly as possible, therefore maximizing results and revenues; this also implies minimized fees and no commissions
-* **Privacy:** ensure the user's data stays private by never collecting it
-* **No custody of funds:** users have full control over their own funds; you can withdraw any amount at any point, no thresholds
-* **Censorship resistance:** we empower a free and self-governed ad market with no centralised restrictions on what can and can't be advertised
-* **Ease of use:** modern adtech is complicated. We aim to make it as easy as possible to interact with AdEx
-* **Flexibility:** wide variety of use cases, including but not limited to: display advertising, affiliate networks, and even content micropayments
+* **Transparency** Transparency is ensured through a decentralized ledger that records ad transactions, enabling a verifiable trail of information and minimizing fraud.
+* **Low fees** We only ask for a 7% network fee, which is necessary to operate the platform on the blockchain. Compared to other DSPs with 15-20% fees, our platform significantly reduces costs by over 50%. In addition, the fee for advertisers, who use the ADX token to launch a campaign is only 4%. 
+* **No custody of funds:** Users have complete control over their funds, allowing them to withdraw any amount at any time without any minimum threshold requirements. 
+* **Ease of use:** Navigating modern ad tech can be complex, but AdEx simplifies the process with its user-friendly interface, ensuring effortless interaction with the platform. 
+* **Top-tier support.** We are committed to providing our advertisers with a smooth and hassle-free experience. Our dedicated team is available to assist with product inquiries, targeting strategy guidance, and campaign setup to ensure a seamless user experience.
+* **Expanding the Web3 user base** We enable advertisers to extend their reach to an untapped segment of potential crypto users, paving the way for new business prospects and opportunities for growth and expansion and reaching the next billion users.
 
 ### Terminology
 
