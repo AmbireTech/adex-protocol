@@ -401,7 +401,6 @@ In order to maintain compatibility with the existing AdEx infrastructure (the Pl
 
 The primary implementation is [`adex-adview-manager`](https://github.com/AdExNetwork/adex-adview-manager), which is designed for the web. It utilizes first-hand data obtained from publishers, ensuring the utmost accuracy by deriving data directly from the source. By harnessing the insights from the AdView, we can compare the reported performance from SSPs, make conclusions about its accuracy and optimize advertiser’s campaigns, leading to improved audience targeting and enhanced results. The AdView serves as a fraud-protection tool implemented to guarantee that our advertisers are billed solely for authentic and verifiable results, reinforcing the integrity of our payment system. 
 
-
 It's important to note that the AdView is entirely browser-agnostic. It can run as a library (alongside React or any other modern framework) or in an `<iframe>` on the publisher's webpage.
 
 There are currently no native mobile implementations, but the AdView can be easily wrapped into a `WebView` on iOS/Android, and it will work as expected, at a small performance cost.
@@ -435,12 +434,13 @@ While a publisher-side validators may choose to ignore such an event, it's mostl
 
 An additional improvement on the AdView would be to allow users to gossip blacklists directly between each other, therefore eliminating the ability of publisher-side validators to act together and ignore blacklist events. This feature is not trivial, as it requires a reliable sybil resistance mechanism.
 
-
 #### Security
 
 The keypair is saved in `localStorage`. However it never holds any funds, it merely serves to identify users anonymously.
 
 In case `localStorage` is deleted, the user will receive a new keypair and the system will start learning about them again - which is actually intended behavior (e.g. using incognito mode in the browser).
+
+### DSP Safe (to be added)
 
 ### Identity (replaced by Ambire Wallet)
 
@@ -450,6 +450,7 @@ The Identity layer is currently specific to our Ethereum implementation and desi
 
 It is a smart contract that allows the users of the Platform (publishers/advertisers) to:
 
+* Create a smart account with an email address only
 * Use many devices (e.g. PC, mobile, HW wallet) as one identity, without having to share the same private key between them (essentially a multisig)
 * Interact with the Ethereum network without needing to have ETH: fees can be paid in USDC or another ERC20 token
 * Allow certain actions to be scheduled/performed automatically without needing them to be online, for example withdrawing funds from OUTPACE channels (called "sweeping" to distinguish it from actual withdrawing)
@@ -465,22 +466,11 @@ The Identity component is implemented in the [adex-protocol-eth repository](http
 
 #### Pre-approved tokens
 
-While OUTPACE can work with any Ethereum token that implements the ERC20 standard, not all of them are suitable for using as campaign deposit. Some tokens have fatal bugs, others allow arbitrary minting, and some are simply not liquid enough.
-
-This is why we came up with a set of pre-approved tokens. For now, we've decided on USDC and ADX, but we can easily allow more.
-
-It's important to note that **this is not enforced on a blockchain/smart contract level**, but it's merely a UI limitation. If you feel that a certain token should be added, you can submit a PR to [`adex-platform`](https://github.com/AdExNetwork/adex-platform).
-
+Although OUTPACE has the capability to integrate with any Ethereum token adhering to the ERC20 standard, not all tokens are suitable for campaign deposits due to factors such as fatal bugs, arbitrary minting, or insufficient liquidity. While the smart account associated with each AdEx profile supports various networks and tokens, the AdEx platform specifically operates on the Ethereum and Polygon networks. Depending on the chosen network, campaign deposits can be made using USDC, USDT, DAI, and ADX. Launching a campaign with the ADX token triggers an automatic reduction in the required transaction fee for each campaign from 7% to 4%.
 
 #### Sign-up process
 
-We intend to allow publishers/advertisers to sign-up to the platform using any pre-approved token (e.g. USDC, ADX), or with ETH, by leveraging [Uniswap](https://uniswap.io/) to automatically convert to one of the pre-approved tokens.
-
-If there's a suitable way to do it, we intend to allow opening a campaign with USD/EUR by integrating the platform with a third-party service that allows purchasing USDC with USD/EUR, such as Ramp Network.
-
-We are also exploring the possibilities of allowing signing up with BTC, by using HTLC-based atomic swaps or Bitcoin SPVs to exchange it for a pre-approved token.
-
-<div class='break-page'></div>
+Signing up to the AdEx platform is done through the Ambire Wallet SDK. It allows users to create an account without any hassle and using an email address only. Creating an account on AdEx automatically creates an Ambire Wallet address, which is completely functional and can be used for further transactions and operations, such as token swap, staking, connecting to dApps, and more.
 
 ### ADX token and tokenomics
 
@@ -488,21 +478,19 @@ We are also exploring the possibilities of allowing signing up with BTC, by usin
 
 The ADX token was launched in 2017 and is currently trading on Binance, Kraken, Huobi, Uniswap and more.
 
+#### Protocol fee discounts
+
+By choosing to launch a campaign with ADX tokens instead of other accepted currencies, advertisers benefit from a fee discount. While campaigns launched with USDT, USDC, and DAI carry a network fee of 7%, using ADX tokens reduces the fee to 4%. 
+
 #### Staking and validator registry
 
-The Registry is an autonomous system designed to provide a list of publically accessible validators that you can nominate for your campaign.
-
-The ultimate goal of the Registry is provide exposure for everyone who wants to be a public validator, and also to hold these validators accountable if they misbehave.
+The Registry is an autonomous system designed to provide a list of publically accessible validators that you can nominate for your campaign. The ultimate goal of the Registry is provide exposure for everyone who wants to be a public validator, and also to hold these validators accountable if they misbehave.
 
 This is accomplished by having each validator who wants to be on the Registry stake ADX tokens. Every time they misbehave, a small portion of those tokens will be burned (slashed). This makes validators with higher stake more trustworthy, as they have more skin in the game. The reason ADX is the only token allowed for staking is that ideally, staking for the registry would be the token's primary use case, as this implies a large part of the token supply would be staked and locked up, therefore making it more expensive to perform a Sybil attack.
 
 This system differs from token curated registries in that there is no approval/rejection game, and anyone with a sufficient minimal stake can be registered. Furthermore, there are specific conditions which will punish misbehavior, related to the particular mechanics of OUTPACE and the validator stack.
 
 Because challenges may require verifying validator `NewState` and `ApproveState` messages on-chain, the Registry needs high transaction throughput. Therefore, we have decided to build it as a [Substrate](https://github.com/paritytech/substrate) chain, and possibly make it part of the [Polkadot network](https://polkadot.network/).
-
-#### Protocol fee discounts
-
-With V5 that will be rolled out in 2023, there will be fee discounts to users who stake over a certain amount of ADX.
 
 #### Nomination and staking
 
@@ -512,11 +500,9 @@ If you're interested in staking ADX as a token holder, you can [learn more here]
 
 #### Incentivized staking
 
-As of 2021, there's an [incentivized staking campaign](https://www.adex.network/blog/new-token-economics-and-staking/) running which generates over 50% annual percentage yield.
+Incentivized staking in the AdEx ecosystem refers to the act of locking or holding a certain amount of ADX tokens to participate in the network’s proof-of-stake consensus mechanism. By staking ADX tokens, participants contribute to the security and integrity of the network, and in return, they earn rewards or incentives for their active involvement in maintaining the ecosystem. Staking encourages token holders to have a long-term commitment to the AdEx platform while fostering network decentralization and stability. 
 
-You can also stake through Binance and Huobi.
-
-<div class='break-page'></div>
+Staking can be done in a number of different ways - through the AdEx staking platform, Binance, Huobi, or Ambire Wallet. Staking through Ambire Wallet offers stakers with additional rewards if they meet certain requirements. 
 
 #### Automated buybacks
 
