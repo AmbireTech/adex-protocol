@@ -399,7 +399,8 @@ In order to maintain compatibility with the existing AdEx infrastructure (the Pl
 
 ### AdView
 
-The primary implementation is [`adex-adview-manager`](https://github.com/AdExNetwork/adex-adview-manager), which is designed for the web.
+The primary implementation is [`adex-adview-manager`](https://github.com/AdExNetwork/adex-adview-manager), which is designed for the web. It utilizes first-hand data obtained from publishers, ensuring the utmost accuracy by deriving data directly from the source. By harnessing the insights from the AdView, we can compare the reported performance from SSPs, make conclusions about its accuracy and optimize advertiser’s campaigns, leading to improved audience targeting and enhanced results. The AdView serves as a fraud-protection tool implemented to guarantee that our advertisers are billed solely for authentic and verifiable results, reinforcing the integrity of our payment system. 
+
 
 It's important to note that the AdView is entirely browser-agnostic. It can run as a library (alongside React or any other modern framework) or in an `<iframe>` on the publisher's webpage.
 
@@ -410,33 +411,25 @@ The AdView is responsible for:
 1. Pulling all possible demand (campaigns, bids) from the [Market](#market);
 2. Picking which ad to show depending on the user: this depends on a combination of price and targeting (header bidding and contextual targeting);
 3. Generating events (impressions as per [IAB's guidelines](https://www.iab.com/wp-content/uploads/2015/06/Ad-Impression-Measurment-Guideline-US.pdf), clicks) and sending them to all validators and observers of the given ad;
+4. Comparing the generated data with that provided by the SSP and pinpointing any discrepancies
 
 Later on, if needed, it will also be responsible for:
 
-1. Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser;
+Creating a cryptographic identity (keypair) for the user, if they don't already have one, and persisting it in their browser;
+
 
 #### Contextual targeting
 
-Notice a common pattern here: **sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself. To achieve this, we use [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf).
+Notice a common pattern here: **sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself. To achieve this, we use [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf)for our direct publishers. When it comes to SSPs, the targeting and data collection is done by them.
 
-This works by relying on publishers to feed what they know about the context (e.g. "this page is about bicycles") and potentially the user (e.g. "this user is female") directly into the AdView API. The incentive for this is built-in: better targeted ads mean higher revenues.
+For direct publsihers this works by relying on publishers to feed what they know about the context (e.g. "this page is about bicycles") and potentially the user (e.g. "this user is female") directly into the AdView API. The incentive for this is built-in: better targeted ads mean higher revenues.
 
 This system is based on tags, which are not specified in the AdEx protocol itself and are entirely defined by network participants. They could describe anything - interests, demographics, geographics and etc.
 
 
-#### Behavioral targeting
-
-Because contextual targeting has certain limitations (e.g. no remarketing), there is a possibility to introduce behavioral targeting, using `localStorage` to remember tags for the user. This will not compromise privacy, because the data collected `localStorage` is not exposed to any third parties.
-
-To achieve this, the AdView always has to be loaded from the same domain (e.g. `adex.network`), in order to ensure it always reads/writes to the same `localStorage`. This can be trust-minimized in the future through ENS, IPFS or even just using checksum-based integrity checks.
-
-Advertisers may report tags that allow for remarketing, such as a tag indicating that a user visited their website, or even a tag indicating they've visited a particular page, allowing for dynamic remarketing.
-
-<div class='break-page'></div>
-
 #### Blacklisting ads
 
-Users can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do this, it will be saved locally so this ad will never be shown to you, but also reported to all publisher-side validators the AdView is aware of.
+Direct publishers can blacklist ads, very similarly to how ads on Google/Facebook have a cross icon on the top right corner. Once you do this, it will be saved locally so this ad will never be shown to you, but also reported to all publisher-side validators the AdView is aware of.
 
 While a publisher-side validators may choose to ignore such an event, it's mostly in the interest of publishers to keep track of the most blacklisted ads and possibly stop serving them altogether.
 
@@ -448,19 +441,6 @@ An additional improvement on the AdView would be to allow users to gossip blackl
 The keypair is saved in `localStorage`. However it never holds any funds, it merely serves to identify users anonymously.
 
 In case `localStorage` is deleted, the user will receive a new keypair and the system will start learning about them again - which is actually intended behavior (e.g. using incognito mode in the browser).
-
-
-### The AdEx Lounge
-
-The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to control their ad preferences.
-
-In particular, users can opt out of seeings certain kinds of ads.
-
-With OUTPACE channels, it's possible for users to earn monetary rewards as well, so at some point the Lounge may be used to allow for users to withdraw their funds.
-
-There's no public implementation of the Lounge yet.
-
-<div class='break-page'></div>
 
 ### Identity (replaced by Ambire Wallet)
 
