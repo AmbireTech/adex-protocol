@@ -81,7 +81,7 @@ The platform is built on top of [Ambire Wallet](https://www.ambire.com) and uses
 ### Values
 
 * **Transparency** Transparency is ensured through a decentralized ledger that records ad transactions, enabling a verifiable trail of information and minimizing fraud.
-* **Low fees** We only ask for a 7% network fee, which is necessary to operate the platform on the blockchain. Compared to other DSPs with 15-20% fees, our platform significantly reduces costs by over 50%. In addition, the fee for advertisers, who use the ADX token to launch a campaign is only 4%. 
+* **Low fees** We only ask for a 7% fee, which is necessary to operate the platform on the blockchain. Compared to other DSPs with 15-20% fees, our platform significantly reduces costs by over 50%. In addition, the fee for advertisers, who use the ADX token to launch a campaign is only 4%. 
 * **No custody of funds:** Users have complete control over their funds, allowing them to withdraw any amount at any time without any minimum threshold requirements. 
 * **Ease of use:** Navigating modern ad tech can be complex, but AdEx simplifies the process with its user-friendly interface, ensuring effortless interaction with the platform. 
 * **Top-tier support.** We are committed to providing our advertisers with a smooth and hassle-free experience. Our dedicated team is available to assist with product inquiries, targeting strategy guidance, and campaign setup to ensure a seamless user experience.
@@ -112,7 +112,7 @@ A DSP (Demand-side Platform) is a technology platform that allows advertisers to
 An SSP (Supply-Side Platform) is a technology platform that enables publishers to sell and manage their digital ad inventory programmatically. 
 
 #### Direct publishers
-Direct publishers are websites that have a direct connection to AdEx’s DSP, bypassing the need for a DSP or ad exchange platform. 
+Direct publishers are websites, apps or any kind of digital product that has a direct connection to AdEx’s DSP, bypassing the need for an SSP or an ad exchange platform. 
 
 #### Users
 
@@ -121,6 +121,10 @@ When we refer to "users", we mean end users: not of AdEx itself, but of the publ
 #### Events
 
 Events, in the context of the AdView or the off-chain event aggregation, mean anything that a user does in regard to a digital ad - for example, click, impression, closing of the web page, etc. Events are usually broadcast as signed messages.
+
+#### Custom events
+
+Custom events usually refer to events that are publisher-defined. For example, if you're a publisher with an e-commerce website, you might choose to send an event for product purchases.
 
 #### Campaigns
 
@@ -131,7 +135,7 @@ Ad campaigns are conventionally defined as a “coordinated series of linked adv
 Layer 2 refers to blockchain scaling solutions, which allow financial transactions or other state transitions to happen very fast, off the blockchain, while still being enforceable or eventually being committed to the underlying blockchain. Ideally, Layer 2 solutions allow throughput levels seen in centralized systems, while still being as trustless and censorship-resistant as blockchains. In AdEx, we use a scaling primitive, called OUTPACE, which allows for multiple campaigns to run on the same payment channel, thus allowing for lower transaction fees.
 
 #### Validators
-Validators in the AdEx ecosystem are responsible for verifying and validating transactions on the blockchain, ensuring the security and transparency of the network. More about validators can be found here. 
+Validators in the AdEx ecosystem are responsible for verifying and validating transactions and impressions on the blockchain, ensuring the security and transparency of the network. More about validators can be found here. 
 
 #### Observers
 The observers are delegated to collect events in relation to a certain campaign. All validators of a campaign are, by definition, observers of all events related to it.
@@ -141,13 +145,13 @@ The observers are delegated to collect events in relation to a certain campaign.
 
 #### OUTPACE
 
-In the AdEx protocol, each campaign uses a payment channel powered by a technology we call OUTPACE. Multiple campaigns can run on the same payment channel, as payment channels are created between validators.
+In the AdEx protocol, each campaign uses a payment channel powered by a technology we call [OUTPACE](/outpace.md). Multiple campaigns can run on the same payment channel, as payment channels are created between validators.
 
 **OUTPACE** stands for **O**ffchain **u**nidirectional **t**rustless **pa**yment **c**hann**e**l
 
 An **OUTPACE** channel is defined on-chain with a validator set and a token address. Any amount of funds of that token can be deposited into the channel at any time. The validators observe off-chain events, and the leading validator (validators[0]) would propose the new state of the channel, and the rest of the validators check and confirm those new states.
 
-If a state is signed by a supermajority (>=2/2) of validators, in the case of campaigns in which direct publishers participate, it can be used to enforce a result on-chain and withdraw funds from the channel.
+If a state is signed by a supermajority (2/2) of validators, it can be used to enforce a result on-chain and withdraw funds from the channel.
 
 ##### State transition rules
 
@@ -217,7 +221,7 @@ The benefits of this approach are:
 * Allows off-chain negotiations: advertisers can bid for impressions in real time;
 * All data other than payments information is kept off-chain.
 
-Each campaign has a duration, normally in the range of 2-12 weeks. An OUTPACE channel should have 2-3 times as long of a duration, in order to allow extra time for direct publishers to withdraw their revenue.
+Each campaign has a duration, normally in the range of 2-12 weeks. An OUTPACE channel has indefinite lifetime, so publishers can withdraw at any point.
 
 ### Closing a campaign
 
@@ -255,7 +259,7 @@ For example:
 
 Running the validator stack requires computational resource, and the way the validator consensus works implies that channel validators have to represent opposite sides (if they don't, the channel should not be used).
 
-This means that in most cases, no matter if you're a publisher or an advertiser, you'd end up using a validator run by someone else.
+This means that in most cases, no matter if you're a publisher or an advertiser, you'd end up using a validator ran by someone else.
 
 Third-party validators may require fees to participate in your channel (campaign). With OUTPACE, there's a convenient way of doing that, by just including an entry in the balances tree. Furthermore, the fees can be ongoing (e.g. per 1k events, or per minute), taking advantage of the micropayments capability of OUTPACE.
 
@@ -419,11 +423,21 @@ Creating a cryptographic identity (keypair) for the user, if they don't already 
 
 #### Contextual targeting
 
-Notice a common pattern here: **sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself. To achieve this, we use [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf)for our direct publishers. When it comes to SSPs, the targeting and data collection is done by them.
+Notice a common pattern here: **sensitive information never leaves the user's browser**, and this is achieved by shifting the process of targeting (selecting ads) to the browser itself. To achieve this, we use [contextual targeting](https://medium.com/the-adex-blog/why-we-use-contextual-targeting-d49f3ecf0acf) for our direct publishers. When it comes to SSPs, the targeting and data collection is done via OpenRTB.
 
 For direct publsihers this works by relying on publishers to feed what they know about the context (e.g. "this page is about bicycles") and potentially the user (e.g. "this user is female") directly into the AdView API. The incentive for this is built-in: better targeted ads mean higher revenues.
 
 This system is based on tags, which are not specified in the AdEx protocol itself and are entirely defined by network participants. They could describe anything - interests, demographics, geographics and etc.
+
+#### Behavioral targeting
+
+Because contextual targeting has certain limitations (e.g. no remarketing), there is a possibility to introduce behavioral targeting, using `localStorage` to remember tags for the user. This will not compromise privacy, because the data collected `localStorage` is not exposed to any third parties.
+
+To achieve this, the AdView always has to be loaded from the same domain (e.g. `adex.network`), in order to ensure it always reads/writes to the same `localStorage`. This can be trust-minimized in the future through ENS, IPFS or even just using checksum-based integrity checks.
+
+Advertisers may report tags that allow for remarketing, such as a tag indicating that a user visited their website, or even a tag indicating they've visited a particular page, allowing for dynamic remarketing.
+
+This is a protocol capability that is not currently used.
 
 
 #### Blacklisting ads
@@ -434,11 +448,22 @@ While a publisher-side validators may choose to ignore such an event, it's mostl
 
 An additional improvement on the AdView would be to allow users to gossip blacklists directly between each other, therefore eliminating the ability of publisher-side validators to act together and ignore blacklist events. This feature is not trivial, as it requires a reliable sybil resistance mechanism.
 
+
 #### Security
 
 The keypair is saved in `localStorage`. However it never holds any funds, it merely serves to identify users anonymously.
 
 In case `localStorage` is deleted, the user will receive a new keypair and the system will start learning about them again - which is actually intended behavior (e.g. using incognito mode in the browser).
+
+#### The AdEx Lounge
+
+The AdEx Lounge (called "AdEx Profile" in the original whitepaper) is a user-facing part of AdEx that allows the user to control their ad preferences.
+
+In particular, users can opt out of seeings certain kinds of ads.
+
+With OUTPACE channels, it's possible for users to earn monetary rewards as well, so at some point the Lounge may be used to allow for users to withdraw their funds.
+
+There's no public implementation of the Lounge yet, but it is a part of our future roadmap.
 
 ### DSP Safe (to be added)
 
@@ -466,7 +491,7 @@ The Identity component is implemented in the [adex-protocol-eth repository](http
 
 #### Pre-approved tokens
 
-Although OUTPACE has the capability to integrate with any Ethereum token adhering to the ERC20 standard, not all tokens are suitable for campaign deposits due to factors such as fatal bugs, arbitrary minting, or insufficient liquidity. While the smart account associated with each AdEx profile supports various networks and tokens, the AdEx platform specifically operates on the Ethereum and Polygon networks. Depending on the chosen network, campaign deposits can be made using USDC, USDT, DAI, and ADX. Launching a campaign with the ADX token triggers an automatic reduction in the required transaction fee for each campaign from 7% to 4%.
+Although OUTPACE has the capability to integrate with any Ethereum token adhering to the ERC20 standard, not all tokens are suitable for campaign deposits due to factors such as fatal bugs, arbitrary minting, or insufficient liquidity. While the smart account associated with each AdEx profile supports various networks and tokens, the AdEx platform specifically operates on the Ethereum and Polygon networks. Depending on the chosen network, campaign deposits can be [made using USDC, USDT, DAI,](https://snapshot.org/#/adex.eth/proposal/0x03be563ddaf06ba0563baaa212833c33b8f85e895a3edbb563fe2ffd1e044244) and ADX. Launching a campaign with the ADX token triggers an automatic reduction in the required transaction fee for each campaign from 7% to 4%.
 
 #### Sign-up process
 
