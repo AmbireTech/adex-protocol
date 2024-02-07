@@ -482,8 +482,7 @@ In the Platform, we also allow the so-called "Quick accounts": you can sign up w
 
 Some of these concepts are sometimes refered to as "smart wallets", "meta tx" or "account abstraction".
 
-The Identity component is implemented in the [adex-protocol-eth repository](https://github.com/AdExNetwork/adex-protocol-eth/blob/master/contracts/Identity.sol).
-
+In terms of implementation, Ambire uses the [AmbireAccount contract](https://github.com/AmbireTech/ambire-common/blob/v2/contracts/AmbireAccount.sol), which has been [audited over 7 times](https://github.com/AmbireTech/ambire-common/tree/v2/audits).
 
 #### Pre-approved tokens
 
@@ -581,7 +580,7 @@ It should be noted that such a system is, by definition, always gameable. AdEx t
 
 Because impressions are tracked and rewarded off-chain, the only on-chain bottleneck of AdEx is depositing/withdrawing funds. We think the current capacity of the Ethereum network is enough for thousands of advertisers and publishers, assuming they withdraw once every 2-3 weeks.
 
-We do have a way to improve on-chain capacity as well: our OUTPACE payment channels have an alternative [Substrate](https://github.com/paritytech/substrate) implementation [and can be deployed on Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate). AdEx can also be deployed on any EVM chain, and as such it's scalability is virtually unlimtied.
+We do have a way to improve on-chain capacity as well: our OUTPACE payment channels have an alternative [Substrate](https://github.com/paritytech/substrate) implementation [and can be deployed on Polkadot](https://github.com/AdExNetwork/adex-protocol-substrate). AdEx can also be deployed on any EVM chain, and as such it's scalability is virtually unlimited.
 
 ### Autonomous regulation
 
