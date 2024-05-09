@@ -523,7 +523,7 @@ Because challenges may require verifying validator `NewState` and `ApproveState`
 
 #### Protocol fee discounts
 
-With V5 that will be rolled out in 2023, there will be fee discounts to users who stake over a certain amount of ADX.
+With V5 that will be rolled out in 2024, there will be fee discounts to users who stake over a certain amount of ADX.
 
 #### Nomination and staking
 
